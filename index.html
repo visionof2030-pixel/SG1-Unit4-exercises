@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎡 عجلة الحظ + Verb: be - Around the World</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:linear-gradient(135deg,#020A1F,#061A4A 50%,#0A4DFF);min-height:100vh;padding:14px}
+.app{max-width:1180px;margin:auto}
+.header{background:#FFD400;border-radius:24px;padding:20px;text-align:center;border:3px solid #fff;box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.header h1{font-size:25px;font-weight:900;color:#061A4A}
+.header p{font-weight:700;color:#444;margin-top:4px}
+.header .meta{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.header .meta span{background:#061A4A;color:#FFD400;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:900}
+.book-card{background:#E8F5E9;border:2px solid #A5D6A7;border-radius:18px;padding:16px;margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.book-item{background:#fff;border-radius:14px;padding:12px;font-weight:800;font-size:13px;line-height:1.7}
+.book-item b{color:#1B5E20}
+.book-item code{background:#061A4A;color:#FFD400;padding:2px 8px;border-radius:6px;font-size:12px}
+.tabs{display:flex;gap:8px;margin-top:14px}
+.tab{flex:1;padding:13px;border:none;border-radius:16px;font-weight:900;font-size:15px;cursor:pointer;background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.25)}
+.tab.active{background:#FFD400;color:#061A4A;border-color:#FFD400}
+.card{background:#fff;border-radius:22px;padding:20px;margin-top:14px;box-shadow:0 15px 30px rgba(0,0,0,.15)}
+.card h2{color:#0A4DFF;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card h2 span{font-size:12px;background:#EEF2FF;padding:5px 10px;border-radius:100px}
+.grid-main{display:grid;grid-template-columns:1fr 1.1fr;gap:14px}
+.wheel-wrap{text-align:center;position:relative}
+canvas{max-width:100%;height:auto;filter:drop-shadow(0 15px 25px rgba(0,0,0,.25))}
+.pointer{position:absolute;top:-4px;right:50%;transform:translateX(50%);font-size:42px;z-index:5}
+.btn{padding:13px 18px;border:none;border-radius:14px;font-weight:900;cursor:pointer;font-size:15px}
+.btn:active{transform:scale(.97)}
+.btn-yellow{background:#FFD400;color:#061A4A;box-shadow:0 10px 20px rgba(255,212,0,.4);width:100%;font-size:19px}
+.btn-blue{background:#0A4DFF;color:#fff}
+.btn-dark{background:#061A4A;color:#FFD400}
+.btn-ghost{background:#F1F5FF;color:#061A4A;border:2px solid #E6E9FF}
+.btn-red{background:#FEE2E2;color:#991B1B}
+.btn-green{background:#DCFCE7;color:#166534}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.row .btn{flex:1}
+label{font-weight:900;font-size:13px;display:block;margin:10px 0 6px}
+input[type=text],select,textarea{width:100%;padding:11px 12px;border:2px solid #E5E7EB;border-radius:12px;font-size:14px;outline:none;font-weight:700}
+.switch{display:flex;align-items:center;gap:8px;background:#F8F9FF;padding:10px;border-radius:12px;font-weight:800;font-size:13px;border:1px solid #E6E9FF}
+.switch input{width:20px;height:20px;accent-color:#0A4DFF}
+.student-banner{background:linear-gradient(135deg,#061A4A,#0A4DFF);color:#fff;border-radius:18px;padding:16px;text-align:center;position:relative;overflow:hidden}
+.student-banner::before{content:'🎡';position:absolute;font-size:80px;opacity:.15;left:10px;top:-10px}
+.student-banner small{color:#FFD400;font-weight:900}
+.student-banner h3{font-size:28px;margin:6px 0 4px;min-height:38px}
+.student-banner p{font-size:13px;color:rgba(255,255,255,.8);font-weight:700}
+.question-box{background:#FFFBEA;border:2px dashed #FFD400;border-radius:18px;padding:18px;margin-top:12px;text-align:center}
+.question-box .q-num{font-size:12px;background:#061A4A;color:#FFD400;padding:4px 12px;border-radius:100px;font-weight:900}
+.question-box .en{direction:ltr;font-size:21px;font-weight:900;color:#061A4A;margin:12px 0;line-height:1.6;background:#fff;padding:16px;border-radius:14px;border:1px solid #E6E9FF}
+.question-box .ar{font-size:13px;color:#666;font-weight:800;margin-top:4px}
+.question-box .hint{font-size:12px;color:#888;font-weight:800}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.opt{border:2px solid #E5E7EB;background:#fff;border-radius:14px;padding:16px 10px;cursor:pointer;font-weight:900;font-size:17px;direction:ltr;transition:.15s;position:relative;text-align:center}
+.opt .letter{position:absolute;top:6px;right:8px;background:#EEF2FF;color:#0A4DFF;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+.opt:hover{border-color:#0A4DFF;background:#EEF2FF;transform:translateY(-1px)}
+.opt.correct{background:#22C55E!important;border-color:#16A34A!important;color:#fff!important;box-shadow:0 10px 20px rgba(34,197,94,.35)}
+.opt.wrong{background:#EF4444!important;border-color:#DC2626!important;color:#fff!important;box-shadow:0 10px 20px rgba(239,68,68,.35)}
+.opt.disabled{pointer-events:none}
+.feedback{margin-top:12px;padding:12px;border-radius:12px;font-weight:900;font-size:14px;display:none;line-height:1.7}
+.feedback.show{display:block}
+.feedback.ok{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0}
+.feedback.bad{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+.score-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.score-cell{background:#F8F9FF;border:1px solid #E6E9FF;border-radius:14px;padding:10px;text-align:center}
+.score-cell b{font-size:20px;display:block}
+.score-cell span{font-size:11px;color:#777;font-weight:800}
+.history{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.history span{padding:7px 12px;border-radius:100px;font-size:12px;font-weight:800}
+.history .ok{background:#DCFCE7;color:#166534}
+.history .bad{background:#FEE2E2;color:#991B1B}
+.students-list{max-height:300px;overflow:auto;margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.stu{display:flex;align-items:center;gap:6px;background:#F8F9FF;border:1px solid #E6E9FF;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:800}
+.stu input{border:none;background:transparent;flex:1;font-weight:800;font-size:13px;outline:none;min-width:0}
+.stu button{border:none;background:#FEE2E2;color:#DC2626;width:26px;height:26px;border-radius:50%;cursor:pointer;font-weight:900;flex-shrink:0}
+.stu.used{opacity:.45;background:#F0FDF4;border-color:#BBF7D0}
+.stu.current{border:2px solid #FFD400;background:#FFFBEA;box-shadow:0 0 0 3px rgba(255,212,0,.3)}
+.groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:14px}
+.group{background:linear-gradient(135deg,#EEF2FF,#FFFBEA);border:2px solid #E6E9FF;border-radius:18px;padding:14px}
+.group h4{color:#061A4A;display:flex;justify-content:space-between}
+.group h4 b{background:#FFD400;padding:3px 10px;border-radius:100px;font-size:12px}
+.group ul{list-style:none;margin-top:10px;line-height:1.9;font-weight:800;font-size:14px}
+.group ul li{border-bottom:1px dashed #E5E7EB;padding:4px 0;display:flex;gap:6px}
+.group ul li i{font-style:normal;background:#061A4A;color:#FFD400;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:11px;flex-shrink:0}
+.controls-box{background:#F8F9FF;border:1px solid #E6E9FF;border-radius:16px;padding:14px;margin-top:12px}
+.controls-box .flex{display:flex;gap:10px;flex-wrap:wrap}
+.controls-box .flex>div{flex:1;min-width:140px}
+.range-val{font-weight:900;color:#0A4DFF}
+.big-num{font-size:36px;font-weight:900;color:#061A4A;text-align:center}
+.big-num small{font-size:14px;color:#888;display:block}
+.hidden{display:none!important}
+.footer{text-align:center;color:rgba(255,255,255,.6);font-size:12px;margin:16px 0;font-weight:700}
+.empty-q{text-align:center;padding:30px 10px;color:#888;font-weight:800;line-height:1.8}
+.empty-q .big{font-size:48px}
+@media(max-width:850px){.grid-main{grid-template-columns:1fr}.students-list{grid-template-columns:1fr}.book-card{grid-template-columns:1fr}}
+@media(orientation:landscape) and (min-width:700px){.grid-main{grid-template-columns:1fr 1.1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<h1>🎡 عجلة الحظ + Verb: be - Around the World</h1>
+<p>Unit 4 - Lesson 3 Grammar | أول متوسط ليلي - فصل 1</p>
+<div class="meta"><span>👨‍🏫 المعلم: فهد نغيمش بن حميد الخالدي</span><span id="totalBadge">👥 31 طالب</span><span>🔀 إجابات مخلوطة عشوائياً</span><span>📖 من صورة الكتاب</span></div>
+</div>
+
+<div class="book-card">
+<div class="book-item"><b>🔴 Negative (-)</b><br>I'm <code>not</code> • You <code>aren't</code><br>He/She/It <code>isn't</code> • We/They <code>aren't</code><br>isn't = is not, aren't = are not</div>
+<div class="book-item"><b>❓ Questions (?) + Short Answers</b><br><code>Are you</code> from Saudi Arabia?<br>Yes, I <code>am</code>. / No, I'm <code>not</code>.<br><code>Is she</code> ...? Yes, she <code>is</code>. / No, she <code>isn't</code>.</div>
+<div class="book-item"><b>📍 Where + Prepositions</b><br><code>Where are you from?</code><br>Sally is <code>from</code> England.<br>Rome is <code>in</code> Italy. Pat is <code>on</code> vacation.<br>Mr. Omar is here <code>on</code> business.</div>
+</div>
+
+<div class="tabs">
+<button class="tab active" id="tabPlayBtn" onclick="showTab('play')">🎡 العب الآن - عجلة + سؤال</button>
+<button class="tab" id="tabStudentsBtn" onclick="showTab('students')">👥 الطلاب</button>
+<button class="tab" id="tabGroupsBtn" onclick="showTab('groups')">👥 المجموعات</button>
+</div>
+
+<div id="tabPlay">
+<div class="grid-main">
+<div class="card">
+<h2>🎡 عجلة الحظ <span>دوّر واختر طالب</span></h2>
+<div class="wheel-wrap"><div class="pointer">🔻</div><canvas id="wheelCanvas" width="420" height="420"></canvas></div>
+<button class="btn btn-yellow" id="spinBtn" onclick="spinWheel()">🎡 دوّر العجلة واعرض السؤال</button>
+<div class="row"><button class="btn btn-blue" onclick="pickRandomWithoutWheel()">🎲 اختيار سريع</button><button class="btn btn-ghost" onclick="resetGame()">↺ بداية جديدة</button></div>
+<label class="switch"><input type="checkbox" id="removeAfterPick" checked> استبعاد الطالب بعد ما يجاوب</label>
+<div class="score-row">
+<div class="score-cell"><b id="statAnswered">0</b><span>✅ طلاب جاوبوا</span></div>
+<div class="score-cell"><b id="statCorrect" style="color:#16A34A">0</b><span>✅ إجابات صح</span></div>
+<div class="score-cell"><b id="statWrong" style="color:#DC2626">0</b><span>❌ إجابات خطأ</span></div>
+</div>
+<h3 style="font-size:14px;margin-top:14px">📜 سجل الحصة:</h3>
+<div class="history" id="history"></div>
+</div>
+
+<div class="card">
+<h2>❓ سؤال الطالب <span id="qProgress">باقي 32 سؤال</span></h2>
+<div class="student-banner"><small>🏆 الدور على</small><h3 id="currentStudent">— دوّر العجلة أولاً —</h3><p id="currentStudentSub">اضغط "دوّر العجلة" وبيطلع اسم الطالب وسؤاله هنا</p></div>
+<div id="questionArea"><div class="empty-q"><div class="big">🌍</div>دوّر العجلة<br>وبيطلع سؤال من درس Verb: be<br>موجه للطالب باسمه</div></div>
+<div id="afterAnswer" class="hidden"><button class="btn btn-yellow" onclick="nextRound()">➡️ دوّر للطالب اللي بعده</button></div>
+</div>
+</div>
+</div>
+
+<div id="tabStudents" class="hidden">
+<div class="card">
+<h2>👥 قائمة الطلاب - قابلة للتعديل <span id="listCount">31 طالب</span></h2>
+<textarea id="bulkAdd" rows="2" placeholder="لإضافة طلاب دفعة واحدة: كل اسم في سطر..."></textarea>
+<div class="row"><button class="btn btn-green" onclick="addBulk()">➕ إضافة دفعة</button><button class="btn btn-dark" onclick="addOneStudent()">➕ طالب واحد</button><button class="btn btn-ghost" onclick="copyNames()">📋 نسخ الأسماء</button></div>
+<div class="students-list" id="studentsList"></div>
+</div>
+</div>
+
+<div id="tabGroups" class="hidden">
+<div class="card">
+<h2>👥 تقسيم مجموعات عشوائية <span>تحكم كامل</span></h2>
+<div class="controls-box">
+<label>طريقة التقسيم:</label>
+<div class="flex" style="margin-bottom:12px">
+<label class="switch" style="flex:1"><input type="radio" name="groupMode" value="perGroup" checked onchange="updateGroupControls()"> حسب عدد الطلاب في كل مجموعة (5 أو 4)</label>
+<label class="switch" style="flex:1"><input type="radio" name="groupMode" value="numGroups" onchange="updateGroupControls()"> حسب عدد المجموعات (مثلاً 6 مجموعات)</label>
+</div>
+<div class="flex">
+<div id="perGroupBox"><label>عدد الطلاب في كل مجموعة: <span class="range-val" id="perGroupVal">5 طلاب</span></label><input type="range" id="perGroup" min="2" max="10" value="5" oninput="document.getElementById('perGroupVal').innerText=this.value+' طلاب'"></div>
+<div id="numGroupsBox" class="hidden"><label>عدد المجموعات: <span class="range-val" id="numGroupsVal">6 مجموعات</span></label><input type="range" id="numGroups" min="2" max="15" value="6" oninput="document.getElementById('numGroupsVal').innerText=this.value+' مجموعات'"></div>
+<div><label>اسم المجموعة</label><select id="groupPrefix"><option value="مجموعة">مجموعة 1 - 2 - 3</option><option value="فريق">فريق 1 - 2 - 3</option><option value="قروب">قروب 1 - 2 - 3</option></select></div>
+</div>
+<label class="switch" style="margin-top:12px"><input type="checkbox" id="balanceGroups" checked> ⚖️ توزيع متوازن</label>
+<div class="row" style="margin-top:14px"><button class="btn btn-yellow" style="flex:2" onclick="makeGroups()">🎲 قسّم الآن</button><button class="btn btn-blue" onclick="shuffleGroups()">🔀 خلط من جديد</button><button class="btn btn-ghost" onclick="copyGroups()">📋 نسخ</button><button class="btn btn-dark" onclick="printGroups()">🖨️ طباعة</button></div>
+</div>
+<div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+<div style="flex:1;background:#EEF2FF;border-radius:14px;padding:12px"><div class="big-num" id="groupsCount">0<small>مجموعة</small></div></div>
+<div style="flex:1;background:#FFFBEA;border-radius:14px;padding:12px"><div class="big-num" id="groupsAvg">0<small>متوسط لكل مجموعة</small></div></div>
+<div style="flex:1;background:#F0FDF4;border-radius:14px;padding:12px"><div class="big-num" id="groupsTotal">31<small>إجمالي الطلاب</small></div></div>
+</div>
+<div class="groups-grid" id="groupsGrid"><p style="color:#888;font-weight:700;padding:20px;text-align:center;grid-column:1/-1">اضغط "قسّم الآن" 👆</p></div>
+</div>
+</div>
+<p class="footer">Verb: be - Around the World • عجلة الحظ + أسئلة • للمعلم فهد الخالدي 💙💛</p>
+</div>
+
+<script>
+let students=[
+"أحمد حسين علي هزازي","أنس موسى حسين اللقماني","باسل زهير بن عبدالحق سردار","حسن محمد بن نغيمش الحربي","حسن محمد فضل الهندي","عبدالرحمن عبدالله بن دحمان العمري","سيف معتوق فواز العبدلي الشريف","صالح شوعي حسين السبيلي","عابد عبدالله بن علي العمري","عادل محمد بن عيد الشريف","عبدالرحمن حسين علي هزازي","عبدالرحمن خالد الزهراني","عبدالرحمن محمد صالح أحمد","عبدالرحيم إبراهيم عبدالقادر الحفظي","عبدالعزيز خالد الزهراني","عبدالله خالد الزهراني","عبدالله محمد عائض الشمراني","علان علي محمد العبسي","علان مسلى عويض الحدلي","فؤاد أحمد آدم أحمد برناوي","مؤيد تركي بن سعيد المالكي","ماجد عايد عبدالله المغيضي","محمد حسين علي هزازي","محمد خالد إسماعيل السندي","محمد معبر مهدي الخبراني","محمد نافع هادي الشراحيلي","محمد يحيى محمد المغربي","مسعود عبدالرحمن عيسى الهوساوي","معمر سالم بن سعيد العوبثاني","هاني علي محمد العبسي","وحيد حسين علي هزازي"
+];
+// ===== أسئلة من صورة الكتاب مباشرة =====
+let questions=[
+{q:"I ___ from the U.S.",a:"am not",opts:["am not","isn't","aren't","not am"],ar:"النفي مع I",exp:"مع I نقول: I'm not / I am not"},
+{q:"You ___ from the U.S.",a:"aren't",opts:["isn't","aren't","am not","is not"],ar:"النفي مع You",exp:"You + aren't"},
+{q:"He ___ from the U.S.",a:"isn't",opts:["aren't","isn't","am not","are not"],ar:"النفي مع He",exp:"He + isn't"},
+{q:"She ___ from the U.S.",a:"isn't",opts:["aren't","isn't","am not","is not"],ar:"النفي مع She",exp:"She + isn't"},
+{q:"It ___ from the U.S.",a:"isn't",opts:["aren't","isn't","am not","are not"],ar:"النفي مع It",exp:"It + isn't"},
+{q:"We ___ from the U.S.",a:"aren't",opts:["isn't","aren't","am not","is not"],ar:"النفي مع We",exp:"We + aren't"},
+{q:"They ___ from the U.S.",a:"aren't",opts:["isn't","aren't","am not","is not"],ar:"النفي مع They",exp:"They + aren't"},
+{q:"isn't = ___",a:"is not",opts:["is not","are not","am not","is no"],ar:"اختصار isn’t",exp:"isn't = is not"},
+{q:"aren't = ___",a:"are not",opts:["is not","are not","am not","are no"],ar:"اختصار aren't",exp:"aren't = are not"},
+{q:"___ you from Saudi Arabia?",a:"Are",opts:["Are","Is","Am","Do"],ar:"السؤال مع you",exp:"Are + you"},
+{q:"___ he from Saudi Arabia?",a:"Is",opts:["Are","Is","Am","Do"],ar:"السؤال مع he",exp:"Is + he"},
+{q:"___ she from Saudi Arabia?",a:"Is",opts:["Are","Is","Am","Do"],ar:"السؤال مع she",exp:"Is + she"},
+{q:"___ it from Saudi Arabia?",a:"Is",opts:["Are","Is","Am","Do"],ar:"السؤال مع it",exp:"Is + it"},
+{q:"___ we from Saudi Arabia?",a:"Are",opts:["Are","Is","Am","Do"],ar:"السؤال مع we",exp:"Are + we"},
+{q:"___ they from Saudi Arabia?",a:"Are",opts:["Are","Is","Am","Do"],ar:"السؤال مع they",exp:"Are + they"},
+{q:"Are you from Saudi Arabia? Yes, I ___ .",a:"am",opts:["am","is","are","do"],ar:"Short Answer (+)",exp:"Yes, I am."},
+{q:"Is he from Saudi Arabia? Yes, he ___ .",a:"is",opts:["am","is","are","do"],ar:"Short Answer (+)",exp:"Yes, he is."},
+{q:"Is she from Saudi Arabia? Yes, she ___ .",a:"is",opts:["am","is","are","do"],ar:"Short Answer (+)",exp:"Yes, she is."},
+{q:"Are we from Saudi Arabia? Yes, we ___ .",a:"are",opts:["am","is","are","do"],ar:"Short Answer (+)",exp:"Yes, we are."},
+{q:"Are they from Saudi Arabia? Yes, they ___ .",a:"are",opts:["am","is","are","do"],ar:"Short Answer (+)",exp:"Yes, they are."},
+{q:"Are you from Saudi Arabia? No, I'm ___ .",a:"not",opts:["not","isn't","aren't","no"],ar:"Short Answer (-)",exp:"No, I'm not."},
+{q:"Is she from Saudi Arabia? No, she ___ .",a:"isn't",opts:["isn't","aren't","am not","not"],ar:"Short Answer (-)",exp:"No, she isn't."},
+{q:"Are we from Saudi Arabia? No, we ___ .",a:"aren't",opts:["isn't","aren't","am not","not"],ar:"Short Answer (-)",exp:"No, we aren't."},
+{q:"___ are you / they from?",a:"Where",opts:["Where","When","What","Who"],ar:"Question Word: Where",exp:"Where + are you/they from?"},
+{q:"___ is he / she / it from?",a:"Where",opts:["Where","When","What","Who"],ar:"Question Word: Where",exp:"Where + is he/she/it from?"},
+{q:"Sally is ___ England.",a:"from",opts:["from","in","on","at"],ar:"Preposition: from",exp:"Sally is from England."},
+{q:"Rome is ___ Italy.",a:"in",opts:["from","in","on","at"],ar:"Preposition: in",exp:"Rome is in Italy."},
+{q:"Pat is ___ vacation.",a:"on",opts:["from","in","on","at"],ar:"Preposition: on",exp:"Pat is on vacation."},
+{q:"Mr. Omar is here ___ business.",a:"on",opts:["from","in","on","at"],ar:"Preposition: on",exp:"Mr. Omar is here on business."},
+// أسئلة محادثات الكتاب A - صفحة التمرين
+{q:"A: ___ they Russian? B: No, they ___ .",a:"Are / aren't",opts:["Are / aren't","Is / isn't","Do / don't","Am / am not"],ar:"محادثة 1 من الكتاب",exp:"Are they Russian? No, they aren't."},
+{q:"A: What ___ their nationality? B: They ___ Polish.",a:"is / are",opts:["is / are","are / is","is / is","are / are"],ar:"محادثة 1 من الكتاب",exp:"What is their nationality? They are Polish."},
+{q:"A: ___ are you from? B: We ___ from Mexico.",a:"Where / are",opts:["Where / are","Where / is","When / are","What / are"],ar:"محادثة 2 من الكتاب",exp:"Where are you from? We are from Mexico."},
+{q:"A: ___ you on vacation? B: Yes, we ___ .",a:"Are / are",opts:["Are / are","Is / is","Do / do","Are / is"],ar:"محادثة 2 من الكتاب",exp:"Are you on vacation? Yes, we are."},
+{q:"A: ___ your friend Japanese? B: No, he ___ .",a:"Is / isn't",opts:["Is / isn't","Are / aren't","Do / doesn't","Is / aren't"],ar:"محادثة 3 من الكتاب",exp:"Is your friend Japanese? No, he isn't."},
+{q:"A: Where ___ he from? B: He ___ from Vietnam.",a:"is / is",opts:["is / is","are / are","is / are","are / is"],ar:"محادثة 3 من الكتاب",exp:"Where is he from? He is from Vietnam."},
+{q:"A: ___ you from Jordan? B: Yes, I ___ .",a:"Are / am",opts:["Are / am","Is / is","Do / do","Are / are"],ar:"محادثة 4 من الكتاب",exp:"Are you from Jordan? Yes, I am."},
+{q:"A: ___ it hot there? B: Yes, it ___ .",a:"Is / is",opts:["Is / is","Are / are","Is / are","Are / is"],ar:"محادثة 4 من الكتاب",exp:"Is it hot there? Yes, it is."}
+];
+let usedStudents=new Set(), usedQuestions=new Set(), historyArr=[];
+let currentRotation=0, spinning=false, currentStudent=null, currentStudentIdx=-1, currentQuestion=null;
+let answeredCount=0, correctCount=0, wrongCount=0, groupsData=[];
+let letters=["A","B","C","D"];
+function showTab(t){
+["play","students","groups"].forEach(x=>document.getElementById('tab'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hidden', x!==t));
+document.getElementById('tabPlayBtn').classList.toggle('active',t==='play');
+document.getElementById('tabStudentsBtn').classList.toggle('active',t==='students');
+document.getElementById('tabGroupsBtn').classList.toggle('active',t==='groups');
+if(t==='play') drawWheel();
+}
+function updateGroupControls(){
+let mode=document.querySelector('input[name=groupMode]:checked').value;
+document.getElementById('perGroupBox').classList.toggle('hidden',mode!=='perGroup');
+document.getElementById('numGroupsBox').classList.toggle('hidden',mode!=='numGroups');
+}
+function renderStudents(){
+let list=document.getElementById('studentsList'); if(!list) return; list.innerHTML='';
+students.forEach((name,i)=>{
+let div=document.createElement('div'); div.className='stu'+(usedStudents.has(i)?' used':'')+(i===currentStudentIdx?' current':'');
+div.innerHTML='<span>'+(i+1)+'</span><input value="'+name+'" onchange="editStudent('+i+',this.value)"><button onclick="removeStudent('+i+')">×</button>';
+list.appendChild(div);
+});
+document.getElementById('listCount').innerText=students.length+' طالب';
+document.getElementById('totalBadge').innerText='👥 '+students.length+' طالب';
+let gt=document.getElementById('groupsTotal'); if(gt) gt.innerHTML=students.length+'<small>إجمالي الطلاب</small>';
+drawWheel();
+}
+function editStudent(i,v){students[i]=v.trim()||students[i]; renderStudents();}
+function removeStudent(i){if(!confirm('تحذف '+students[i]+' ؟'))return; students.splice(i,1); renderStudents();}
+function addOneStudent(){let n=prompt('اسم الطالب الجديد:'); if(n&&n.trim()){students.push(n.trim()); renderStudents();}}
+function addBulk(){let t=document.getElementById('bulkAdd').value.trim(); if(!t) return alert('اكتب أسماء أول'); t.split('\n').forEach(l=>{let s=l.trim(); if(s) students.push(s);}); document.getElementById('bulkAdd').value=''; renderStudents();}
+function copyNames(){navigator.clipboard.writeText(students.join('\n')).then(()=>alert('تم نسخ '+students.length+' اسم ✅'));}
+function renderHistory(){document.getElementById('history').innerHTML=historyArr.length?historyArr.map(h=>'<span class="'+(h.ok?'ok':'bad')+'">'+h.name+' - '+(h.ok?'✅ صح':'❌ خطأ')+'</span>').join(''):'<span style="background:#F1F5FF;color:#666">لسا ما لعبنا</span>';}
+function updateStats(){document.getElementById('statAnswered').innerText=answeredCount;document.getElementById('statCorrect').innerText=correctCount;document.getElementById('statWrong').innerText=wrongCount;document.getElementById('qProgress').innerText='باقي '+(questions.length-usedQuestions.size)+' سؤال من '+questions.length;}
+const canvas=document.getElementById('wheelCanvas'); const ctx=canvas.getContext('2d');
+const colors=['#0A4DFF','#FFD400','#061A4A','#00C6FF','#FFB800','#22C55E','#FF6B6B','#8B5CF6','#F59E0B','#06B6D4'];
+function drawWheel(){
+let pool=students.map((s,i)=>({name:s,idx:i})).filter(x=>!usedStudents.has(x.idx));
+if(pool.length===0) pool=students.map((s,i)=>({name:s,idx:i}));
+let n=pool.length; ctx.clearRect(0,0,420,420); let cx=210,cy=210,R=200;
+for(let i=0;i<n;i++){
+let a0=(i/n)*Math.PI*2+currentRotation; let a1=((i+1)/n)*Math.PI*2+currentRotation;
+ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,a0,a1); ctx.closePath(); ctx.fillStyle=colors[i%colors.length]; ctx.fill(); ctx.strokeStyle='white'; ctx.lineWidth=2; ctx.stroke();
+ctx.save(); ctx.translate(cx,cy); ctx.rotate(a0+(a1-a0)/2); ctx.textAlign='right'; ctx.fillStyle=(colors[i%colors.length]==='#FFD400'?'#061A4A':'white'); ctx.font='bold 13px Cairo'; ctx.fillText(pool[i].name,R-12,5); ctx.restore();
+}
+ctx.beginPath(); ctx.arc(cx,cy,42,0,Math.PI*2); ctx.fillStyle='white'; ctx.fill(); ctx.strokeStyle='#061A4A'; ctx.lineWidth=4; ctx.stroke();
+ctx.fillStyle='#061A4A'; ctx.font='900 13px Cairo'; ctx.textAlign='center'; ctx.fillText('دوّر',cx,cy-2); ctx.fillText('🎡',cx,cy+16);
+}
+function spinWheel(){
+if(spinning) return;
+let pool=students.map((s,i)=>({name:s,idx:i})).filter(x=>!usedStudents.has(x.idx));
+if(pool.length===0){alert('كل الطلاب جاوبوا! بنبدأ جولة جديدة'); usedStudents.clear(); pool=students.map((s,i)=>({name:s,idx:i}));}
+if(students.length===0) return alert('أضف طلاب أول');
+spinning=true; document.getElementById('spinBtn').innerText='⏳ جاري الدوران...';
+let targetIdx=Math.floor(Math.random()*pool.length); let target=pool[targetIdx]; let n=pool.length;
+let segmentAngle=(Math.PI*2)/n; let targetAngle=(targetIdx*segmentAngle)+segmentAngle/2;
+let current=currentRotation%(Math.PI*2); let spins=5*Math.PI*2;
+let finalRotation=current+spins+(Math.PI*1.5-targetAngle-current);
+let start=currentRotation; let end=start+(finalRotation-current); let startTime=null; let duration=3500;
+function animate(ts){ if(!startTime) startTime=ts; let p=Math.min((ts-startTime)/duration,1); let ease=1-Math.pow(1-p,4); currentRotation=start+(end-start)*ease; drawWheel(); if(p<1) requestAnimationFrame(animate); else{ spinning=false; document.getElementById('spinBtn').innerText='🎡 دوّر العجلة واعرض السؤال'; showStudentAndQuestion(target);} }
+requestAnimationFrame(animate);
+}
+function pickRandomWithoutWheel(){
+if(!students.length) return;
+let pool=students.map((s,i)=>({name:s,idx:i})).filter(x=>!usedStudents.has(x.idx));
+if(pool.length===0){usedStudents.clear(); pool=students.map((s,i)=>({name:s,idx:i}));}
+let t=pool[Math.floor(Math.random()*pool.length)]; showStudentAndQuestion(t);
+}
+function showStudentAndQuestion(target){
+currentStudent=target.name; currentStudentIdx=target.idx;
+document.getElementById('currentStudent').innerText='🏆 '+target.name;
+document.getElementById('currentStudentSub').innerText='يلا يا '+target.name.split(' ')[0]+'، هذا سؤالك من درس Verb: be 👇';
+if(document.getElementById('removeAfterPick').checked) usedStudents.add(target.idx);
+let qPool=questions.map((q,i)=>i).filter(i=>!usedQuestions.has(i));
+if(qPool.length===0){ usedQuestions.clear(); qPool=questions.map((q,i)=>i); }
+let qi=qPool[Math.floor(Math.random()*qPool.length)];
+usedQuestions.add(qi); currentQuestion=questions[qi];
+renderQuestion(); renderStudents();
+}
+function shuffleArray(arr){ let a=[...arr]; for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function renderQuestion(){
+let area=document.getElementById('questionArea');
+document.getElementById('afterAnswer').classList.add('hidden');
+let shuffled=shuffleArray(currentQuestion.opts);
+let html='<div class="question-box"><span class="q-num">سؤال '+(usedQuestions.size)+' من '+questions.length+' • '+currentQuestion.ar+'</span>';
+html+='<div style="font-weight:900;margin-top:8px">يا '+currentStudent.split(' ')[0]+'، أكمل:</div>';
+html+='<div class="en">'+currentQuestion.q+'</div>';
+html+='<div class="hint">اختر الصح - الترتيب مخلوط عشوائياً كل مرة 🔀</div></div>';
+html+='<div class="options">';
+shuffled.forEach((opt,idx)=>{
+let isCorrect=(opt===currentQuestion.a);
+html+='<div class="opt" data-correct="'+(isCorrect?1:0)+'" onclick="answerQuestion(this)"><span class="letter">'+letters[idx]+'</span>'+opt+'</div>';
+});
+html+='</div><div class="feedback" id="qFeedback"></div>';
+area.innerHTML=html; updateStats();
+}
+function answerQuestion(el){
+if(el.classList.contains('disabled')) return;
+let all=document.querySelectorAll('#questionArea .opt');
+let isCorrect=el.dataset.correct==='1';
+all.forEach(o=>{ o.classList.add('disabled'); if(o.dataset.correct==='1') o.classList.add('correct'); });
+if(isCorrect) el.classList.add('correct'); else el.classList.add('wrong');
+let fb=document.getElementById('qFeedback');
+if(isCorrect){ correctCount++; fb.innerHTML='✅ صح يا '+currentStudent.split(' ')[0]+'! <b>'+currentQuestion.a+'</b> - '+currentQuestion.exp; fb.className='feedback show ok'; }
+else{ wrongCount++; fb.innerHTML='❌ حاول مرة ثانية يا '+currentStudent.split(' ')[0]+' - الصح هو: <b>'+currentQuestion.a+'</b> - '+currentQuestion.exp; fb.className='feedback show bad'; }
+answeredCount++; historyArr.push({name:currentStudent, ok:isCorrect}); renderHistory(); updateStats();
+document.getElementById('afterAnswer').classList.remove('hidden');
+}
+function nextRound(){
+document.getElementById('questionArea').innerHTML='<div class="empty-q"><div class="big">🎡</div>دوّر العجلة للطالب اللي بعده...</div>';
+document.getElementById('currentStudent').innerText='— دوّر للطالب التالي —';
+document.getElementById('currentStudentSub').innerText='اضغط "دوّر العجلة"';
+document.getElementById('afterAnswer').classList.add('hidden');
+spinWheel();
+}
+function resetGame(){
+if(!confirm('تبدأ حصة جديدة؟')) return;
+usedStudents.clear(); usedQuestions.clear(); historyArr=[]; answeredCount=0; correctCount=0; wrongCount=0;
+document.getElementById('currentStudent').innerText='— دوّر العجلة أولاً —';
+document.getElementById('questionArea').innerHTML='<div class="empty-q"><div class="big">🌍</div>دوّر العجلة<br>وبيطلع سؤال من درس Verb: be</div>';
+document.getElementById('afterAnswer').classList.add('hidden');
+renderHistory(); updateStats(); renderStudents();
+}
+function makeGroups(){
+if(students.length<2) return alert('أضف طلاب أول');
+let shuffled=[...students]; for(let i=shuffled.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1)); [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];}
+let mode=document.querySelector('input[name=groupMode]:checked').value; let prefix=document.getElementById('groupPrefix').value;
+let numGroups, perGroup;
+if(mode==='perGroup'){ perGroup=parseInt(document.getElementById('perGroup').value); numGroups=Math.ceil(shuffled.length/perGroup); }
+else{ numGroups=parseInt(document.getElementById('numGroups').value); perGroup=Math.ceil(shuffled.length/numGroups); }
+let groups=Array.from({length:numGroups},()=>[]); shuffled.forEach((s,idx)=>{ groups[idx%numGroups].push(s); });
+if(document.getElementById('balanceGroups').checked && mode==='perGroup'){ if(groups[groups.length-1].length===1 && groups.length>1){ groups[groups.length-2].push(groups[groups.length-1][0]); groups.pop(); } }
+groupsData=groups; renderGroups(prefix);
+}
+function shuffleGroups(){ makeGroups(); }
+function renderGroups(prefix){
+let grid=document.getElementById('groupsGrid');
+document.getElementById('groupsCount').innerHTML=groupsData.length+'<small>مجموعة</small>';
+let avg=groupsData.length? (students.length/groupsData.length).toFixed(1):0;
+document.getElementById('groupsAvg').innerHTML=avg+'<small>متوسط لكل مجموعة</small>';
+grid.innerHTML=''; groupsData.forEach((g,gi)=>{ let div=document.createElement('div'); div.className='group'; div.innerHTML='<h4>'+prefix+' '+(gi+1)+' <b>'+g.length+' طلاب</b></h4><ul>'+g.map((s,si)=>'<li><i>'+(si+1)+'</i>'+s+'</li>').join('')+'</ul>'; grid.appendChild(div); });
+}
+function copyGroups(){ if(!groupsData.length) return alert('قسّم أول'); let txt=groupsData.map((g,i)=>'--- '+document.getElementById('groupPrefix').value+' '+(i+1)+' ('+g.length+' طلاب) ---\n'+g.join('\n')).join('\n\n'); navigator.clipboard.writeText(txt).then(()=>alert('تم نسخ المجموعات ✅')); }
+function printGroups(){ window.print(); }
+renderStudents(); renderHistory(); updateStats(); updateGroupControls(); drawWheel();
+</script>
+</body>
+</html>
