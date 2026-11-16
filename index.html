@@ -110,6 +110,7 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 .wheel-card{background:radial-gradient(120% 80% at 50% 0%,#F2F5FF 0%,#fff 60%)}
 .wheel-box{position:relative;display:flex;align-items:center;justify-content:center;padding:22px 0 6px}
 .wheel-box canvas{display:block;max-width:100%;filter:drop-shadow(0 22px 30px rgba(11,27,77,.28))}
+body.present .wheel-box canvas{position:absolute;top:50%;left:50%;transform:translate(-50%,-48%)}
 .pointer{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:3;width:44px;height:56px}
 .pointer svg{display:block;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25))}
 .toggle{display:flex;align-items:center;gap:10px;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font-weight:700;font-size:.92rem;cursor:pointer;user-select:none}
@@ -272,13 +273,44 @@ input[type=range]{width:100%;accent-color:var(--blue)}
 }
 
 /* ============ الشاشة الكبيرة ============ */
-body.present{--fs:1.2}
-body.present .side,body.present .bottombar,body.present .rules,body.present .footer,body.present .play-extra,body.present .chips,body.present .lesson p{display:none!important}
-body.present .main{margin-right:0;padding:14px 18px}
-body.present .grid-main{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
-body.present .player h3{font-size:2.3rem}
-body.present .qtext .en{font-size:2.2rem}
-body.present .opt{font-size:1.8rem;min-height:104px}
+/* كل شيء يتسع في ارتفاع الشاشة دون تمرير، حتى عند عرض شاشة الجوال الأفقية على تلفاز أو بروجكتور:
+   الأحجام تُحسب من ارتفاع الشاشة (vh) والعجلة تأخذ المساحة المتبقية فقط. */
+body.present{overflow:hidden}
+body.present .side,body.present .bottombar,body.present .rules,body.present .footer,body.present .play-extra,body.present .chips,body.present .lesson p,body.present .lesson .kick,body.present .kpis,body.present .card-h{display:none!important}
+body.present .main{margin-right:0;padding:1.6vh 1.6vw;gap:1.4vh;height:100vh;height:100dvh}
+body.present .topbar{padding:.8vh 1.4vw;border-radius:clamp(12px,2vh,22px);flex:none}
+body.present .lesson h1{font-size:clamp(.95rem,3.6vh,1.8rem);margin:0}
+body.present .actions .ibtn,body.present .actions .select{height:clamp(30px,5.4vh,44px);padding-top:0;padding-bottom:0;font-size:clamp(.72rem,2.3vh,.95rem)}
+body.present #tab-play{flex:1;min-height:0}
+body.present .grid-main{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:1.4vw;height:100%}
+body.present .card{height:100%;min-height:0;overflow:hidden;padding:1.6vh 1.4vw;gap:1.2vh;border-radius:clamp(14px,2.6vh,28px)}
+body.present .wheel-box{flex:1;min-height:0;padding:1vh 0 0}
+body.present .pointer{width:clamp(24px,5vh,44px);height:auto}
+body.present .pointer svg{width:100%;height:auto}
+body.present .btn-spin{padding:1.4vh;font-size:clamp(.9rem,3vh,1.3rem);border-radius:clamp(10px,2vh,18px)}
+body.present .player{padding:1.2vh 1.2vw;gap:1vw;border-radius:clamp(12px,2.2vh,22px);flex:none}
+body.present .avatar{width:clamp(34px,8vh,64px);height:clamp(34px,8vh,64px);font-size:clamp(.85rem,3vh,1.45rem);border-radius:clamp(10px,2vh,20px)}
+body.present .player small{font-size:clamp(.6rem,1.8vh,.8rem)}
+body.present .player h3{font-size:clamp(1rem,4.8vh,3rem);line-height:1.25}
+body.present .player p{font-size:clamp(.6rem,1.9vh,.85rem)}
+body.present .timer{width:clamp(36px,8vh,64px);height:clamp(36px,8vh,64px)}
+body.present .timer svg{width:100%;height:100%}
+body.present .timer b{font-size:clamp(.8rem,2.8vh,1.2rem)}
+body.present #qArea{flex:1;min-height:0;display:flex;flex-direction:column}
+body.present .qwrap{flex:1;min-height:0;gap:1vh!important}
+body.present .qmeta .tag{font-size:clamp(.6rem,1.8vh,.8rem);padding:.3vh 10px}
+body.present .qtext{padding:1.2vh 1.2vw;border-radius:clamp(12px,2vh,22px)}
+body.present .qtext .lead{font-size:clamp(.6rem,1.9vh,.9rem);margin-bottom:.4vh}
+body.present .qtext .en{font-size:clamp(1rem,4.6vh,3rem);line-height:1.35}
+body.present .opts{flex:1;min-height:0;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:1vh}
+body.present .opt{min-height:0;padding:.8vh 1vw;font-size:clamp(.85rem,4vh,2.8rem);border-radius:clamp(10px,1.8vh,16px)}
+body.present .opt .k{width:clamp(22px,5vh,52px);height:clamp(22px,5vh,52px);font-size:clamp(.65rem,2.2vh,1.3rem)}
+body.present .feedback{padding:.8vh 1vw;font-size:clamp(.65rem,2.1vh,.98rem);line-height:1.5}
+body.present .feedback .fic{width:clamp(20px,4vh,34px);height:clamp(20px,4vh,34px)}
+body.present .btn-next{padding:1.2vh;font-size:clamp(.8rem,2.6vh,1.1rem);flex:none}
+body.present .empty{padding:2vh;font-size:clamp(.7rem,2.2vh,1rem)}
+body.present .empty .big{width:clamp(40px,9vh,76px);height:clamp(40px,9vh,76px);font-size:clamp(1.2rem,4.5vh,2.2rem)}
+@media (orientation:portrait){body.present .grid-main{grid-template-columns:1fr;grid-template-rows:minmax(0,.75fr) minmax(0,1.25fr);gap:1.2vh}body.present .opts{grid-template-columns:1fr 1fr}body.present .player h3{font-size:clamp(.95rem,5.2vw,2.2rem)}body.present .player p{display:none}body.present .avatar,body.present .timer{width:clamp(32px,10vw,60px);height:clamp(32px,10vw,60px)}body.present .qtext .en{font-size:clamp(.95rem,5vw,2rem)}body.present .qtext .lead{display:none}body.present .opt{font-size:clamp(.85rem,4.4vw,1.6rem)}body.present .lesson h1{font-size:clamp(.9rem,4.6vw,1.6rem)}body.present .btn-spin{font-size:clamp(.85rem,4vw,1.2rem)}}
 
 /* ============ الطباعة (المجموعات) ============ */
 @media print{
@@ -618,15 +650,18 @@ function poolNow() {
   return p.length ? p : pr;
 }
 function wheelSize() {
-  const box = $('wheelBox'), w = Math.max(220, (box.clientWidth || 480) - 8);
-  const max = document.body.classList.contains('present') ? Math.min(innerHeight - 300, 720) : 560;
-  return Math.round(Math.min(w, Math.max(260, max)));
+  const box = $('wheelBox'), w = Math.max(160, (box.clientWidth || 480) - 8);
+  // الشاشة الكبيرة: العجلة تأخذ الارتفاع المتبقي في بطاقتها فقط (بلا تمرير)، مهما صغرت الشاشة.
+  if (document.body.classList.contains('present')) { const hgt = (box.clientHeight || 300) - 14; return Math.round(Math.max(140, Math.min(w, hgt, 900))); }
+  return Math.round(Math.min(w, Math.max(260, 560)));
 }
 function drawWheel() {
   const c = $('wheel'); if (!c) return;
   wheelPool = poolNow();
   const size = wheelSize(), dpr = Math.min(window.devicePixelRatio || 1, 3);
   c.style.width = size + 'px'; c.style.height = size + 'px';
+  const ptr = document.querySelector('.pointer');
+  if (ptr) ptr.style.top = document.body.classList.contains('present') ? Math.max(0, $('wheelBox').clientHeight / 2 - size * .48 - ptr.offsetHeight * .45) + 'px' : '';
   c.width = Math.round(size * dpr); c.height = Math.round(size * dpr);
   const x = c.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0);
   const rim = Math.max(10, size * .035), cx = size / 2, cy = size / 2, R = size / 2 - rim - 2, inner = Math.max(30, size * .1), n = wheelPool.length;
