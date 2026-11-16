@@ -149,7 +149,7 @@ body.present .wheel-box canvas{position:absolute;top:50%;left:50%;transform:tran
 .tag{border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:800;background:var(--soft);border:1px solid var(--line);color:var(--navy)}
 .lv{color:#fff;border:none}
 .lv-e{background:var(--lv-e)}.lv-m{background:var(--lv-m);color:#3d2c00}.lv-h{background:var(--lv-h)}.lv-x{background:var(--lv-x)}
-.qtext{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;text-align:center;box-shadow:var(--sh-sm);position:relative}
+.qtext{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 52px;text-align:center;box-shadow:var(--sh-sm);position:relative}
 .qtext .lead{font-size:.9rem;font-weight:800;color:var(--muted);margin-bottom:6px}
 .qtext .en{direction:ltr;font-size:1.7rem;font-weight:700;color:var(--navy);line-height:1.55;word-break:break-word}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -274,7 +274,7 @@ input[type=range]{width:100%;accent-color:var(--blue)}
 /* كل شيء يتسع في ارتفاع الشاشة دون تمرير، حتى عند عرض شاشة الجوال الأفقية على تلفاز أو بروجكتور:
    الأحجام تُحسب من ارتفاع الشاشة (vh) والعجلة تأخذ المساحة المتبقية فقط. */
 body.present{overflow:hidden}
-body.present .side,body.present .bottombar,body.present .rules,body.present .footer,body.present .play-extra,body.present .chips,body.present .lesson p,body.present .lesson .kick,body.present .kpis,body.present .card-h{display:none!important}
+body.present .side,body.present .bottombar,body.present .rules,body.present .footer,body.present .play-extra,body.present .chips,body.present .lesson p,body.present .lesson .kick,body.present .card-h{display:none!important}
 body.present .main{margin-right:0;padding:1.6vh 1.6vw;gap:1.4vh;height:100vh;height:100dvh}
 body.present .topbar{padding:.8vh 1.4vw;border-radius:clamp(12px,2vh,22px);flex:none}
 body.present .lesson h1{font-size:clamp(.95rem,3.6vh,1.8rem);margin:0}
@@ -285,6 +285,21 @@ body.present .card{height:100%;min-height:0;overflow:hidden;padding:1.6vh 1.4vw;
 body.present .wheel-box{flex:1;min-height:0;padding:1vh 0 0}
 body.present .pointer{width:clamp(24px,5vh,44px);height:auto}
 body.present .pointer svg{width:100%;height:auto}
+/* الإحصاءات وسجل الإجابات في وضع الشاشة الكبيرة: مدمجة أسفل العجلة */
+body.present .kpis{flex:none;gap:.8vh .6vw}
+body.present .kpi{padding:.6vh .6vw;gap:.6vw;border-radius:clamp(8px,1.6vh,16px);flex-direction:row;text-align:right}
+body.present .kpi i{width:clamp(20px,4.6vh,38px);height:clamp(20px,4.6vh,38px);font-size:clamp(.7rem,2.2vh,1.05rem);border-radius:clamp(6px,1.2vh,12px)}
+body.present .kpi>div{display:flex;align-items:baseline;gap:.5vw;flex-wrap:wrap;min-width:0}
+body.present .kpi b{font-size:clamp(.95rem,3.6vh,1.7rem);line-height:1}
+body.present .kpi span{font-size:clamp(.5rem,1.7vh,.8rem);line-height:1.2}
+/* الشاشات القصيرة (جوال أفقي): الأيقونات تُخفى لتبقى الأرقام وعناوينها في سطر واحد، فتأخذ العجلة أكبر مساحة */
+@media (max-height:480px){body.present .kpi i{display:none}body.present .kpi{padding:.5vh .8vw;justify-content:center}body.present .hcol h4{margin-bottom:.2vh}body.present .hchips{max-height:clamp(20px,9vh,40px)}body.present .card{gap:.8vh}}
+body.present .history{flex:none;gap:.8vh .6vw}
+body.present .hcol{padding:.6vh .7vw;border-radius:clamp(8px,1.6vh,16px)}
+body.present .hcol h4{font-size:clamp(.55rem,1.8vh,.9rem);margin-bottom:.4vh}
+body.present .hchips{max-height:clamp(24px,8vh,96px);overflow-y:auto;gap:.5vh .4vw;scrollbar-width:thin}
+body.present .hchip{font-size:clamp(.5rem,1.7vh,.85rem);padding:.2vh .6vw}
+body.present .hempty{font-size:clamp(.5rem,1.7vh,.8rem)}
 body.present .btn-spin{padding:1.4vh;font-size:clamp(.9rem,3vh,1.3rem);border-radius:clamp(10px,2vh,18px)}
 body.present .player{padding:1.2vh 1.2vw;gap:1vw;border-radius:clamp(12px,2.2vh,22px);flex:none}
 body.present .player small{font-size:clamp(.6rem,1.8vh,.8rem)}
@@ -296,7 +311,8 @@ body.present .timer b{font-size:clamp(.8rem,2.8vh,1.2rem)}
 body.present #qArea{flex:1;min-height:0;display:flex;flex-direction:column}
 body.present .qwrap{flex:1;min-height:0;gap:1vh!important}
 body.present .qmeta .tag{font-size:clamp(.6rem,1.8vh,.8rem);padding:.3vh 10px}
-body.present .qtext{padding:1.2vh 1.2vw;border-radius:clamp(12px,2vh,22px)}
+body.present .qtext{padding:1.2vh clamp(34px,6vh,56px);border-radius:clamp(12px,2vh,22px)}
+body.present .replay{width:clamp(24px,5vh,40px);height:clamp(24px,5vh,40px);top:clamp(4px,1vh,10px);left:clamp(4px,1vh,10px);font-size:clamp(.7rem,2.2vh,1.05rem);border-radius:clamp(7px,1.4vh,12px)}
 body.present .qtext .lead{font-size:clamp(.6rem,1.9vh,.9rem);margin-bottom:.4vh}
 body.present .qtext .en{font-size:clamp(1rem,4.6vh,3rem);line-height:1.35}
 body.present .opts{flex:1;min-height:0;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:1vh}
@@ -307,7 +323,7 @@ body.present .feedback .fic{width:clamp(20px,4vh,34px);height:clamp(20px,4vh,34p
 body.present .btn-next{padding:1.2vh;font-size:clamp(.8rem,2.6vh,1.1rem);flex:none}
 body.present .empty{padding:2vh;font-size:clamp(.7rem,2.2vh,1rem)}
 body.present .empty .big{width:clamp(40px,9vh,76px);height:clamp(40px,9vh,76px);font-size:clamp(1.2rem,4.5vh,2.2rem)}
-@media (orientation:portrait){body.present .grid-main{grid-template-columns:1fr;grid-template-rows:minmax(0,.75fr) minmax(0,1.25fr);gap:1.2vh}body.present .opts{grid-template-columns:1fr 1fr}body.present .player h3{font-size:clamp(.95rem,5.2vw,2.2rem)}body.present .player p{display:none}body.present .timer{width:clamp(32px,10vw,60px);height:clamp(32px,10vw,60px)}body.present .qtext .en{font-size:clamp(.95rem,5vw,2rem)}body.present .qtext .lead{display:none}body.present .opt{font-size:clamp(.85rem,4.4vw,1.6rem)}body.present .lesson h1{font-size:clamp(.9rem,4.6vw,1.6rem)}body.present .btn-spin{font-size:clamp(.85rem,4vw,1.2rem)}}
+@media (orientation:portrait){body.present .grid-main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:1.2vh}body.present .opts{grid-template-columns:1fr 1fr}body.present .history{display:none}body.present .player h3{font-size:clamp(.95rem,5.2vw,2.2rem)}body.present .player p{display:none}body.present .timer{width:clamp(32px,10vw,60px);height:clamp(32px,10vw,60px)}body.present .qtext .en{font-size:clamp(.95rem,5vw,2rem)}body.present .qtext .lead{display:none}body.present .opt{font-size:clamp(.85rem,4.4vw,1.6rem)}body.present .lesson h1{font-size:clamp(.9rem,4.6vw,1.6rem)}body.present .btn-spin{font-size:clamp(.85rem,4vw,1.2rem)}}
 
 .replay{position:absolute;top:10px;left:10px;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--soft);cursor:pointer;font-size:1.05rem;transition:background .2s ease,transform .12s ease}
 .replay:hover{background:var(--blue-soft)}.replay:active{transform:scale(.92)}
@@ -388,7 +404,7 @@ body.present .vchip{bottom:8px;font-size:.8rem;padding:5px 12px}
           <div class="kpi ok"><i>✅</i><div><b id="sCorrect">0</b><span>إجابات صحيحة</span></div></div>
           <div class="kpi bad"><i>❌</i><div><b id="sWrong">0</b><span>إجابات خاطئة</span></div></div>
         </div>
-        <div class="history play-extra" id="history"></div>
+        <div class="history" id="history"></div>
       </div>
 
       <div class="card">
