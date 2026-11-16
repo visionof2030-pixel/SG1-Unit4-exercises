@@ -134,7 +134,6 @@ body.present .wheel-box canvas{position:absolute;top:50%;left:50%;transform:tran
 /* ============ بطاقة الطالب والسؤال ============ */
 .player{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,var(--blue) 130%);color:#fff;border-radius:var(--r-lg);padding:16px 18px;position:relative;overflow:hidden}
 .player::after{content:'';position:absolute;left:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,200,61,.28),transparent 70%)}
-.avatar{flex:none;width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--yellow),#FF9F43);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.45rem;font-weight:900;box-shadow:0 10px 20px -8px rgba(0,0,0,.45);position:relative;z-index:1}
 .player .who{min-width:0;flex:1;position:relative;z-index:1}
 .player small{color:var(--yellow);font-weight:800;font-size:.8rem}
 .player h3{font-size:1.7rem;font-weight:900;line-height:1.3;word-break:break-word}
@@ -150,10 +149,10 @@ body.present .wheel-box canvas{position:absolute;top:50%;left:50%;transform:tran
 .tag{border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:800;background:var(--soft);border:1px solid var(--line);color:var(--navy)}
 .lv{color:#fff;border:none}
 .lv-e{background:var(--lv-e)}.lv-m{background:var(--lv-m);color:#3d2c00}.lv-h{background:var(--lv-h)}.lv-x{background:var(--lv-x)}
-.qtext{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;text-align:center;box-shadow:var(--sh-sm);position:relative}
+.qtext{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 52px;text-align:center;box-shadow:var(--sh-sm);position:relative}
 .qtext .lead{font-size:.9rem;font-weight:800;color:var(--muted);margin-bottom:6px}
 .qtext .en{direction:ltr;font-size:1.7rem;font-weight:700;color:var(--navy);line-height:1.55;word-break:break-word}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;direction:ltr} /* الخيارات إنجليزية: A وB في الصف الأول من اليسار لليمين */
 .opt{position:relative;display:flex;align-items:center;gap:12px;direction:ltr;text-align:left;border:2px solid var(--line);background:#fff;border-radius:var(--r-md);padding:14px 16px;min-height:76px;cursor:pointer;font-family:'Poppins','Cairo',sans-serif;font-weight:700;font-size:1.35rem;color:var(--navy);transition:border-color .15s ease,background .15s ease,transform .15s ease,box-shadow .2s ease}
 .opt:hover{border-color:var(--blue);box-shadow:0 10px 20px -14px rgba(59,91,255,.8);transform:translateY(-2px)}
 .opt .k{flex:none;width:36px;height:36px;border-radius:11px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800}
@@ -262,7 +261,6 @@ input[type=range]{width:100%;accent-color:var(--blue)}
   .actions .ibtn:last-child{display:none}
   .card{padding:14px;border-radius:22px}
   .player h3{font-size:1.3rem}
-  .avatar{width:52px;height:52px;font-size:1.15rem;border-radius:16px}
   .qtext .en{font-size:1.25rem}
   .opt{font-size:1.05rem;min-height:62px;padding:10px 12px}
   .opt .k{width:30px;height:30px}
@@ -276,7 +274,7 @@ input[type=range]{width:100%;accent-color:var(--blue)}
 /* كل شيء يتسع في ارتفاع الشاشة دون تمرير، حتى عند عرض شاشة الجوال الأفقية على تلفاز أو بروجكتور:
    الأحجام تُحسب من ارتفاع الشاشة (vh) والعجلة تأخذ المساحة المتبقية فقط. */
 body.present{overflow:hidden}
-body.present .side,body.present .bottombar,body.present .rules,body.present .footer,body.present .play-extra,body.present .chips,body.present .lesson p,body.present .lesson .kick,body.present .kpis,body.present .card-h{display:none!important}
+body.present .side,body.present .bottombar,body.present .rules,body.present .footer,body.present .play-extra,body.present .chips,body.present .lesson p,body.present .lesson .kick,body.present .card-h{display:none!important}
 body.present .main{margin-right:0;padding:1.6vh 1.6vw;gap:1.4vh;height:100vh;height:100dvh}
 body.present .topbar{padding:.8vh 1.4vw;border-radius:clamp(12px,2vh,22px);flex:none}
 body.present .lesson h1{font-size:clamp(.95rem,3.6vh,1.8rem);margin:0}
@@ -287,9 +285,23 @@ body.present .card{height:100%;min-height:0;overflow:hidden;padding:1.6vh 1.4vw;
 body.present .wheel-box{flex:1;min-height:0;padding:1vh 0 0}
 body.present .pointer{width:clamp(24px,5vh,44px);height:auto}
 body.present .pointer svg{width:100%;height:auto}
+/* الإحصاءات وسجل الإجابات في وضع الشاشة الكبيرة: مدمجة أسفل العجلة */
+body.present .kpis{flex:none;gap:.8vh .6vw}
+body.present .kpi{padding:.6vh .6vw;gap:.6vw;border-radius:clamp(8px,1.6vh,16px);flex-direction:row;text-align:right}
+body.present .kpi i{width:clamp(20px,4.6vh,38px);height:clamp(20px,4.6vh,38px);font-size:clamp(.7rem,2.2vh,1.05rem);border-radius:clamp(6px,1.2vh,12px)}
+body.present .kpi>div{display:flex;align-items:baseline;gap:.5vw;flex-wrap:wrap;min-width:0}
+body.present .kpi b{font-size:clamp(.95rem,3.6vh,1.7rem);line-height:1}
+body.present .kpi span{font-size:clamp(.5rem,1.7vh,.8rem);line-height:1.2}
+/* الشاشات القصيرة (جوال أفقي): الأيقونات تُخفى لتبقى الأرقام وعناوينها في سطر واحد، فتأخذ العجلة أكبر مساحة */
+@media (max-height:480px){body.present .kpi i{display:none}body.present .kpi{padding:.5vh .8vw;justify-content:center}body.present .hcol h4{margin-bottom:.2vh}body.present .hchips{max-height:clamp(20px,9vh,40px)}body.present .card{gap:.8vh}}
+body.present .history{flex:none;gap:.8vh .6vw}
+body.present .hcol{padding:.6vh .7vw;border-radius:clamp(8px,1.6vh,16px)}
+body.present .hcol h4{font-size:clamp(.55rem,1.8vh,.9rem);margin-bottom:.4vh}
+body.present .hchips{max-height:clamp(24px,8vh,96px);overflow-y:auto;gap:.5vh .4vw;scrollbar-width:thin}
+body.present .hchip{font-size:clamp(.5rem,1.7vh,.85rem);padding:.2vh .6vw}
+body.present .hempty{font-size:clamp(.5rem,1.7vh,.8rem)}
 body.present .btn-spin{padding:1.4vh;font-size:clamp(.9rem,3vh,1.3rem);border-radius:clamp(10px,2vh,18px)}
 body.present .player{padding:1.2vh 1.2vw;gap:1vw;border-radius:clamp(12px,2.2vh,22px);flex:none}
-body.present .avatar{width:clamp(34px,8vh,64px);height:clamp(34px,8vh,64px);font-size:clamp(.85rem,3vh,1.45rem);border-radius:clamp(10px,2vh,20px)}
 body.present .player small{font-size:clamp(.6rem,1.8vh,.8rem)}
 body.present .player h3{font-size:clamp(1rem,4.8vh,3rem);line-height:1.25}
 body.present .player p{font-size:clamp(.6rem,1.9vh,.85rem)}
@@ -299,7 +311,8 @@ body.present .timer b{font-size:clamp(.8rem,2.8vh,1.2rem)}
 body.present #qArea{flex:1;min-height:0;display:flex;flex-direction:column}
 body.present .qwrap{flex:1;min-height:0;gap:1vh!important}
 body.present .qmeta .tag{font-size:clamp(.6rem,1.8vh,.8rem);padding:.3vh 10px}
-body.present .qtext{padding:1.2vh 1.2vw;border-radius:clamp(12px,2vh,22px)}
+body.present .qtext{padding:1.2vh clamp(34px,6vh,56px);border-radius:clamp(12px,2vh,22px)}
+body.present .replay{width:clamp(24px,5vh,40px);height:clamp(24px,5vh,40px);top:clamp(4px,1vh,10px);left:clamp(4px,1vh,10px);font-size:clamp(.7rem,2.2vh,1.05rem);border-radius:clamp(7px,1.4vh,12px)}
 body.present .qtext .lead{font-size:clamp(.6rem,1.9vh,.9rem);margin-bottom:.4vh}
 body.present .qtext .en{font-size:clamp(1rem,4.6vh,3rem);line-height:1.35}
 body.present .opts{flex:1;min-height:0;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:1vh}
@@ -310,7 +323,7 @@ body.present .feedback .fic{width:clamp(20px,4vh,34px);height:clamp(20px,4vh,34p
 body.present .btn-next{padding:1.2vh;font-size:clamp(.8rem,2.6vh,1.1rem);flex:none}
 body.present .empty{padding:2vh;font-size:clamp(.7rem,2.2vh,1rem)}
 body.present .empty .big{width:clamp(40px,9vh,76px);height:clamp(40px,9vh,76px);font-size:clamp(1.2rem,4.5vh,2.2rem)}
-@media (orientation:portrait){body.present .grid-main{grid-template-columns:1fr;grid-template-rows:minmax(0,.75fr) minmax(0,1.25fr);gap:1.2vh}body.present .opts{grid-template-columns:1fr 1fr}body.present .player h3{font-size:clamp(.95rem,5.2vw,2.2rem)}body.present .player p{display:none}body.present .avatar,body.present .timer{width:clamp(32px,10vw,60px);height:clamp(32px,10vw,60px)}body.present .qtext .en{font-size:clamp(.95rem,5vw,2rem)}body.present .qtext .lead{display:none}body.present .opt{font-size:clamp(.85rem,4.4vw,1.6rem)}body.present .lesson h1{font-size:clamp(.9rem,4.6vw,1.6rem)}body.present .btn-spin{font-size:clamp(.85rem,4vw,1.2rem)}}
+@media (orientation:portrait){body.present .grid-main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:1.2vh}body.present .opts{grid-template-columns:1fr 1fr}body.present .history{display:none}body.present .player h3{font-size:clamp(.95rem,5.2vw,2.2rem)}body.present .player p{display:none}body.present .timer{width:clamp(32px,10vw,60px);height:clamp(32px,10vw,60px)}body.present .qtext .en{font-size:clamp(.95rem,5vw,2rem)}body.present .qtext .lead{display:none}body.present .opt{font-size:clamp(.85rem,4.4vw,1.6rem)}body.present .lesson h1{font-size:clamp(.9rem,4.6vw,1.6rem)}body.present .btn-spin{font-size:clamp(.85rem,4vw,1.2rem)}}
 
 .replay{position:absolute;top:10px;left:10px;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--soft);cursor:pointer;font-size:1.05rem;transition:background .2s ease,transform .12s ease}
 .replay:hover{background:var(--blue-soft)}.replay:active{transform:scale(.92)}
@@ -391,13 +404,12 @@ body.present .vchip{bottom:8px;font-size:.8rem;padding:5px 12px}
           <div class="kpi ok"><i>✅</i><div><b id="sCorrect">0</b><span>إجابات صحيحة</span></div></div>
           <div class="kpi bad"><i>❌</i><div><b id="sWrong">0</b><span>إجابات خاطئة</span></div></div>
         </div>
-        <div class="history play-extra" id="history"></div>
+        <div class="history" id="history"></div>
       </div>
 
       <div class="card">
         <div class="card-h"><h2><span class="hic">❓</span>سؤال الطالب</h2><span class="pill" id="qLeft"></span></div>
         <div class="player">
-          <div class="avatar" id="curAv">؟</div>
           <div class="who"><small>الدور على</small><h3 id="curName">— دوّر العجلة أولاً —</h3><p id="curSub">اضغط «دوّر العجلة» ويظهر اسم الطالب وسؤاله هنا</p><div class="dots" id="curDots"></div></div>
           <div class="timer hidden" id="timer"><svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="6"/><circle id="timerArc" cx="32" cy="32" r="27" fill="none" stroke="#FFC83D" stroke-width="6" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="0"/></svg><b id="timerNum"></b></div>
         </div>
@@ -598,7 +610,6 @@ function shortName(n) {
 function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2200); }
 function md(s) { return esc(s).replace(/\[([^\]]+)\]/g, '<code>$1</code>'); }
 const TYPE_NAMES = { mc: 'اختيار من متعدد', tf: 'صح أو خطأ', fill: 'إكمال الفراغ' };
-function initials(n) { const f = firstName(n), w = String(n).trim().split(/\s+/); return (f.replace(/^عبد\s*/, 'ع')[0] || '') + (w.length > 1 ? w[w.length - 1][0] : ''); }
 // المستوى المكتوب في بداية الموضوع (🟢 سهل • ...) يُعرض شارة ملوّنة.
 const LEVELS = { '🟢': 'e', '🟡': 'm', '🟠': 'h', '🔴': 'x' };
 function splitTopic(ar) {
@@ -784,7 +795,7 @@ function quickPick() {
 function choose(t) {
   const s = S(); s.current = t; s.qLeft = DATA.settings.qsPerStudent || 1;
   if (DATA.settings.exclude) s.used.add(t.idx);
-  $('curName').textContent = t.name; $('curAv').textContent = initials(t.name);
+  $('curName').textContent = t.name;
   $('curSub').textContent = 'يلا يا ' + firstName(t.name) + '، هذا سؤالك 👇' + s.note; s.note = '';
   pickQuestion(); renderQuestion(); renderHeaderCounts();
 }
@@ -874,7 +885,7 @@ function nextStep() {
   if (s.qLeft > 0) { pickQuestion(); renderQuestion(); return; }
   $('nextBtn').classList.add('hidden');
   $('qArea').innerHTML = '<div class="empty"><div class="big">🎯</div>العجلة تدور للطالب التالي...</div>';
-  $('curName').textContent = '— الطالب التالي —'; $('curSub').textContent = ''; $('curAv').textContent = '؟'; $('curDots').innerHTML = ''; $('timer').classList.add('hidden');
+  $('curName').textContent = '— الطالب التالي —'; $('curSub').textContent = ''; $('curDots').innerHTML = ''; $('timer').classList.add('hidden');
   spin();
 }
 function updateStats() {
@@ -895,8 +906,7 @@ function resetSession() {
 }
 function resetPlayUI() {
   stopTimer();
-  $('curName').textContent = '— دوّر العجلة أولاً —'; $('curSub').textContent = 'اضغط «دوّر العجلة» ويظهر اسم الطالب وسؤاله هنا';
-  $('curAv').textContent = '؟'; $('curDots').innerHTML = ''; $('timer').classList.add('hidden');
+  $('curName').textContent = '— دوّر العجلة أولاً —'; $('curSub').textContent = 'اضغط «دوّر العجلة» ويظهر اسم الطالب وسؤاله هنا'; $('curDots').innerHTML = ''; $('timer').classList.add('hidden');
   $('qArea').innerHTML = '<div class="empty"><div class="big">🎯</div>دوّر العجلة ويظهر سؤال من الدرس<br>موجّه للطالب باسمه</div>';
   $('nextBtn').classList.add('hidden');
 }
@@ -905,7 +915,7 @@ function resetPlayUI() {
 function renderHeaderCounts() { $('hCount').textContent = '👥 ' + present().length + ' حاضر من ' + cls.students.length; $('stuCount').textContent = cls.students.length + ' طالب • ' + present().length + ' حاضر'; }
 function renderStudents() {
   const s = S();
-  $('stuList').innerHTML = cls.students.map((n, i) => `<div class="stu${s.absent.has(n) ? ' absent' : ''}${s.used.has(i) ? ' used' : ''}${s.current && s.current.idx === i ? ' current' : ''}"><input type="checkbox" title="حاضر" ${s.absent.has(n) ? '' : 'checked'} onchange="setPresent(${i},this.checked)"><span class="av" title="${i + 1}">${esc(initials(n))}</span><input type="text" value="${esc(n)}" onchange="renameStudent(${i},this.value)"><button class="x" title="حذف" onclick="removeStudent(${i})">×</button></div>`).join('') || '<p class="hint">لا يوجد طلاب بعد. أضف الأسماء من المربع أعلاه.</p>';
+  $('stuList').innerHTML = cls.students.map((n, i) => `<div class="stu${s.absent.has(n) ? ' absent' : ''}${s.used.has(i) ? ' used' : ''}${s.current && s.current.idx === i ? ' current' : ''}"><input type="checkbox" title="حاضر" ${s.absent.has(n) ? '' : 'checked'} onchange="setPresent(${i},this.checked)"><span class="av">${i + 1}</span><input type="text" value="${esc(n)}" onchange="renameStudent(${i},this.value)"><button class="x" title="حذف" onclick="removeStudent(${i})">×</button></div>`).join('') || '<p class="hint">لا يوجد طلاب بعد. أضف الأسماء من المربع أعلاه.</p>';
   renderHeaderCounts(); drawWheel();
 }
 function setPresent(i, on) { const n = cls.students[i]; if (on) S().absent.delete(n); else S().absent.add(n); renderStudents(); }
@@ -1202,7 +1212,7 @@ function resetAll() { if (!confirm('استعادة البيانات الأصلي
 function renderAll() {
   renderHeader(); renderCards(); renderSoundBtn();
   $('excludeChk').checked = DATA.settings.exclude; $('autoPts').checked = DATA.settings.autoPoints;
-  resetPlayUI(); const s = S(); if (s.current && s.q) { $('curName').textContent = s.current.name; $('curAv').textContent = initials(s.current.name); }
+  resetPlayUI(); const s = S(); if (s.current && s.q) { $('curName').textContent = s.current.name; }
   renderHistory(); updateStats(); renderStudents(); renderGroups(); renderQuestions(); renderSettings(); drawWheel();
 }
 let rT = null; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(drawWheel, 120); });
