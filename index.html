@@ -3,241 +3,286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>عجلة الحظ الصفية</title>
-<meta name="theme-color" content="#061A4A">
+<title>عجلة الاختيار</title>
+<meta name="theme-color" content="#0B1B4D">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 /* =====================================================================
-   عجلة الحظ الصفية: عجلة لاختيار الطالب + سؤال موجّه له باسمه.
-   الهوية: كحلي (#061A4A) + أزرق (#0A4DFF) + أصفر (#FFD400).
+   عجلة الاختيار — اختيار طالب عشوائياً وسؤاله باسمه.
+   الهوية: كحلي (#0B1B4D) + أزرق (#3B5BFF) + أصفر (#FFC83D).
    ===================================================================== */
 :root{
-  --navy:#061A4A; --navy-2:#0B2766; --blue:#0A4DFF; --blue-soft:#EAF0FF;
-  --yellow:#FFD400; --yellow-soft:#FFF8D6; --ink:#0E1730; --muted:#5B6787;
-  --line:#E3E8F5; --surface:#FFFFFF; --surface-2:#F6F8FE;
-  --ok:#16A34A; --ok-soft:#E8F8EE; --bad:#DC2626; --bad-soft:#FDECEC;
-  --r-lg:24px; --r-md:16px; --r-sm:12px;
-  --shadow:0 18px 40px -22px rgba(6,26,74,.55);
-  --fs:1;
+  --navy:#0B1B4D; --navy-2:#13277A; --blue:#3B5BFF; --blue-2:#5B7BFF; --blue-soft:#EEF1FF;
+  --yellow:#FFC83D; --yellow-2:#FFB800; --yellow-soft:#FFF6DC;
+  --ink:#0E1633; --muted:#64708F; --line:#E4E8F4; --bg:#EEF1F9; --card:#FFFFFF; --soft:#F6F8FD;
+  --ok:#12B76A; --ok-d:#0E9F5C; --ok-soft:#E7F8EF; --bad:#F04438; --bad-soft:#FEECEB;
+  --lv-e:#12B76A; --lv-m:#F5B400; --lv-h:#F97316; --lv-x:#E11D48;
+  --r-xl:28px; --r-lg:22px; --r-md:16px; --r-sm:12px;
+  --sh-sm:0 1px 2px rgba(11,27,77,.06),0 4px 12px -6px rgba(11,27,77,.12);
+  --sh-md:0 2px 4px rgba(11,27,77,.04),0 18px 40px -22px rgba(11,27,77,.35);
+  --fs:1; --side:248px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{font-size:calc(16px * var(--fs))}
+html{font-size:calc(16px * var(--fs));background:var(--bg)}
 body{font-family:'Cairo',system-ui,sans-serif;color:var(--ink);min-height:100vh;min-height:100dvh;
-  background:radial-gradient(1100px 600px at 100% -10%,rgba(10,77,255,.55),transparent 60%),
-             radial-gradient(900px 500px at -10% 110%,rgba(255,212,0,.18),transparent 60%),
-             linear-gradient(160deg,#020A1F 0%,#061A4A 55%,#0A2E8A 100%);
-  padding:16px 16px 28px}
-html{background:#061A4A}
+  background:
+    radial-gradient(900px 500px at 100% -10%,rgba(59,91,255,.14),transparent 60%),
+    radial-gradient(700px 420px at 0% 100%,rgba(255,200,61,.16),transparent 60%),
+    var(--bg)}
 button,input,select,textarea{font-family:inherit;color:inherit}
-.app{max-width:1600px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
 .hidden{display:none!important}
 .ltr{direction:ltr;unicode-bidi:isolate}
+.en{font-family:'Poppins','Cairo',sans-serif}
 
-/* ---------- الرأس ---------- */
-.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  background:var(--yellow);border-radius:var(--r-lg);padding:14px 18px;box-shadow:var(--shadow)}
-.brand{display:flex;align-items:center;gap:14px;min-width:0}
-.brand-ic{flex:none;width:54px;height:54px;border-radius:16px;background:var(--navy);color:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:28px}
-.brand h1{font-size:1.45rem;font-weight:900;color:var(--navy);line-height:1.3}
-.brand p{font-size:.9rem;font-weight:700;color:#4a4320;margin-top:2px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.chip-top{background:var(--navy);color:var(--yellow);border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:800;white-space:nowrap}
-.top-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.top-actions select{background:#fff;border:2px solid var(--navy);border-radius:999px;padding:8px 14px;font-weight:800;color:var(--navy);font-size:.95rem;cursor:pointer}
-.icon-btn{border:none;background:var(--navy);color:var(--yellow);height:42px;min-width:42px;padding:0 14px;border-radius:999px;font-weight:800;font-size:.92rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:transform .15s ease,filter .15s ease}
-.icon-btn:hover{filter:brightness(1.2)}
-.icon-btn:active{transform:scale(.96)}
-.icon-btn.on{background:#fff;color:var(--navy)}
-
-/* ---------- بطاقات القواعد ---------- */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-.gcard{background:rgba(255,255,255,.96);border-radius:var(--r-md);padding:12px 16px;font-weight:700;line-height:1.85;font-size:.98rem;border-top:4px solid var(--yellow)}
-.gcard b{display:block;color:var(--navy);font-weight:900;margin-bottom:2px}
-.gcard .ltr{display:block;text-align:left}
-.gcard code{background:var(--navy);color:var(--yellow);border-radius:6px;padding:1px 7px;font-family:inherit;font-weight:800}
-
-/* ---------- التبويبات ---------- */
-.tabs{display:flex;gap:6px;background:rgba(255,255,255,.1);padding:6px;border-radius:var(--r-md);overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:1 0 auto;border:none;background:transparent;color:#fff;border-radius:12px;padding:10px 16px;font-weight:800;font-size:1rem;cursor:pointer;white-space:nowrap;transition:background .2s ease,color .2s ease}
-.tab:hover{background:rgba(255,255,255,.1)}
+/* ============ الهيكل: شريط جانبي + محتوى ============ */
+.side{position:fixed;inset:0 0 0 auto;width:var(--side);background:linear-gradient(185deg,#0B1B4D 0%,#0A1640 60%,#081131 100%);color:#fff;display:flex;flex-direction:column;padding:22px 16px;z-index:20}
+.logo{display:flex;align-items:center;gap:12px;padding:4px 6px 22px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo-mark{flex:none;width:46px;height:46px;border-radius:14px;background:conic-gradient(var(--yellow) 0 25%,var(--blue) 0 50%,#22C3A6 0 75%,#FF7A59 0);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px -6px rgba(0,0,0,.5)}
+.logo-mark i{width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px var(--navy)}
+.logo b{display:block;font-size:1.15rem;font-weight:900;line-height:1.2}
+.logo small{display:block;font-size:.75rem;color:rgba(255,255,255,.6);font-weight:600}
+.nav{display:flex;flex-direction:column;gap:4px;margin-top:18px;flex:1}
+.tab{display:flex;align-items:center;gap:12px;border:none;background:none;color:rgba(255,255,255,.75);font-size:.98rem;font-weight:800;padding:11px 14px;border-radius:14px;cursor:pointer;text-align:right;transition:background .2s ease,color .2s ease}
+.tab .ic{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex:none}
+.tab:hover{background:rgba(255,255,255,.06);color:#fff}
 .tab.active{background:var(--yellow);color:var(--navy)}
+.tab.active .ic{background:rgba(11,27,77,.1)}
+.side-foot{border-top:1px solid rgba(255,255,255,.08);padding-top:14px;font-size:.8rem;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7}
+.side-foot b{display:block;color:#fff;font-size:.88rem}
+.main{margin-right:var(--side);padding:20px 24px 32px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.bottombar{display:none}
 
-/* ---------- البطاقات العامة ---------- */
-.card{background:var(--surface);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+/* ============ الشريط العلوي ============ */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--card);border-radius:var(--r-xl);padding:16px 20px;box-shadow:var(--sh-sm);border:1px solid var(--line)}
+.lesson{min-width:0}
+.lesson .kick{font-size:.8rem;font-weight:800;color:var(--blue);display:flex;align-items:center;gap:6px}
+.lesson h1{font-size:1.6rem;font-weight:900;color:var(--navy);line-height:1.3;margin-top:2px}
+.lesson h1 bdi{font-family:'Poppins','Cairo',sans-serif;font-weight:800}
+.lesson p{font-size:.88rem;color:var(--muted);font-weight:700;margin-top:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{background:var(--soft);border:1px solid var(--line);color:var(--navy);border-radius:999px;padding:3px 12px;font-size:.78rem;font-weight:800;white-space:nowrap}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.select{appearance:none;-webkit-appearance:none;background:var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FFC83D' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat 14px center;color:#fff;border:none;border-radius:14px;padding:11px 18px 11px 36px;font-weight:800;font-size:.95rem;cursor:pointer}
+.ibtn{border:1px solid var(--line);background:var(--soft);color:var(--navy);height:44px;min-width:44px;padding:0 14px;border-radius:14px;font-weight:800;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;transition:background .2s ease,transform .12s ease}
+.ibtn:hover{background:var(--blue-soft)}
+.ibtn:active{transform:scale(.95)}
+.ibtn.on{background:var(--navy);color:var(--yellow);border-color:var(--navy)}
+
+/* ============ قواعد الدرس ============ */
+.rules{background:var(--card);border-radius:var(--r-xl);border:1px solid var(--line);box-shadow:var(--sh-sm);overflow:hidden}
+.rules summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;font-weight:900;color:var(--navy);user-select:none}
+.rules summary::-webkit-details-marker{display:none}
+.rules summary .chev{transition:transform .25s ease;color:var(--muted)}
+.rules[open] summary .chev{transform:rotate(180deg)}
+.gcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;padding:0 16px 16px}
+.gcard{background:linear-gradient(180deg,var(--soft),#fff);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 16px;line-height:1.95;font-size:.95rem;font-weight:600;position:relative;overflow:hidden}
+.gcard::before{content:'';position:absolute;top:0;right:0;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--yellow))}
+.gcard b{display:block;color:var(--navy);font-weight:900;font-size:.98rem;margin:2px 0 4px}
+.gcard .ltr{display:block;text-align:left;font-family:'Poppins','Cairo',sans-serif;font-weight:500;font-size:.9rem}
+.gcard code{background:var(--navy);color:var(--yellow);border-radius:7px;padding:1px 7px;font-family:inherit;font-weight:700}
+
+/* ============ البطاقات العامة ============ */
+.card{background:var(--card);border-radius:var(--r-xl);padding:20px;box-shadow:var(--sh-md);border:1px solid var(--line);display:flex;flex-direction:column;gap:14px;min-width:0}
 .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.card-h h2{font-size:1.25rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px}
-.pill{background:var(--blue-soft);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:.82rem;font-weight:800;white-space:nowrap}
-.grid-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
-@media (max-width:980px){.grid-main{grid-template-columns:1fr}}
+.card-h h2{font-size:1.2rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:10px}
+.card-h h2 .hic{width:36px;height:36px;border-radius:12px;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;font-size:1.05rem}
+.pill{background:var(--blue-soft);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:.8rem;font-weight:800;white-space:nowrap}
+.grid-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:16px;align-items:start}
 
-/* ---------- الأزرار ---------- */
-.btn{border:none;border-radius:var(--r-sm);padding:12px 16px;font-weight:800;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s ease,filter .15s ease,background .2s ease}
+/* ============ الأزرار ============ */
+.btn{border:none;border-radius:var(--r-sm);padding:12px 16px;font-weight:800;font-size:.98rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s ease,filter .15s ease,background .2s ease,box-shadow .2s ease}
 .btn:active{transform:scale(.97)}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-.btn-main{background:var(--yellow);color:var(--navy);font-size:1.2rem;padding:15px;box-shadow:0 12px 24px -12px rgba(255,212,0,.9);width:100%;font-weight:900}
-.btn-main:hover{filter:brightness(1.04)}
-.btn-blue{background:var(--blue);color:#fff}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn-spin{width:100%;padding:17px;border-radius:18px;font-size:1.25rem;font-weight:900;color:var(--navy);background:linear-gradient(135deg,#FFD866 0%,var(--yellow) 45%,var(--yellow-2) 100%);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 16px 28px -14px rgba(255,184,0,.9)}
+.btn-spin:hover:not(:disabled){filter:brightness(1.04);transform:translateY(-1px)}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 10px 20px -12px rgba(59,91,255,.9)}
 .btn-navy{background:var(--navy);color:var(--yellow)}
-.btn-ghost{background:var(--surface-2);color:var(--navy);border:1px solid var(--line)}
-.btn-ok{background:var(--ok-soft);color:#166534}
-.btn-bad{background:var(--bad-soft);color:#991B1B}
-.btn-sm{padding:7px 12px;font-size:.88rem;border-radius:10px}
+.btn-ghost{background:var(--soft);color:var(--navy);border:1px solid var(--line)}
+.btn-ok{background:var(--ok-soft);color:#05603A}
+.btn-bad{background:var(--bad-soft);color:#B42318}
+.btn-sm{padding:7px 12px;font-size:.85rem;border-radius:10px}
+.btn-next{width:100%;padding:15px;border-radius:16px;font-size:1.1rem;font-weight:900;background:var(--navy);color:var(--yellow)}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .row>.btn{flex:1 1 140px}
 
-/* ---------- العجلة ---------- */
-.wheel-box{position:relative;display:flex;align-items:center;justify-content:center;padding:18px 0 4px}
-.wheel-box canvas{display:block;max-width:100%;filter:drop-shadow(0 18px 26px rgba(6,26,74,.35))}
-.pointer{position:absolute;top:2px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:34px solid var(--bad);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3));z-index:2}
-.pointer::after{content:'';position:absolute;top:-40px;left:-9px;width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--bad)}
-.toggle{display:flex;align-items:center;gap:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font-weight:800;font-size:.95rem;cursor:pointer;user-select:none}
+/* ============ العجلة ============ */
+.wheel-card{background:radial-gradient(120% 80% at 50% 0%,#F2F5FF 0%,#fff 60%)}
+.wheel-box{position:relative;display:flex;align-items:center;justify-content:center;padding:22px 0 6px}
+.wheel-box canvas{display:block;max-width:100%;filter:drop-shadow(0 22px 30px rgba(11,27,77,.28))}
+.pointer{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:3;width:44px;height:56px}
+.pointer svg{display:block;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25))}
+.toggle{display:flex;align-items:center;gap:10px;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font-weight:700;font-size:.92rem;cursor:pointer;user-select:none}
 .toggle input{width:20px;height:20px;accent-color:var(--blue);flex:none}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px;text-align:center}
-.stat b{display:block;font-size:1.7rem;font-weight:900;line-height:1.2}
-.stat span{font-size:.82rem;color:var(--muted);font-weight:800}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi{border-radius:var(--r-md);padding:12px;display:flex;align-items:center;gap:10px;background:var(--soft);border:1px solid var(--line)}
+.kpi i{font-style:normal;flex:none;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;background:#fff}
+.kpi b{display:block;font-size:1.5rem;font-weight:900;line-height:1.1}
+.kpi span{font-size:.75rem;color:var(--muted);font-weight:800}
+.kpi.ok b{color:var(--ok-d)}.kpi.bad b{color:var(--bad)}
 .history{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.hcol{border-radius:var(--r-sm);padding:10px;min-width:0}
-.hcol.ok{background:var(--ok-soft);border:1px solid #BBF7D0}
-.hcol.bad{background:var(--bad-soft);border:1px solid #FECACA}
-.hcol h4{font-size:.92rem;font-weight:900;margin-bottom:6px}
-.hcol.ok h4{color:#166534}.hcol.bad h4{color:#991B1B}
+.hcol{border-radius:var(--r-md);padding:10px 12px;min-width:0}
+.hcol.ok{background:var(--ok-soft)}.hcol.bad{background:var(--bad-soft)}
+.hcol h4{font-size:.85rem;font-weight:900;margin-bottom:6px}
+.hcol.ok h4{color:#05603A}.hcol.bad h4{color:#B42318}
 .hchips{display:flex;flex-wrap:wrap;gap:5px}
-.hchip{border-radius:999px;padding:3px 10px;font-size:.82rem;font-weight:800;color:#fff}
-.hcol.ok .hchip{background:var(--ok)}.hcol.bad .hchip{background:var(--bad)}
-.hempty{color:var(--muted);font-size:.85rem;font-weight:700}
+.hchip{border-radius:999px;padding:2px 10px;font-size:.78rem;font-weight:800;background:#fff}
+.hcol.ok .hchip{color:#05603A}.hcol.bad .hchip{color:#B42318}
+.hempty{color:var(--muted);font-size:.8rem;font-weight:700}
 
-/* ---------- السؤال ---------- */
-.banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:var(--r-md);padding:16px 18px;text-align:center}
-.banner::after{content:'';position:absolute;left:-40px;bottom:-60px;width:170px;height:170px;border-radius:50%;border:22px solid rgba(255,255,255,.08)}
-.banner small{color:var(--yellow);font-weight:900;font-size:.85rem}
-.banner h3{font-size:2rem;font-weight:900;margin:4px 0;line-height:1.3;word-break:break-word;position:relative;z-index:1}
-.banner p{font-size:.92rem;color:rgba(255,255,255,.85);font-weight:700;position:relative;z-index:1}
-.qwrap{display:flex;flex-direction:column;gap:12px}
-.qhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.qtag{background:var(--navy);color:var(--yellow);border-radius:999px;padding:4px 12px;font-size:.82rem;font-weight:900}
-.qtype{background:var(--yellow-soft);color:#6b5400;border-radius:999px;padding:4px 12px;font-size:.82rem;font-weight:900}
-.timer{position:relative;width:62px;height:62px;flex:none}
+/* ============ بطاقة الطالب والسؤال ============ */
+.player{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,var(--blue) 130%);color:#fff;border-radius:var(--r-lg);padding:16px 18px;position:relative;overflow:hidden}
+.player::after{content:'';position:absolute;left:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,200,61,.28),transparent 70%)}
+.avatar{flex:none;width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--yellow),#FF9F43);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.45rem;font-weight:900;box-shadow:0 10px 20px -8px rgba(0,0,0,.45);position:relative;z-index:1}
+.player .who{min-width:0;flex:1;position:relative;z-index:1}
+.player small{color:var(--yellow);font-weight:800;font-size:.8rem}
+.player h3{font-size:1.7rem;font-weight:900;line-height:1.3;word-break:break-word}
+.player p{font-size:.85rem;color:rgba(255,255,255,.8);font-weight:700}
+.dots{display:flex;gap:5px;margin-top:6px}
+.dots i{width:22px;height:6px;border-radius:999px;background:rgba(255,255,255,.22)}
+.dots i.on{background:var(--yellow)}
+.timer{position:relative;width:64px;height:64px;flex:none;z-index:1}
 .timer svg{display:block;transform:rotate(-90deg)}
-.timer b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;font-weight:900;color:var(--navy)}
-.timer.warn b{color:var(--bad)}
-.qbox{background:var(--yellow-soft);border:2px dashed #F1C40F;border-radius:var(--r-md);padding:14px;text-align:center}
-.qbox .who{font-weight:900;color:var(--navy);font-size:1rem}
-.qbox .en{direction:ltr;font-size:1.75rem;font-weight:900;color:var(--navy);line-height:1.5;background:#fff;border-radius:var(--r-sm);padding:14px;margin-top:8px;border:1px solid var(--line);word-break:break-word}
+.timer b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:#fff}
+.timer.warn b{color:#FFB4AE}
+.qmeta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tag{border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:800;background:var(--soft);border:1px solid var(--line);color:var(--navy)}
+.lv{color:#fff;border:none}
+.lv-e{background:var(--lv-e)}.lv-m{background:var(--lv-m);color:#3d2c00}.lv-h{background:var(--lv-h)}.lv-x{background:var(--lv-x)}
+.qtext{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;text-align:center;box-shadow:var(--sh-sm);position:relative}
+.qtext .lead{font-size:.9rem;font-weight:800;color:var(--muted);margin-bottom:6px}
+.qtext .en{direction:ltr;font-size:1.7rem;font-weight:700;color:var(--navy);line-height:1.55;word-break:break-word}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.opt{position:relative;border:2px solid var(--line);background:#fff;border-radius:var(--r-md);padding:16px 12px;min-height:84px;cursor:pointer;font-weight:900;font-size:1.55rem;direction:ltr;display:flex;align-items:center;justify-content:center;text-align:center;transition:border-color .15s ease,background .15s ease,transform .12s ease}
-.opt:hover{border-color:var(--blue);background:var(--blue-soft)}
-.opt:active{transform:scale(.98)}
-.opt .k{position:absolute;top:8px;left:10px;width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-size:.95rem;display:flex;align-items:center;justify-content:center}
-.opt.correct{background:var(--ok)!important;border-color:var(--ok)!important;color:#fff}
-.opt.wrong{background:var(--bad)!important;border-color:var(--bad)!important;color:#fff}
-.opt.correct .k,.opt.wrong .k{background:rgba(255,255,255,.25);color:#fff}
+.opt{position:relative;display:flex;align-items:center;gap:12px;direction:ltr;text-align:left;border:2px solid var(--line);background:#fff;border-radius:var(--r-md);padding:14px 16px;min-height:76px;cursor:pointer;font-family:'Poppins','Cairo',sans-serif;font-weight:700;font-size:1.35rem;color:var(--navy);transition:border-color .15s ease,background .15s ease,transform .15s ease,box-shadow .2s ease}
+.opt:hover{border-color:var(--blue);box-shadow:0 10px 20px -14px rgba(59,91,255,.8);transform:translateY(-2px)}
+.opt .k{flex:none;width:36px;height:36px;border-radius:11px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800}
+.opt span.t{flex:1;min-width:0;word-break:break-word}
+.opt.correct{background:var(--ok);border-color:var(--ok);color:#fff;animation:pop .35s ease}
+.opt.wrong{background:var(--bad);border-color:var(--bad);color:#fff;animation:shake .35s ease}
+.opt.correct .k,.opt.wrong .k{background:rgba(255,255,255,.22);color:#fff}
 .opt.lock{pointer-events:none}
-.opt.dim{opacity:.55}
+.opt.dim{opacity:.45;transform:none;box-shadow:none}
+@keyframes pop{50%{transform:scale(1.04)}}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 .fill{display:flex;gap:8px;direction:ltr}
-.fill input{flex:1;min-width:0;border:2px solid var(--line);border-radius:var(--r-md);padding:14px 16px;font-size:1.5rem;font-weight:900;text-align:center;outline:none}
-.fill input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,77,255,.15)}
+.fill input{flex:1;min-width:0;border:2px solid var(--line);border-radius:var(--r-md);padding:14px 16px;font-size:1.4rem;font-weight:700;text-align:center;outline:none;font-family:'Poppins','Cairo',sans-serif}
+.fill input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,91,255,.15)}
 .fill input.correct{border-color:var(--ok);background:var(--ok-soft)}
 .fill input.wrong{border-color:var(--bad);background:var(--bad-soft)}
-.feedback{border-radius:var(--r-sm);padding:12px 14px;font-weight:800;line-height:1.8;font-size:1rem}
-.feedback.ok{background:var(--ok-soft);color:#166534;border:1px solid #BBF7D0}
-.feedback.bad{background:var(--bad-soft);color:#991B1B;border:1px solid #FECACA}
-.feedback .ltr{font-weight:900}
-.empty{text-align:center;color:var(--muted);font-weight:800;line-height:1.9;padding:26px 10px}
-.empty .big{font-size:3.4rem;line-height:1.2}
+.feedback{display:flex;gap:12px;align-items:flex-start;border-radius:var(--r-md);padding:12px 14px;font-weight:700;line-height:1.8;font-size:.98rem;animation:fadeUp .3s ease}
+.feedback .fic{flex:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff}
+.feedback.ok{background:var(--ok-soft);color:#05603A}.feedback.ok .fic{background:var(--ok)}
+.feedback.bad{background:var(--bad-soft);color:#912018}.feedback.bad .fic{background:var(--bad)}
+.feedback .ltr{font-family:'Poppins','Cairo',sans-serif;font-weight:700}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.empty{text-align:center;color:var(--muted);font-weight:800;line-height:1.9;padding:34px 10px;border:2px dashed var(--line);border-radius:var(--r-lg);background:var(--soft)}
+.empty .big{width:76px;height:76px;margin:0 auto 10px;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:2.2rem;box-shadow:var(--sh-sm)}
 
-/* ---------- الطلاب ---------- */
-.stu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
-.stu{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 8px;min-width:0}
-.stu .n{flex:none;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:.8rem;font-weight:800;color:var(--muted);display:flex;align-items:center;justify-content:center}
-.stu input[type=text]{flex:1;min-width:0;border:none;background:transparent;font-weight:800;font-size:.95rem;outline:none}
+/* ============ الطلاب ============ */
+.stu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.stu{display:flex;align-items:center;gap:10px;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-md);padding:7px 10px;min-width:0}
+.stu .av{flex:none;width:32px;height:32px;border-radius:10px;background:var(--blue-soft);color:var(--blue);font-size:.8rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+.stu input[type=text]{flex:1;min-width:0;border:none;background:transparent;font-weight:800;font-size:.92rem;outline:none;padding:4px 0}
 .stu input[type=checkbox]{width:20px;height:20px;accent-color:var(--ok);flex:none;cursor:pointer}
-.stu .x{flex:none;border:none;background:var(--bad-soft);color:var(--bad);width:26px;height:26px;border-radius:50%;cursor:pointer;font-weight:900}
+.stu .x{flex:none;border:none;background:transparent;color:#B42318;width:28px;height:28px;border-radius:9px;cursor:pointer;font-weight:900;font-size:1.1rem}
+.stu .x:hover{background:var(--bad-soft)}
 .stu.absent{opacity:.5}
 .stu.absent input[type=text]{text-decoration:line-through}
-.stu.used{background:var(--ok-soft);border-color:#BBF7D0}
+.stu.used{background:var(--ok-soft);border-color:#BCEBD2}
 .stu.current{border:2px solid var(--yellow);background:var(--yellow-soft)}
-textarea,input[type=text],input[type=number],select.inp{width:100%;border:2px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font-size:1rem;font-weight:700;outline:none;background:#fff}
-textarea:focus,input[type=text]:focus,input[type=number]:focus,select.inp:focus{border-color:var(--blue)}
-label.lbl{font-weight:900;font-size:.92rem;color:var(--navy);display:block;margin-bottom:4px}
+textarea,input[type=text],input[type=number],select.inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font-size:.98rem;font-weight:700;outline:none;background:#fff}
+textarea:focus,input[type=text]:focus,input[type=number]:focus,select.inp:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,91,255,.12)}
+label.lbl{font-weight:800;font-size:.86rem;color:var(--navy);display:block;margin-bottom:5px}
+.hint{font-size:.82rem;color:var(--muted);font-weight:700;line-height:1.7}
 
-/* ---------- المجموعات والنقاط ---------- */
-.gcontrols{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;align-items:end}
+/* ============ المجموعات والنقاط ============ */
+.gcontrols{background:var(--soft);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:end}
 .seg{display:flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}
-.seg button{flex:1;border:none;background:none;border-radius:9px;padding:8px;font-weight:800;cursor:pointer;color:var(--muted)}
+.seg button{flex:1;border:none;background:none;border-radius:9px;padding:8px;font-weight:800;font-size:.85rem;cursor:pointer;color:var(--muted)}
 .seg button.on{background:var(--navy);color:var(--yellow)}
 input[type=range]{width:100%;accent-color:var(--blue)}
 .groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.group{background:linear-gradient(160deg,var(--blue-soft),var(--yellow-soft));border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.group.lead{border:2px solid var(--yellow);box-shadow:0 0 0 4px rgba(255,212,0,.25)}
-.group h4{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--navy);font-weight:900}
-.group ol{list-style:none;display:flex;flex-direction:column;gap:3px;font-weight:800;font-size:.95rem}
-.group ol li{display:flex;gap:6px;align-items:center;border-bottom:1px dashed var(--line);padding:3px 0}
-.group ol li i{font-style:normal;flex:none;width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--yellow);font-size:.75rem;display:flex;align-items:center;justify-content:center}
+.group{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--sh-sm);position:relative;overflow:hidden}
+.group::before{content:'';position:absolute;top:0;right:0;left:0;height:5px;background:var(--gc,var(--blue))}
+.group.lead{box-shadow:0 0 0 3px var(--yellow),var(--sh-md)}
+.group h4{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--navy);font-weight:900;margin-top:4px}
+.group ol{list-style:none;display:flex;flex-direction:column;gap:2px;font-weight:700;font-size:.9rem}
+.group ol li{display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px dashed var(--line)}
+.group ol li:last-child{border-bottom:none}
+.group ol li i{font-style:normal;flex:none;width:22px;height:22px;border-radius:7px;background:var(--soft);color:var(--muted);font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center}
 .pts{display:flex;align-items:center;gap:6px}
-.pts b{min-width:46px;text-align:center;background:var(--navy);color:var(--yellow);border-radius:999px;padding:2px 10px;font-size:1.05rem}
-.pts button{border:none;width:30px;height:30px;border-radius:50%;font-weight:900;font-size:1.05rem;cursor:pointer}
-.pts .plus{background:var(--ok);color:#fff}.pts .minus{background:var(--bad-soft);color:var(--bad)}
-.board{display:flex;flex-direction:column;gap:6px}
-.board-row{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;font-weight:800}
-.board-row .medal{font-size:1.3rem;text-align:center}
-.board-row .bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:4px}
-.board-row .bar i{display:block;height:100%;background:var(--blue);border-radius:999px}
+.pts b{min-width:44px;text-align:center;background:var(--navy);color:var(--yellow);border-radius:999px;padding:2px 10px;font-size:1rem}
+.pts button{border:none;width:30px;height:30px;border-radius:10px;font-weight:900;font-size:1.05rem;cursor:pointer}
+.pts .plus{background:var(--ok);color:#fff}.pts .minus{background:var(--soft);color:var(--muted);border:1px solid var(--line)}
+.board{display:flex;flex-direction:column;gap:8px}
+.board-row{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 14px;font-weight:800}
+.board-row .medal{font-size:1.4rem;text-align:center}
+.board-row .bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:5px}
+.board-row .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-2));border-radius:999px;transition:width .4s ease}
 
-/* ---------- محرر الأسئلة والإعدادات ---------- */
-.qlist{display:flex;flex-direction:column;gap:6px;max-height:560px;overflow:auto}
-.qitem{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px}
-.qitem .t{font-size:.75rem;font-weight:900;border-radius:999px;padding:2px 10px;white-space:nowrap}
-.t-mc{background:var(--blue-soft);color:var(--blue)}.t-tf{background:var(--yellow-soft);color:#6b5400}.t-fill{background:var(--ok-soft);color:#166534}
-.qitem .q{direction:ltr;text-align:left;font-weight:800;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.qitem .q small{display:block;direction:rtl;text-align:right;color:var(--muted);font-weight:700;font-size:.78rem;white-space:normal}
-.qform{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+/* ============ محرر الأسئلة والإعدادات ============ */
+.qlist{display:flex;flex-direction:column;gap:6px;max-height:620px;overflow:auto;padding-left:2px}
+.qitem{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-md);padding:9px 12px}
+.qitem .t{font-size:.72rem;font-weight:900;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.t-mc{background:var(--blue-soft);color:var(--blue)}.t-tf{background:var(--yellow-soft);color:#7a5900}.t-fill{background:var(--ok-soft);color:#05603A}
+.qitem .q{direction:ltr;text-align:left;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Poppins','Cairo',sans-serif;font-size:.9rem}
+.qitem .q small{display:block;direction:rtl;text-align:right;color:var(--muted);font-weight:700;font-size:.75rem;white-space:normal;font-family:'Cairo',sans-serif}
+.qform{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px}
 .qform .full{grid-column:1/-1}
-.qform input.ltr,.qform textarea.ltr{direction:ltr;text-align:left}
+.qform .ltr{direction:ltr;text-align:left}
 .filters{display:flex;gap:6px;flex-wrap:wrap}
-.filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-weight:800;font-size:.85rem;cursor:pointer;color:var(--muted)}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-weight:800;font-size:.82rem;cursor:pointer;color:var(--muted)}
 .filters button.on{background:var(--navy);color:var(--yellow);border-color:var(--navy)}
-.set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.set-box{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:10px}
-.set-box h3{font-size:1.02rem;font-weight:900;color:var(--navy)}
-.hint{font-size:.82rem;color:var(--muted);font-weight:700;line-height:1.7}
-.footer{text-align:center;color:rgba(255,255,255,.6);font-size:.85rem;font-weight:700;margin-top:4px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;border-radius:999px;padding:10px 20px;font-weight:800;z-index:100;transition:transform .3s ease;box-shadow:var(--shadow);border:2px solid var(--yellow)}
+.set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.set-box{background:var(--soft);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:10px}
+.set-box h3{font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;font-weight:700}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(140px);background:var(--navy);color:#fff;border-radius:16px;padding:12px 20px;font-weight:800;z-index:100;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:var(--sh-md)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:90}
 
-/* ---------- الجوال ---------- */
+/* ============ الشاشات المتوسطة والجوال ============ */
+@media (max-width:1180px){.grid-main{grid-template-columns:1fr}}
+@media (max-width:1024px){
+  .side{display:none}
+  .main{margin-right:0;padding:14px 14px calc(92px + env(safe-area-inset-bottom,0px))}
+  .bottombar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));justify-content:space-around}
+  .bottombar .tab{flex-direction:column;gap:2px;font-size:.7rem;padding:6px 4px;color:var(--muted);flex:1;align-items:center;border-radius:12px}
+  .bottombar .tab .ic{width:44px;height:30px;border-radius:999px;background:none;font-size:1.1rem}
+  .bottombar .tab.active{background:none;color:var(--navy)}
+  .bottombar .tab.active .ic{background:var(--yellow)}
+}
 @media (max-width:640px){
-  body{padding:10px 10px 22px}
-  .top{padding:12px}
-  .brand-ic{width:44px;height:44px;font-size:22px;border-radius:12px}
-  .brand h1{font-size:1.1rem}
-  .top-actions{width:100%}
-  .top-actions select{flex:1}
-  .icon-btn .t{display:none}
-  .banner h3{font-size:1.5rem}
-  .qbox .en{font-size:1.3rem}
-  .opt{font-size:1.2rem;min-height:68px}
-  .stats b{font-size:1.35rem}
+  .topbar{padding:14px;border-radius:22px}
+  .lesson h1{font-size:1.2rem}
+  .actions{width:100%}
+  .actions .select{flex:1}
+  .ibtn .t{display:none}
+  .actions .ibtn:last-child{display:none}
+  .card{padding:14px;border-radius:22px}
+  .player h3{font-size:1.3rem}
+  .avatar{width:52px;height:52px;font-size:1.15rem;border-radius:16px}
+  .qtext .en{font-size:1.25rem}
+  .opt{font-size:1.05rem;min-height:62px;padding:10px 12px}
+  .opt .k{width:30px;height:30px}
+  .opts{grid-template-columns:1fr}
+  .kpi{flex-direction:column;text-align:center;gap:4px;padding:10px 6px}
+  .kpi b{font-size:1.25rem}
   .history{grid-template-columns:1fr}
-  .card{padding:14px;border-radius:20px}
 }
 
-/* ---------- وضع الشاشة الكبيرة ---------- */
-body.present{--fs:1.25;padding:12px}
-body.present .cards,body.present .tabs,body.present .footer,body.present .play-extra{display:none!important}
-body.present .app{max-width:none}
-body.present .top{padding:10px 16px}
-body.present .brand p,body.present .chips{display:none}
-body.present .banner h3{font-size:2.6rem}
-body.present .qbox .en{font-size:2.3rem}
-body.present .opt{font-size:2rem;min-height:110px}
+/* ============ الشاشة الكبيرة ============ */
+body.present{--fs:1.2}
+body.present .side,body.present .bottombar,body.present .rules,body.present .footer,body.present .play-extra,body.present .chips,body.present .lesson p{display:none!important}
+body.present .main{margin-right:0;padding:14px 18px}
+body.present .grid-main{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+body.present .player h3{font-size:2.3rem}
+body.present .qtext .en{font-size:2.2rem}
+body.present .opt{font-size:1.8rem;min-height:104px}
 
-/* ---------- الطباعة (المجموعات) ---------- */
+/* ============ الطباعة (المجموعات) ============ */
 @media print{
-  body{background:#fff;padding:0}
+  body{background:#fff}
   body *{visibility:hidden}
   #groupsPrint,#groupsPrint *{visibility:visible}
   #groupsPrint{position:absolute;inset:0}
@@ -246,59 +291,71 @@ body.present .opt{font-size:2rem;min-height:110px}
 </style>
 </head>
 <body>
-<div class="app">
-  <header class="top">
-    <div class="brand">
-      <div class="brand-ic">🎡</div>
-      <div>
-        <h1 id="hTitle"></h1>
-        <p id="hSub"></p>
-        <div class="chips"><span class="chip-top" id="hTeacher"></span><span class="chip-top" id="hCount"></span><span class="chip-top" id="hQs"></span></div>
-      </div>
+<aside class="side">
+  <div class="logo"><div class="logo-mark"><i></i></div><div><b>عجلة الاختيار</b><small>اختيار عادل • سؤال باسم الطالب</small></div></div>
+  <nav class="nav">
+    <button class="tab active" data-tab="play" onclick="showTab('play')"><span class="ic">🎯</span>العب الآن</button>
+    <button class="tab" data-tab="students" onclick="showTab('students')"><span class="ic">👥</span>الطلاب</button>
+    <button class="tab" data-tab="groups" onclick="showTab('groups')"><span class="ic">🏆</span>المجموعات والنقاط</button>
+    <button class="tab" data-tab="questions" onclick="showTab('questions')"><span class="ic">❓</span>الأسئلة</button>
+    <button class="tab" data-tab="settings" onclick="showTab('settings')"><span class="ic">⚙️</span>الإعدادات</button>
+  </nav>
+  <div class="side-foot"><b id="sideTeacher"></b><span id="sideClass"></span></div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="lesson">
+      <div class="kick">🎯 عجلة الاختيار</div>
+      <h1 id="hTitle"></h1>
+      <p id="hSub"></p>
+      <div class="chips"><span class="chip" id="hTeacher"></span><span class="chip" id="hCount"></span><span class="chip" id="hQs"></span></div>
     </div>
-    <div class="top-actions">
-      <select id="classSelect" onchange="switchClass(this.value)" aria-label="الصف"></select>
-      <button class="icon-btn" id="soundBtn" onclick="toggleSound()" title="الأصوات">🔊<span class="t">الصوت</span></button>
-      <button class="icon-btn" id="presentBtn" onclick="togglePresent()" title="وضع الشاشة الكبيرة">🖥️<span class="t">الشاشة الكبيرة</span></button>
-      <button class="icon-btn" onclick="toggleFullscreen()" title="ملء الشاشة">⛶<span class="t">ملء الشاشة</span></button>
+    <div class="actions">
+      <select class="select" id="classSelect" onchange="switchClass(this.value)" aria-label="الصف"></select>
+      <button class="ibtn" id="soundBtn" onclick="toggleSound()" title="الأصوات">🔊<span class="t">الصوت</span></button>
+      <button class="ibtn" id="presentBtn" onclick="togglePresent()" title="الشاشة الكبيرة">🖥️<span class="t">الشاشة الكبيرة</span></button>
+      <button class="ibtn" onclick="toggleFullscreen()" title="ملء الشاشة">⛶</button>
     </div>
   </header>
 
-  <section class="cards" id="gCards"></section>
-
-  <nav class="tabs" role="tablist">
-    <button class="tab active" data-tab="play" onclick="showTab('play')">🎡 العب الآن</button>
-    <button class="tab" data-tab="students" onclick="showTab('students')">👥 الطلاب</button>
-    <button class="tab" data-tab="groups" onclick="showTab('groups')">🏆 المجموعات والنقاط</button>
-    <button class="tab" data-tab="questions" onclick="showTab('questions')">❓ الأسئلة</button>
-    <button class="tab" data-tab="settings" onclick="showTab('settings')">⚙️ الإعدادات</button>
-  </nav>
+  <details class="rules" id="rules" open>
+    <summary><span>📘 قواعد الدرس</span><span class="chev">⌄</span></summary>
+    <div class="gcards" id="gCards"></div>
+  </details>
 
   <!-- ============ العب ============ -->
   <section id="tab-play">
     <div class="grid-main">
-      <div class="card">
-        <div class="card-h"><h2>🎡 عجلة الحظ</h2><span class="pill" id="poolPill"></span></div>
-        <div class="wheel-box" id="wheelBox"><div class="pointer"></div><canvas id="wheel"></canvas></div>
-        <button class="btn btn-main" id="spinBtn" onclick="spin()">🎡 دوّر العجلة واعرض السؤال</button>
+      <div class="card wheel-card">
+        <div class="card-h"><h2><span class="hic">🎯</span>عجلة الاختيار</h2><span class="pill" id="poolPill"></span></div>
+        <div class="wheel-box" id="wheelBox">
+          <div class="pointer"><svg width="44" height="56" viewBox="0 0 44 56"><path d="M22 54 L5 20 A19 19 0 1 1 39 20 Z" fill="#F04438"/><circle cx="22" cy="19" r="8" fill="#fff"/></svg></div>
+          <canvas id="wheel"></canvas>
+        </div>
+        <button class="btn btn-spin" id="spinBtn" onclick="spin()">🎯 دوّر العجلة واعرض السؤال</button>
         <div class="row play-extra">
-          <button class="btn btn-blue" onclick="quickPick()">🎲 اختيار سريع</button>
+          <button class="btn btn-primary" onclick="quickPick()">⚡ اختيار سريع</button>
           <button class="btn btn-ghost" onclick="resetSession()">↺ حصة جديدة</button>
         </div>
         <label class="toggle play-extra"><input type="checkbox" id="excludeChk" onchange="setSetting('exclude',this.checked)"> استبعاد الطالب من العجلة بعد دوره</label>
-        <div class="stats">
-          <div class="stat"><b id="sAnswered">0</b><span>👥 طلاب جاوبوا</span></div>
-          <div class="stat"><b id="sCorrect" style="color:var(--ok)">0</b><span>✅ إجابات صحيحة</span></div>
-          <div class="stat"><b id="sWrong" style="color:var(--bad)">0</b><span>❌ إجابات خاطئة</span></div>
+        <div class="kpis">
+          <div class="kpi"><i>👥</i><div><b id="sAnswered">0</b><span>طلاب أجابوا</span></div></div>
+          <div class="kpi ok"><i>✅</i><div><b id="sCorrect">0</b><span>إجابات صحيحة</span></div></div>
+          <div class="kpi bad"><i>❌</i><div><b id="sWrong">0</b><span>إجابات خاطئة</span></div></div>
         </div>
         <div class="history play-extra" id="history"></div>
       </div>
 
       <div class="card">
-        <div class="card-h"><h2>❓ سؤال الطالب</h2><span class="pill" id="qLeft"></span></div>
-        <div class="banner"><small>🏆 الدور على</small><h3 id="curName">— دوّر العجلة أولاً —</h3><p id="curSub">اضغط «دوّر العجلة» ويظهر اسم الطالب وسؤاله هنا</p></div>
-        <div id="qArea"><div class="empty"><div class="big">🌍</div>دوّر العجلة ويظهر سؤال من الدرس<br>موجّه للطالب باسمه</div></div>
-        <button class="btn btn-main hidden" id="nextBtn" onclick="nextStep()">➡️ الطالب التالي</button>
+        <div class="card-h"><h2><span class="hic">❓</span>سؤال الطالب</h2><span class="pill" id="qLeft"></span></div>
+        <div class="player">
+          <div class="avatar" id="curAv">؟</div>
+          <div class="who"><small>الدور على</small><h3 id="curName">— دوّر العجلة أولاً —</h3><p id="curSub">اضغط «دوّر العجلة» ويظهر اسم الطالب وسؤاله هنا</p><div class="dots" id="curDots"></div></div>
+          <div class="timer hidden" id="timer"><svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="6"/><circle id="timerArc" cx="32" cy="32" r="27" fill="none" stroke="#FFC83D" stroke-width="6" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="0"/></svg><b id="timerNum"></b></div>
+        </div>
+        <div id="qArea"></div>
+        <button class="btn btn-next hidden" id="nextBtn" onclick="nextStep()">➡️ الطالب التالي</button>
       </div>
     </div>
   </section>
@@ -306,7 +363,7 @@ body.present .opt{font-size:2rem;min-height:110px}
   <!-- ============ الطلاب ============ -->
   <section id="tab-students" class="hidden">
     <div class="card">
-      <div class="card-h"><h2>👥 قائمة الطلاب</h2><span class="pill" id="stuCount"></span></div>
+      <div class="card-h"><h2><span class="hic">👥</span>قائمة الطلاب</h2><span class="pill" id="stuCount"></span></div>
       <p class="hint">علّم الحاضرين بالمربع الأخضر؛ الغائبون لا يظهرون في العجلة ولا في المجموعات. التعديل يُحفظ تلقائياً على هذا الجهاز.</p>
       <textarea id="bulk" rows="3" placeholder="لإضافة طلاب دفعة واحدة: اكتب كل اسم في سطر"></textarea>
       <div class="row">
@@ -323,14 +380,14 @@ body.present .opt{font-size:2rem;min-height:110px}
   <section id="tab-groups" class="hidden">
     <div class="grid-main">
       <div class="card">
-        <div class="card-h"><h2>👥 تقسيم المجموعات</h2><span class="pill" id="gInfo"></span></div>
+        <div class="card-h"><h2><span class="hic">👥</span>تقسيم المجموعات</h2><span class="pill" id="gInfo"></span></div>
         <div class="gcontrols">
           <div><label class="lbl">طريقة التقسيم</label><div class="seg" id="gModeSeg"><button data-m="per" class="on" onclick="setGMode('per')">طلاب لكل مجموعة</button><button data-m="num" onclick="setGMode('num')">عدد المجموعات</button></div></div>
           <div><label class="lbl" id="gRangeLbl"></label><input type="range" id="gRange" min="2" max="10" value="5" oninput="updGRange()"></div>
           <div><label class="lbl">التسمية</label><select class="inp" id="gPrefix"><option>مجموعة</option><option>فريق</option><option>قروب</option></select></div>
         </div>
         <div class="row">
-          <button class="btn btn-main" style="flex:2 1 200px" onclick="makeGroups()">🎲 قسّم الآن</button>
+          <button class="btn btn-spin" style="flex:2 1 200px;padding:13px;font-size:1.05rem" onclick="makeGroups()">🎲 قسّم الآن</button>
           <button class="btn btn-ghost" onclick="copyGroups()">📋 نسخ</button>
           <button class="btn btn-navy" onclick="window.print()">🖨️ طباعة</button>
         </div>
@@ -338,7 +395,7 @@ body.present .opt{font-size:2rem;min-height:110px}
         <div class="groups" id="groupsPrint"></div>
       </div>
       <div class="card">
-        <div class="card-h"><h2>🏆 لوحة النقاط</h2><button class="btn btn-ghost btn-sm" onclick="resetPoints()">↺ تصفير النقاط</button></div>
+        <div class="card-h"><h2><span class="hic">🏆</span>لوحة النقاط</h2><button class="btn btn-ghost btn-sm" onclick="resetPoints()">↺ تصفير النقاط</button></div>
         <div class="board" id="board"></div>
       </div>
     </div>
@@ -347,16 +404,17 @@ body.present .opt{font-size:2rem;min-height:110px}
   <!-- ============ الأسئلة ============ -->
   <section id="tab-questions" class="hidden">
     <div class="card">
-      <div class="card-h"><h2>❓ بنك الأسئلة</h2><span class="pill" id="qCount"></span></div>
+      <div class="card-h"><h2><span class="hic">❓</span>بنك الأسئلة</h2><span class="pill" id="qCount"></span></div>
       <div class="qform" id="qForm">
         <div><label class="lbl">نوع السؤال</label><select class="inp" id="fType" onchange="updForm()"><option value="mc">اختيار من متعدد</option><option value="tf">صح أو خطأ</option><option value="fill">إكمال الفراغ (يكتب الطالب)</option></select></div>
-        <div><label class="lbl">الموضوع (يظهر مع السؤال)</label><input type="text" id="fTopic" placeholder="مثال: النفي مع He"></div>
-        <div class="full"><label class="lbl">نص السؤال (بالإنجليزية، استخدم ___ للفراغ)</label><input type="text" class="ltr" id="fQ" placeholder="He ___ from the U.S."></div>
-        <div id="fOptsBox" class="full"><label class="lbl">الخيارات (خيار في كل سطر، الأول هو الصحيح)</label><textarea class="ltr" id="fOpts" rows="4" placeholder="isn't&#10;aren't&#10;am not&#10;are not"></textarea></div>
+        <div><label class="lbl">المستوى</label><select class="inp" id="fLevel"><option value="">بدون</option><option value="🟢 سهل">🟢 سهل</option><option value="🟡 متوسط">🟡 متوسط</option><option value="🟠 صعب">🟠 صعب</option><option value="🔴 صعب جداً">🔴 صعب جداً</option></select></div>
+        <div><label class="lbl">الموضوع</label><input type="text" id="fTopic" placeholder="مثال: How much / How many"></div>
+        <div class="full"><label class="lbl">نص السؤال (بالإنجليزية، استخدم ___ للفراغ)</label><input type="text" class="ltr" id="fQ" placeholder="How ___ milk do you drink?"></div>
+        <div id="fOptsBox" class="full"><label class="lbl">الخيارات (خيار في كل سطر، الأول هو الصحيح)</label><textarea class="ltr" id="fOpts" rows="4" placeholder="much&#10;many&#10;a few&#10;lot"></textarea></div>
         <div id="fTfBox" class="hidden"><label class="lbl">الإجابة الصحيحة</label><select class="inp" id="fTf"><option>True</option><option>False</option></select></div>
         <div id="fFillBox" class="hidden full"><label class="lbl">الإجابة الصحيحة (افصل الإجابات المقبولة بـ | )</label><input type="text" class="ltr" id="fFill" placeholder="isn't | is not"></div>
-        <div class="full"><label class="lbl">الشرح بعد الإجابة</label><input type="text" class="ltr" id="fExp" placeholder="He + isn't"></div>
-        <div class="full row"><button class="btn btn-blue" id="fSave" onclick="saveQuestion()">➕ إضافة السؤال</button><button class="btn btn-ghost hidden" id="fCancel" onclick="resetForm()">إلغاء التعديل</button></div>
+        <div class="full"><label class="lbl">الشرح بعد الإجابة</label><input type="text" class="ltr" id="fExp" placeholder="milk = noncount → How much"></div>
+        <div class="full row"><button class="btn btn-primary" id="fSave" onclick="saveQuestion()">➕ إضافة السؤال</button><button class="btn btn-ghost hidden" id="fCancel" onclick="resetForm()">إلغاء التعديل</button></div>
       </div>
       <div class="card-h"><div class="filters" id="qFilters"></div><div class="row"><button class="btn btn-ghost btn-sm" onclick="exportQuestions()">⬇️ تصدير الأسئلة</button><button class="btn btn-ghost btn-sm" onclick="document.getElementById('qImport').click()">⬆️ استيراد</button><input type="file" id="qImport" accept="application/json" class="hidden" onchange="importQuestions(this)"></div></div>
       <div class="qlist" id="qList"></div>
@@ -366,17 +424,17 @@ body.present .opt{font-size:2rem;min-height:110px}
   <!-- ============ الإعدادات ============ -->
   <section id="tab-settings" class="hidden">
     <div class="card">
-      <div class="card-h"><h2>⚙️ الإعدادات</h2><span class="pill">تُحفظ على هذا الجهاز</span></div>
+      <div class="card-h"><h2><span class="hic">⚙️</span>الإعدادات</h2><span class="pill">تُحفظ على هذا الجهاز</span></div>
       <div class="set-grid">
         <div class="set-box">
           <h3>📚 الصف الحالي</h3>
           <div><label class="lbl">اسم الصف (يظهر في القائمة)</label><input type="text" id="cName" oninput="editClass('name',this.value)"></div>
           <div><label class="lbl">عنوان الدرس</label><input type="text" id="cTitle" oninput="editClass('title',this.value)"></div>
           <div><label class="lbl">سطر التعريف</label><input type="text" id="cSub" oninput="editClass('sub',this.value)"></div>
-          <div class="row"><button class="btn btn-blue btn-sm" onclick="addClass()">➕ صف جديد</button><button class="btn btn-ghost btn-sm" onclick="duplicateClass()">📄 نسخة من هذا الصف</button><button class="btn btn-bad btn-sm" onclick="deleteClass()">🗑️ حذف الصف</button></div>
+          <div class="row"><button class="btn btn-primary btn-sm" onclick="addClass()">➕ صف جديد</button><button class="btn btn-ghost btn-sm" onclick="duplicateClass()">📄 نسخة من هذا الصف</button><button class="btn btn-bad btn-sm" onclick="deleteClass()">🗑️ حذف الصف</button></div>
         </div>
         <div class="set-box">
-          <h3>📝 بطاقات القواعد</h3>
+          <h3>📘 بطاقات القواعد</h3>
           <p class="hint">بطاقة في كل مربع: السطر الأول عنوانها. ضع الكلمة المهمة بين [ ] لتظهر مميزة، مثل: He [isn't] from Japan.</p>
           <textarea id="cCard0" rows="3" class="ltr" oninput="editCard(0,this.value)"></textarea>
           <textarea id="cCard1" rows="3" class="ltr" oninput="editCard(1,this.value)"></textarea>
@@ -403,13 +461,22 @@ body.present .opt{font-size:2rem;min-height:110px}
   </section>
 
   <p class="footer" id="footer"></p>
-</div>
+</main>
+
+<nav class="bottombar">
+  <button class="tab active" data-tab="play" onclick="showTab('play')"><span class="ic">🎯</span>العب</button>
+  <button class="tab" data-tab="students" onclick="showTab('students')"><span class="ic">👥</span>الطلاب</button>
+  <button class="tab" data-tab="groups" onclick="showTab('groups')"><span class="ic">🏆</span>المجموعات</button>
+  <button class="tab" data-tab="questions" onclick="showTab('questions')"><span class="ic">❓</span>الأسئلة</button>
+  <button class="tab" data-tab="settings" onclick="showTab('settings')"><span class="ic">⚙️</span>الإعدادات</button>
+</nav>
 <canvas id="confetti"></canvas>
 <div class="toast" id="toast"></div>
 
 <script>
+
 /* ===================== البيانات الافتراضية ===================== */
-const DEFAULT_DATA = {"version":1,"current":"g1","seenDefaults":["g1","g2","g3"],"settings":{"teacher":"فهد نغيمش بن حميد الخالدي","qsPerStudent":2,"timer":30,"sound":true,"confetti":true,"exclude":true,"autoPoints":true},"classes":[{"id":"g1","name":"أول متوسط","title":"Verb: be - Around the World","sub":"Unit 4 - Lesson 3 Grammar | أول متوسط ليلي - فصل 1","cards":["🔴 Negative (-)\nI'm [not] • You [aren't]\nHe/She/It [isn't] • We/They [aren't]","❓ Questions + Short Answers\n[Are you] from Saudi Arabia?\nYes, I [am]. / No, I'm [not].","📍 Where + Prepositions\n[Where are you from?]\nSally is [from] England. Rome is [in] Italy. Pat is [on] vacation."],"students":["أحمد حسين علي هزازي","انس موسى حسين اللقماني","باسل زهير بن عبد الحق سردار","حسان محمد بن نغيمش الحربي","حسن محمد فضل الهندي","دحمان عبد الله بن دحمان العمري","سيف معتوق فواز العبدلي الشريف","صالح شوعي حسين شبيلي","عابد عبد الله بن علي العمري","عادل محمد بن عيد الشريف","عبد الرحمن حسين علي هزازي","عبد الرحمن خالد الزهراني","عبد الرحمن محمد صالح احمد","عبد الرحيم ابراهيم عبد القادر الحفظي","عبد العزيز خالد الزهراني","عبد الله خالد الزهراني","عبده محمد عائض الشمراني","عجلان علي محمد العبسي","عجلان مسلى عويض الجحدلي","فؤاد أحمد آدم أحمد برناوي","مؤيد تركي بن سعيد المالكي","ماجد عايد عبد الله مغيث","محمد حسين علي هزازي","محمد خالد إسماعيل السندي","محمد معبر مهدي خبراني","محمد ناجع هادي شراحيلي","محمد يحيى محمد المغربي","مسعود عبد الرحمن عيسى الهوساوي","معمر سالم بن سعيد العوبثاني","هاني علي محمد العبسي","وحيد حسين علي هزازي"],"questions":[{"type":"mc","q":"I ___ from the U.S.","a":"am not","opts":["am not","isn't","aren't","not am"],"ar":"النفي مع I","exp":"مع I نقول: I'm not / I am not"},{"type":"mc","q":"You ___ from the U.S.","a":"aren't","opts":["isn't","aren't","am not","is not"],"ar":"النفي مع You","exp":"You + aren't"},{"type":"mc","q":"He ___ from the U.S.","a":"isn't","opts":["aren't","isn't","am not","are not"],"ar":"النفي مع He","exp":"He + isn't"},{"type":"mc","q":"She ___ from the U.S.","a":"isn't","opts":["aren't","isn't","am not","is not"],"ar":"النفي مع She","exp":"She + isn't"},{"type":"mc","q":"It ___ from the U.S.","a":"isn't","opts":["aren't","isn't","am not","are not"],"ar":"النفي مع It","exp":"It + isn't"},{"type":"mc","q":"We ___ from the U.S.","a":"aren't","opts":["isn't","aren't","am not","is not"],"ar":"النفي مع We","exp":"We + aren't"},{"type":"mc","q":"They ___ from the U.S.","a":"aren't","opts":["isn't","aren't","am not","is not"],"ar":"النفي مع They","exp":"They + aren't"},{"type":"mc","q":"isn't = ___","a":"is not","opts":["is not","are not","am not","is no"],"ar":"اختصار isn’t","exp":"isn't = is not"},{"type":"mc","q":"aren't = ___","a":"are not","opts":["is not","are not","am not","are no"],"ar":"اختصار aren't","exp":"aren't = are not"},{"type":"mc","q":"___ you from Saudi Arabia?","a":"Are","opts":["Are","Is","Am","Do"],"ar":"السؤال مع you","exp":"Are + you"},{"type":"mc","q":"___ he from Saudi Arabia?","a":"Is","opts":["Are","Is","Am","Do"],"ar":"السؤال مع he","exp":"Is + he"},{"type":"mc","q":"___ she from Saudi Arabia?","a":"Is","opts":["Are","Is","Am","Do"],"ar":"السؤال مع she","exp":"Is + she"},{"type":"mc","q":"___ it from Saudi Arabia?","a":"Is","opts":["Are","Is","Am","Do"],"ar":"السؤال مع it","exp":"Is + it"},{"type":"mc","q":"___ we from Saudi Arabia?","a":"Are","opts":["Are","Is","Am","Do"],"ar":"السؤال مع we","exp":"Are + we"},{"type":"mc","q":"___ they from Saudi Arabia?","a":"Are","opts":["Are","Is","Am","Do"],"ar":"السؤال مع they","exp":"Are + they"},{"type":"mc","q":"Are you from Saudi Arabia? Yes, I ___ .","a":"am","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, I am."},{"type":"mc","q":"Is he from Saudi Arabia? Yes, he ___ .","a":"is","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, he is."},{"type":"mc","q":"Is she from Saudi Arabia? Yes, she ___ .","a":"is","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, she is."},{"type":"mc","q":"Are we from Saudi Arabia? Yes, we ___ .","a":"are","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, we are."},{"type":"mc","q":"Are they from Saudi Arabia? Yes, they ___ .","a":"are","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, they are."},{"type":"mc","q":"Are you from Saudi Arabia? No, I'm ___ .","a":"not","opts":["not","isn't","aren't","no"],"ar":"Short Answer (-)","exp":"No, I'm not."},{"type":"mc","q":"Is she from Saudi Arabia? No, she ___ .","a":"isn't","opts":["isn't","aren't","am not","not"],"ar":"Short Answer (-)","exp":"No, she isn't."},{"type":"mc","q":"Are we from Saudi Arabia? No, we ___ .","a":"aren't","opts":["isn't","aren't","am not","not"],"ar":"Short Answer (-)","exp":"No, we aren't."},{"type":"mc","q":"___ are you / they from?","a":"Where","opts":["Where","When","What","Who"],"ar":"Question Word: Where","exp":"Where + are you/they from?"},{"type":"mc","q":"___ is he / she / it from?","a":"Where","opts":["Where","When","What","Who"],"ar":"Question Word: Where","exp":"Where + is he/she/it from?"},{"type":"mc","q":"Sally is ___ England.","a":"from","opts":["from","in","on","at"],"ar":"Preposition: from","exp":"Sally is from England."},{"type":"mc","q":"Rome is ___ Italy.","a":"in","opts":["from","in","on","at"],"ar":"Preposition: in","exp":"Rome is in Italy."},{"type":"mc","q":"Pat is ___ vacation.","a":"on","opts":["from","in","on","at"],"ar":"Preposition: on","exp":"Pat is on vacation."},{"type":"mc","q":"Mr. Omar is here ___ business.","a":"on","opts":["from","in","on","at"],"ar":"Preposition: on","exp":"Mr. Omar is here on business."},{"type":"mc","q":"A: ___ they Russian? B: No, they ___ .","a":"Are / aren't","opts":["Are / aren't","Is / isn't","Do / don't","Am / am not"],"ar":"محادثة 1 من الكتاب","exp":"Are they Russian? No, they aren't."},{"type":"mc","q":"A: What ___ their nationality? B: They ___ Polish.","a":"is / are","opts":["is / are","are / is","is / is","are / are"],"ar":"محادثة 1 من الكتاب","exp":"What is their nationality? They are Polish."},{"type":"mc","q":"A: ___ are you from? B: We ___ from Mexico.","a":"Where / are","opts":["Where / are","Where / is","When / are","What / are"],"ar":"محادثة 2 من الكتاب","exp":"Where are you from? We are from Mexico."},{"type":"mc","q":"A: ___ you on vacation? B: Yes, we ___ .","a":"Are / are","opts":["Are / are","Is / is","Do / do","Are / is"],"ar":"محادثة 2 من الكتاب","exp":"Are you on vacation? Yes, we are."},{"type":"mc","q":"A: ___ your friend Japanese? B: No, he ___ .","a":"Is / isn't","opts":["Is / isn't","Are / aren't","Do / doesn't","Is / aren't"],"ar":"محادثة 3 من الكتاب","exp":"Is your friend Japanese? No, he isn't."},{"type":"mc","q":"A: Where ___ he from? B: He ___ from Vietnam.","a":"is / is","opts":["is / is","are / are","is / are","are / is"],"ar":"محادثة 3 من الكتاب","exp":"Where is he from? He is from Vietnam."},{"type":"mc","q":"A: ___ you from Jordan? B: Yes, I ___ .","a":"Are / am","opts":["Are / am","Is / is","Do / do","Are / are"],"ar":"محادثة 4 من الكتاب","exp":"Are you from Jordan? Yes, I am."},{"type":"mc","q":"A: ___ it hot there? B: Yes, it ___ .","a":"Is / is","opts":["Is / is","Are / are","Is / are","Are / is"],"ar":"محادثة 4 من الكتاب","exp":"Is it hot there? Yes, it is."},{"type":"tf","q":"She aren't from Japan.","a":"False","ar":"صح أم خطأ: النفي","exp":"She isn't from Japan."},{"type":"tf","q":"They aren't from Brazil.","a":"True","ar":"صح أم خطأ: النفي","exp":"They + aren't"},{"type":"tf","q":"I amn't a student.","a":"False","ar":"صح أم خطأ: النفي مع I","exp":"I'm not a student."},{"type":"tf","q":"Are you from Jordan? Yes, I am.","a":"True","ar":"صح أم خطأ: Short Answer","exp":"Yes, I am."},{"type":"tf","q":"Is he from Egypt? Yes, he's.","a":"False","ar":"صح أم خطأ: Short Answer","exp":"Yes, he is. (no contraction in short \"yes\" answers)"},{"type":"tf","q":"Pat is on vacation.","a":"True","ar":"صح أم خطأ: Preposition","exp":"on vacation"},{"type":"fill","q":"We ___ from Canada. (negative)","a":"aren't|are not","ar":"اكتب: النفي مع We","exp":"We aren't from Canada."},{"type":"fill","q":"___ she from Spain? Yes, she is.","a":"Is","ar":"اكتب: السؤال مع she","exp":"Is she from Spain?"},{"type":"fill","q":"Where ___ they from?","a":"are","ar":"اكتب: Where + be","exp":"Where are they from?"},{"type":"fill","q":"My friends are ___ vacation.","a":"on","ar":"اكتب: Preposition","exp":"on vacation"},{"type":"fill","q":"Is it hot? No, it ___ .","a":"isn't|is not","ar":"اكتب: Short Answer (-)","exp":"No, it isn't."},{"type":"fill","q":"He ___ from Vietnam.","a":"is","ar":"اكتب: He + be","exp":"He is from Vietnam."}]},{"id":"g2","name":"ثاني متوسط","title":"Is There Any Ice Cream?","sub":"Unit 5 - Grammar | ثاني متوسط","cards":["🔢 Count / Noncount\nCount: [a] burger • [two] burgers\nNoncount: [rice], [tea] (no a/an)","🥤 Some / Any\n+ [some] juice • − [any] juice\n? [any] fries? • offer: [some] pizza?","🙋 Would like + Partitives\nI'd [like] a steak sandwich.\na bottle [of] juice • a cup [of] coffee"],"students":["أنس ذو الفقار على محمد","ابراهيم فيصل علي خطيب","ابراهيم محمد علي محمد عالم حسين","احمد سعيد سلمان على","اسامه محمد بن عيد الشريف","براء أحمد محمد ناجي","جمال عبد الصمد غلام نبي محمد عمر","حسن عبدالمنان سونا عبدالسبحان","حسن علي احمد هزازي","حسین سعود محمد المولد","خالد حسن بن علي عسيري","خالد سالم بن صالح ابولحوح","خالد شوعي حسن شبيلي","خليل ابراهيم علي حسين","رمضان أحمد علي محزري","ريان فيصل علي خطيب","سالم حسن ثياموه الصلاة","سامي مسفر بن علي الزهراني","سامي مسفر بن يحي المحمودي","سلطان محمد بن هلال العتيبي","صالح علي سليم الزهراني","عبد الرحمن ابراهيم علي جبران","عبد الرحمن رحمة الله اجيمو اجيمو","عبد العزيز سالم عبدالله عمر","عبد العزيز محمد شداد الحربي","عبد الله بكر ايوب ميقا","عبدالله عدنان بن محمود شابكني","عثمان ابو الكلام","عطا الله بیر بخش رمضان","علي عبد الودود قادري دقوين","عيد محمد عيد الشريف","فواز عويضه غيثان القرني","محمد أحمد أحمد الطحان","محمد سعيد محمد الزبيدي","محمد مختار احمد علی احمد امیر","محمود حسين عثمان الحربي","مروان محمد ابراهيم سعود اكبر","مشاري ثياب بن عجلان الحربي","معاذ شوعي حسن شبيلي","هاني زياد محمد سليمان","هتان محمد عبد الرحيم عايش","وجدي عبد المنعم محمد حسن"],"questions":[{"type":"mc","q":"Count (C) or Noncount (N)?  →  ice cream","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"ice cream = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  potatoes","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"potatoes = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  eggs","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"eggs = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  cheese","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"cheese = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  chocolate","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"chocolate = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  vegetables","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"vegetables = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  sandwiches","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"sandwiches = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  juice","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"juice = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  tomatoes","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"tomatoes = count noun (C)"},{"type":"mc","q":"I'd like ___ cheese sandwich and ___ soft drink.","a":"a / a","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"I'd like a cheese sandwich and a soft drink."},{"type":"mc","q":"Would you like ___ French fries with your steak?","a":"some","opts":["a","some","an","any"],"ar":"B - a / some","exp":"Would you like some French fries with your steak?"},{"type":"mc","q":"I want ___ burger with ___ onions.","a":"a / some","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"I want a burger with some onions."},{"type":"mc","q":"Can I have ___ chicken and ___ green salad?","a":"some / a","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"Can I have some chicken and a green salad?"},{"type":"mc","q":"I'd like ___ piece of cheesecake for dessert.","a":"a","opts":["a","some","an","any"],"ar":"B - a / some","exp":"I'd like a piece of cheesecake for dessert."},{"type":"mc","q":"I'd like ___ eggs and ___ cup of coffee.","a":"some / a","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"I'd like some eggs and a cup of coffee."},{"type":"mc","q":"How about ___ turkey sandwiches for lunch?","a":"some","opts":["a","some","an","any"],"ar":"B - a / some","exp":"How about some turkey sandwiches for lunch?"},{"type":"mc","q":"I'm thirsty. May I have ___ glass of water?","a":"a","opts":["a","some","an","any"],"ar":"B - a / some","exp":"May I have a glass of water?"},{"type":"mc","q":"There is ___ juice.","a":"some","opts":["some","any","a","an"],"ar":"Some/Any - affirmative","exp":"Use some in affirmative statements."},{"type":"mc","q":"There isn't ___ juice.","a":"any","opts":["some","any","a","an"],"ar":"Some/Any - negative","exp":"Use any in negative statements."},{"type":"mc","q":"Is there ___ juice?","a":"any","opts":["some","any","a","an"],"ar":"Some/Any - questions","exp":"Use any in questions."},{"type":"mc","q":"Do you want ___ pizza? (offer)","a":"some","opts":["some","any","a","an"],"ar":"Some in offers","exp":"Sometimes some is used in questions for offers."},{"type":"mc","q":"Would you ___ some mustard on it?","a":"like","opts":["like","likes","want","liked"],"ar":"Would like","exp":"Would you like...? is used for preferences."},{"type":"mc","q":"What ___ you like?","a":"would","opts":["would","do","are","will"],"ar":"Would like - question","exp":"Q: What would you like?"},{"type":"mc","q":"We say: a glass ___ water.","a":"of","opts":["of","from","in","on"],"ar":"Partitives","exp":"a glass of water, a cup of coffee, a bottle of juice."},{"type":"tf","q":"There isn't some juice.","a":"False","ar":"صح أم خطأ: some / any","exp":"There isn't any juice."},{"type":"tf","q":"I'd like a cup of coffee.","a":"True","ar":"صح أم خطأ: Partitives","exp":"a cup of coffee"},{"type":"tf","q":"rice = count noun (C)","a":"False","ar":"صح أم خطأ: Count / Noncount","exp":"rice = noncount noun (N)"},{"type":"tf","q":"Would you like some cake?","a":"True","ar":"صح أم خطأ: offers","exp":"some is used in offers."},{"type":"fill","q":"Is there ___ milk in the fridge?","a":"any","ar":"اكتب: some / any","exp":"Use any in questions."},{"type":"fill","q":"I'd like a bottle ___ water.","a":"of","ar":"اكتب: Partitives","exp":"a bottle of water"},{"type":"fill","q":"There are ___ eggs in the basket.","a":"some","ar":"اكتب: some / any","exp":"Use some in affirmative statements."},{"type":"fill","q":"We don't have ___ bread.","a":"any","ar":"اكتب: some / any","exp":"Use any in negative statements."}]},{"id":"g3","name":"ثالث متوسط ليلي","title":"What Do I Need to Buy?","sub":"Unit 4 - Lesson 3 Grammar | ثالث متوسط ليلي","cards":["📊 A Few, A Little, Much, Many, Enough\nCount: [a few] carrots • [many] vegetables • [How many]?\nNoncount: [a little] seafood • [much] bread • [How much]?\n[a lot of] / [enough] → count + noncount","🍱 Something, Anything, Nothing\nI have [something] for lunch.\nI don't have [anything]. = I have [nothing].","🥣 Sequence Words\n[First], mix the flour and the eggs. [Then], add butter.\n[After that], add baking powder. [Finally], let it rise."],"students":["إبراهيم علي جبريل هوساوي","احمد عبد الغفور جميل منوخان","تركي عبد الله بن قبلان العتيبي","جوهر ابراهيم جوهر المولد","حاتم منور بن سحمان المقاطي","حسن سيهير بركي الفهمي","خالد سامى سالم العمري","رائد محمود عبد المؤمن الهوساوى","رضوان محمود عبد المؤمن الهوساوي","رعد غازي امبارك المولد","زامل جميل محمد بوقري","سالم مسلی بن عويض الجحدلي","طه بن حنش بن محمد عداوي","عابد بن عبدالله بن علي الهلالي","عبد الرحمن فيصل بن حميد اللحياني","عبد الرحيم صوى جابر سفياني","عبدالله حسن محمد السيد","عبدالله محمد ضيف الله حنتول","عبد الله محه بن شري شراحيلي","عبدربه ناحي بن ناحل الهريشي","عبيد سعود بن نصار الحرازي","على عبدالله بن حسين ابوشاهين","فيصل بن حميد بن حمدي المحمدي اللحياني","ماجد عمر بن اديب الحبشي","ماجد محمد علي بكري","ماجد منور بن سحمان المقاطى","مجاهد علي محمد علي","محمد بن ابراهيم بن جابر خبراني","محمد بن عبد الله بن معتوق لياتي","محمد سعود بن نصار الحرازي","محمد سلمان مبارك السبيعي","محمد عبدالله علي الشهرى","مشاري جبران حسن مسودي","مفرح بن يحي بن عبدالله آل سرور","نايف محمد عويض المعبدي","هاشم احمد بن مهدي الشنقيطي","يزيد عبد العالي مخضور المولد"],"questions":[{"type":"mc","q":"I eat a ___ carrots.","a":"few","opts":["few","little","much","any"],"ar":"🟢 سهل • Quantity","exp":"carrots = count → a few carrots"},{"type":"mc","q":"I eat a ___ seafood.","a":"little","opts":["little","few","many","lot"],"ar":"🟢 سهل • Quantity","exp":"seafood = noncount → a little seafood"},{"type":"mc","q":"How ___ bananas do you eat?","a":"many","opts":["many","much","little","few"],"ar":"🟢 سهل • Quantity","exp":"bananas = count → How many"},{"type":"mc","q":"How ___ milk do you drink?","a":"much","opts":["much","many","few","lot"],"ar":"🟢 سهل • Quantity","exp":"milk = noncount → How much"},{"type":"mc","q":"I have ___ for lunch: a chicken sandwich.","a":"something","opts":["something","anything","nothing","many"],"ar":"🟢 سهل • Something / Anything / Nothing","exp":"Positive sentence → something"},{"type":"mc","q":"(Step 1) ___, you mix the flour and the eggs.","a":"First","opts":["First","Finally","After that","Enough"],"ar":"🟢 سهل • Sequence Words","exp":"The first step → First"},{"type":"tf","q":"I don't eat much bread.","a":"True","ar":"🟢 سهل • Quantity","exp":"bread = noncount → much"},{"type":"tf","q":"I eat many vegetables.","a":"True","ar":"🟢 سهل • Quantity","exp":"vegetables = count → many"},{"type":"tf","q":"I eat a little carrots.","a":"False","ar":"🟢 سهل • Quantity","exp":"carrots = count → I eat a few carrots."},{"type":"fill","q":"My lunch box is empty. I have ___ for lunch.","a":"nothing","ar":"🟢 سهل • Something / Anything / Nothing","exp":"empty → I have nothing."},{"type":"fill","q":"How ___ eggs are there?","a":"many","ar":"🟢 سهل • Quantity","exp":"eggs = count → How many"},{"type":"mc","q":"How many onions are there? There are a ___ .","a":"few","opts":["few","little","much","lot"],"ar":"🟢 سهل • Quantity","exp":"There are a few. (onions = count)"},{"type":"mc","q":"How much cheese is there? There is a ___ .","a":"little","opts":["little","few","many","lot"],"ar":"🟢 سهل • Quantity","exp":"There is a little. (cheese = noncount)"},{"type":"tf","q":"Finally, you let it rise. (the last step)","a":"True","ar":"🟢 سهل • Sequence Words","exp":"Finally = the last step"},{"type":"fill","q":"I eat a ___ of eggs every week.","a":"lot","ar":"🟢 سهل • Quantity","exp":"a lot of eggs"},{"type":"mc","q":"I don't have ___ for lunch.","a":"anything","opts":["anything","something","nothing","much"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Negative (don't) → anything"},{"type":"mc","q":"The refrigerator is empty. There is ___ to eat in here.","a":"nothing","opts":["nothing","anything","something","a few"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Positive verb + empty meaning → nothing"},{"type":"mc","q":"You're a good cook. You always have ___ delicious for dinner.","a":"something","opts":["something","anything","nothing","many"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Positive sentence → something"},{"type":"mc","q":"There's ___ better than a nice cup of coffee after a meal.","a":"nothing","opts":["nothing","anything","something","enough"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Nothing is better than... (it is the best)"},{"type":"mc","q":"I don't eat ___ fruit. I need to eat more.","a":"enough","opts":["enough","many","a few","nothing"],"ar":"🟡 متوسط • Quantity","exp":"I don't eat enough fruit. (fruit = noncount)"},{"type":"tf","q":"How much apples do you want?","a":"False","ar":"🟡 متوسط • Quantity","exp":"apples = count → How many apples do you want?"},{"type":"tf","q":"We have a lot of rice, but we don't have a lot of eggs.","a":"True","ar":"🟡 متوسط • Quantity","exp":"a lot of → count + noncount"},{"type":"fill","q":"How ___ water do you drink every day?","a":"much","ar":"🟡 متوسط • Quantity","exp":"water = noncount → How much"},{"type":"fill","q":"Can I have a ___ sugar in my tea, please?","a":"little","ar":"🟡 متوسط • Quantity","exp":"sugar = noncount → a little sugar"},{"type":"mc","q":"There aren't ___ tomatoes in the fridge. We need to buy some.","a":"many","opts":["many","much","a little","nothing"],"ar":"🟡 متوسط • Quantity","exp":"tomatoes = count → many"},{"type":"mc","q":"First, cut the onions. ___, fry them in olive oil.","a":"Then","opts":["Then","First","Something","Much"],"ar":"🟡 متوسط • Sequence Words","exp":"The next step → Then"},{"type":"tf","q":"There is a few salt in the soup.","a":"False","ar":"🟡 متوسط • Quantity","exp":"salt = noncount → There is a little salt."},{"type":"fill","q":"I didn't buy ___ at the store. I forgot my wallet.","a":"anything","ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Negative (didn't) → anything"},{"type":"mc","q":"We don't have ___ time. Let's hurry!","a":"much","opts":["much","many","a few","something"],"ar":"🟡 متوسط • Quantity","exp":"time = noncount → much"},{"type":"tf","q":"We use \"a lot of\" and \"enough\" with count and noncount nouns.","a":"True","ar":"🟡 متوسط • Quantity","exp":"a lot of / enough → both"},{"type":"mc","q":"Aren't you having ___ for breakfast? You should eat ___ in the morning.","a":"anything / something","opts":["anything / something","something / anything","nothing / anything","anything / nothing"],"ar":"🟠 صعب • Something / Anything / Nothing","exp":"Question (negative) → anything • positive advice → something"},{"type":"mc","q":"I haven't made ___ special for supper. Make yourself a sandwich.","a":"anything","opts":["anything","something","nothing","many"],"ar":"🟠 صعب • Something / Anything / Nothing","exp":"Negative (haven't) → anything"},{"type":"mc","q":"There are only ___ strawberries left, so please share them.","a":"a few","opts":["a few","a little","much","nothing"],"ar":"🟠 صعب • Quantity","exp":"strawberries = count, small number → a few"},{"type":"mc","q":"We have ___ flour to make one cake, but not two.","a":"enough","opts":["enough","many","a few","something"],"ar":"🟠 صعب • Quantity","exp":"enough = the amount we need"},{"type":"tf","q":"I don't have nothing for lunch.","a":"False","ar":"🟠 صعب • Something / Anything / Nothing","exp":"I don't have anything for lunch. / I have nothing for lunch."},{"type":"tf","q":"How many money do you have?","a":"False","ar":"🟠 صعب • Quantity","exp":"money = noncount → How much money do you have?"},{"type":"fill","q":"How ___ mushrooms do we need for the pizza?","a":"many","ar":"🟠 صعب • Quantity","exp":"mushrooms = count → How many"},{"type":"fill","q":"She bought ___ at the bakery: a fresh loaf of bread.","a":"something","ar":"🟠 صعب • Something / Anything / Nothing","exp":"Positive sentence → something"},{"type":"mc","q":"First, boil the water. Then, add the vegetables. After that, add a little salt. ___, serve the soup.","a":"Finally","opts":["Finally","First","Something","Much"],"ar":"🟠 صعب • Sequence Words","exp":"The last step → Finally"},{"type":"mc","q":"There isn't ___ milk for everyone. Let's buy another bottle.","a":"enough","opts":["enough","many","a few","nothing"],"ar":"🟠 صعب • Quantity","exp":"not enough = less than we need"},{"type":"tf","q":"I eat a lot of eggs, but I don't eat enough fruit.","a":"True","ar":"🟠 صعب • Quantity","exp":"a lot of + count • enough + noncount"},{"type":"fill","q":"We have a ___ avocados, but not many.","a":"few","ar":"🟠 صعب • Quantity","exp":"avocados = count → a few"},{"type":"mc","q":"How much ___ is there?","a":"cheese","opts":["cheese","onions","eggs","carrots"],"ar":"🟠 صعب • Quantity","exp":"How much + noncount noun → cheese"},{"type":"mc","q":"How many ___ are there?","a":"strawberries","opts":["strawberries","salt","olive oil","bread"],"ar":"🟠 صعب • Quantity","exp":"How many + count noun → strawberries"},{"type":"fill","q":"There's ___ in the box. It's empty.","a":"nothing","ar":"🟠 صعب • Something / Anything / Nothing","exp":"empty → nothing"},{"type":"mc","q":"Choose the correct sentence.","a":"I don't eat much bread.","opts":["I don't eat much bread.","I don't eat many bread.","I eat a few bread.","How many bread do you eat?"],"ar":"🔴 صعب جداً • Quantity","exp":"bread = noncount → much"},{"type":"mc","q":"Choose the correct sentence.","a":"There is a little olive oil.","opts":["There is a little olive oil.","There are a little olive oil.","There is a few olive oil.","There are many olive oil."],"ar":"🔴 صعب جداً • Quantity","exp":"olive oil = noncount → There is a little"},{"type":"mc","q":"Is there ___ in the fridge? — No, there's ___ .","a":"anything / nothing","opts":["anything / nothing","nothing / anything","something / anything","anything / anything"],"ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"Question → anything • empty answer → nothing"},{"type":"tf","q":"There aren't enough chairs for everyone.","a":"True","ar":"🔴 صعب جداً • Quantity","exp":"enough + count noun (chairs)"},{"type":"tf","q":"I have something for lunch, but I don't have nothing to drink.","a":"False","ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"...but I don't have anything to drink."},{"type":"fill","q":"The soup needs a ___ more salt; it isn't salty enough.","a":"little","ar":"🔴 صعب جداً • Quantity","exp":"salt = noncount → a little"},{"type":"fill","q":"We don't have ___ eggs for the cake. We need six, but we have only two.","a":"enough","ar":"🔴 صعب جداً • Quantity","exp":"not enough = less than we need"},{"type":"mc","q":"Find the mistake: 'How much carrots do we need for the salad?'","a":"much → many","opts":["much → many","carrots → carrot","need → needs","salad → salads"],"ar":"🔴 صعب جداً • Quantity","exp":"carrots = count → How many"},{"type":"mc","q":"Find the mistake: 'I eat a little apples every day.'","a":"a little → a few","opts":["a little → a few","eat → eats","apples → apple","every → any"],"ar":"🔴 صعب جداً • Quantity","exp":"apples = count → a few"},{"type":"mc","q":"Put in order: (1) Finally, eat it. (2) First, wash the lettuce. (3) Then, cut the tomatoes. (4) After that, add a little oil.","a":"2-3-4-1","opts":["2-3-4-1","1-2-3-4","2-4-3-1","3-2-4-1"],"ar":"🔴 صعب جداً • Sequence Words","exp":"First → Then → After that → Finally"},{"type":"fill","q":"She was so tired that she ate ___ and went to bed hungry.","a":"nothing","ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"went to bed hungry → ate nothing"},{"type":"mc","q":"There's almost no coffee left — only ___ .","a":"a little","opts":["a little","a few","many","enough"],"ar":"🔴 صعب جداً • Quantity","exp":"coffee = noncount, small amount → a little"},{"type":"tf","q":"There aren't many people here, but there are a lot of food.","a":"False","ar":"🔴 صعب جداً • Quantity","exp":"...but there is a lot of food. (food = noncount)"},{"type":"fill","q":"How ___ olive oil do we need? — Just a little.","a":"much","ar":"🔴 صعب جداً • Quantity","exp":"olive oil = noncount → How much"},{"type":"mc","q":"A: Did you buy ___ for dinner? B: Yes, I bought ___ tasty: fresh seafood!","a":"anything / something","opts":["anything / something","nothing / something","something / nothing","anything / nothing"],"ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"Question → anything • positive answer → something"}]}]};
+const DEFAULT_DATA = {"version":1,"current":"g1","seenDefaults":["g1","g2","g3"],"settings":{"teacher":"فهد نغيمش بن حميد الخالدي","qsPerStudent":2,"timer":30,"sound":true,"confetti":true,"exclude":true,"autoPoints":true},"classes":[{"id":"g1","name":"أول متوسط","title":"Verb: be - Around the World","sub":"Unit 4 - Lesson 3 Grammar | أول متوسط ليلي - فصل 1","cards":["🔴 Negative (-)\nI'm [not] • You [aren't]\nHe/She/It [isn't] • We/They [aren't]","❓ Questions + Short Answers\n[Are you] from Saudi Arabia?\nYes, I [am]. / No, I'm [not].","📍 Where + Prepositions\n[Where are you from?]\nSally is [from] England. Rome is [in] Italy. Pat is [on] vacation."],"students":["أحمد حسين علي هزازي","انس موسى حسين اللقماني","باسل زهير بن عبد الحق سردار","حسان محمد بن نغيمش الحربي","حسن محمد فضل الهندي","دحمان عبد الله بن دحمان العمري","سيف معتوق فواز العبدلي الشريف","صالح شوعي حسين شبيلي","عابد عبد الله بن علي العمري","عادل محمد بن عيد الشريف","عبد الرحمن حسين علي هزازي","عبد الرحمن خالد الزهراني","عبد الرحمن محمد صالح احمد","عبد الرحيم ابراهيم عبد القادر الحفظي","عبد العزيز خالد الزهراني","عبد الله خالد الزهراني","عبده محمد عائض الشمراني","عجلان علي محمد العبسي","عجلان مسلى عويض الجحدلي","فؤاد أحمد آدم أحمد برناوي","مؤيد تركي بن سعيد المالكي","ماجد عايد عبد الله مغيث","محمد حسين علي هزازي","محمد خالد إسماعيل السندي","محمد معبر مهدي خبراني","محمد ناجع هادي شراحيلي","محمد يحيى محمد المغربي","مسعود عبد الرحمن عيسى الهوساوي","معمر سالم بن سعيد العوبثاني","هاني علي محمد العبسي","وحيد حسين علي هزازي"],"questions":[{"type":"mc","q":"I ___ from the U.S.","a":"am not","opts":["am not","isn't","aren't","not am"],"ar":"النفي مع I","exp":"مع I نقول: I'm not / I am not"},{"type":"mc","q":"You ___ from the U.S.","a":"aren't","opts":["isn't","aren't","am not","is not"],"ar":"النفي مع You","exp":"You + aren't"},{"type":"mc","q":"He ___ from the U.S.","a":"isn't","opts":["aren't","isn't","am not","are not"],"ar":"النفي مع He","exp":"He + isn't"},{"type":"mc","q":"She ___ from the U.S.","a":"isn't","opts":["aren't","isn't","am not","is not"],"ar":"النفي مع She","exp":"She + isn't"},{"type":"mc","q":"It ___ from the U.S.","a":"isn't","opts":["aren't","isn't","am not","are not"],"ar":"النفي مع It","exp":"It + isn't"},{"type":"mc","q":"We ___ from the U.S.","a":"aren't","opts":["isn't","aren't","am not","is not"],"ar":"النفي مع We","exp":"We + aren't"},{"type":"mc","q":"They ___ from the U.S.","a":"aren't","opts":["isn't","aren't","am not","is not"],"ar":"النفي مع They","exp":"They + aren't"},{"type":"mc","q":"isn't = ___","a":"is not","opts":["is not","are not","am not","is no"],"ar":"اختصار isn’t","exp":"isn't = is not"},{"type":"mc","q":"aren't = ___","a":"are not","opts":["is not","are not","am not","are no"],"ar":"اختصار aren't","exp":"aren't = are not"},{"type":"mc","q":"___ you from Saudi Arabia?","a":"Are","opts":["Are","Is","Am","Do"],"ar":"السؤال مع you","exp":"Are + you"},{"type":"mc","q":"___ he from Saudi Arabia?","a":"Is","opts":["Are","Is","Am","Do"],"ar":"السؤال مع he","exp":"Is + he"},{"type":"mc","q":"___ she from Saudi Arabia?","a":"Is","opts":["Are","Is","Am","Do"],"ar":"السؤال مع she","exp":"Is + she"},{"type":"mc","q":"___ it from Saudi Arabia?","a":"Is","opts":["Are","Is","Am","Do"],"ar":"السؤال مع it","exp":"Is + it"},{"type":"mc","q":"___ we from Saudi Arabia?","a":"Are","opts":["Are","Is","Am","Do"],"ar":"السؤال مع we","exp":"Are + we"},{"type":"mc","q":"___ they from Saudi Arabia?","a":"Are","opts":["Are","Is","Am","Do"],"ar":"السؤال مع they","exp":"Are + they"},{"type":"mc","q":"Are you from Saudi Arabia? Yes, I ___ .","a":"am","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, I am."},{"type":"mc","q":"Is he from Saudi Arabia? Yes, he ___ .","a":"is","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, he is."},{"type":"mc","q":"Is she from Saudi Arabia? Yes, she ___ .","a":"is","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, she is."},{"type":"mc","q":"Are we from Saudi Arabia? Yes, we ___ .","a":"are","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, we are."},{"type":"mc","q":"Are they from Saudi Arabia? Yes, they ___ .","a":"are","opts":["am","is","are","do"],"ar":"Short Answer (+)","exp":"Yes, they are."},{"type":"mc","q":"Are you from Saudi Arabia? No, I'm ___ .","a":"not","opts":["not","isn't","aren't","no"],"ar":"Short Answer (-)","exp":"No, I'm not."},{"type":"mc","q":"Is she from Saudi Arabia? No, she ___ .","a":"isn't","opts":["isn't","aren't","am not","not"],"ar":"Short Answer (-)","exp":"No, she isn't."},{"type":"mc","q":"Are we from Saudi Arabia? No, we ___ .","a":"aren't","opts":["isn't","aren't","am not","not"],"ar":"Short Answer (-)","exp":"No, we aren't."},{"type":"mc","q":"___ are you / they from?","a":"Where","opts":["Where","When","What","Who"],"ar":"Question Word: Where","exp":"Where + are you/they from?"},{"type":"mc","q":"___ is he / she / it from?","a":"Where","opts":["Where","When","What","Who"],"ar":"Question Word: Where","exp":"Where + is he/she/it from?"},{"type":"mc","q":"Sally is ___ England.","a":"from","opts":["from","in","on","at"],"ar":"Preposition: from","exp":"Sally is from England."},{"type":"mc","q":"Rome is ___ Italy.","a":"in","opts":["from","in","on","at"],"ar":"Preposition: in","exp":"Rome is in Italy."},{"type":"mc","q":"Pat is ___ vacation.","a":"on","opts":["from","in","on","at"],"ar":"Preposition: on","exp":"Pat is on vacation."},{"type":"mc","q":"Mr. Omar is here ___ business.","a":"on","opts":["from","in","on","at"],"ar":"Preposition: on","exp":"Mr. Omar is here on business."},{"type":"mc","q":"A: ___ they Russian? B: No, they ___ .","a":"Are / aren't","opts":["Are / aren't","Is / isn't","Do / don't","Am / am not"],"ar":"محادثة 1 من الكتاب","exp":"Are they Russian? No, they aren't."},{"type":"mc","q":"A: What ___ their nationality? B: They ___ Polish.","a":"is / are","opts":["is / are","are / is","is / is","are / are"],"ar":"محادثة 1 من الكتاب","exp":"What is their nationality? They are Polish."},{"type":"mc","q":"A: ___ are you from? B: We ___ from Mexico.","a":"Where / are","opts":["Where / are","Where / is","When / are","What / are"],"ar":"محادثة 2 من الكتاب","exp":"Where are you from? We are from Mexico."},{"type":"mc","q":"A: ___ you on vacation? B: Yes, we ___ .","a":"Are / are","opts":["Are / are","Is / is","Do / do","Are / is"],"ar":"محادثة 2 من الكتاب","exp":"Are you on vacation? Yes, we are."},{"type":"mc","q":"A: ___ your friend Japanese? B: No, he ___ .","a":"Is / isn't","opts":["Is / isn't","Are / aren't","Do / doesn't","Is / aren't"],"ar":"محادثة 3 من الكتاب","exp":"Is your friend Japanese? No, he isn't."},{"type":"mc","q":"A: Where ___ he from? B: He ___ from Vietnam.","a":"is / is","opts":["is / is","are / are","is / are","are / is"],"ar":"محادثة 3 من الكتاب","exp":"Where is he from? He is from Vietnam."},{"type":"mc","q":"A: ___ you from Jordan? B: Yes, I ___ .","a":"Are / am","opts":["Are / am","Is / is","Do / do","Are / are"],"ar":"محادثة 4 من الكتاب","exp":"Are you from Jordan? Yes, I am."},{"type":"mc","q":"A: ___ it hot there? B: Yes, it ___ .","a":"Is / is","opts":["Is / is","Are / are","Is / are","Are / is"],"ar":"محادثة 4 من الكتاب","exp":"Is it hot there? Yes, it is."},{"type":"tf","q":"She aren't from Japan.","a":"False","ar":"صح أم خطأ: النفي","exp":"She isn't from Japan."},{"type":"tf","q":"They aren't from Brazil.","a":"True","ar":"صح أم خطأ: النفي","exp":"They + aren't"},{"type":"tf","q":"I amn't a student.","a":"False","ar":"صح أم خطأ: النفي مع I","exp":"I'm not a student."},{"type":"tf","q":"Are you from Jordan? Yes, I am.","a":"True","ar":"صح أم خطأ: Short Answer","exp":"Yes, I am."},{"type":"tf","q":"Is he from Egypt? Yes, he's.","a":"False","ar":"صح أم خطأ: Short Answer","exp":"Yes, he is. (no contraction in short \"yes\" answers)"},{"type":"tf","q":"Pat is on vacation.","a":"True","ar":"صح أم خطأ: Preposition","exp":"on vacation"},{"type":"fill","q":"We ___ from Canada. (negative)","a":"aren't|are not","ar":"اكتب: النفي مع We","exp":"We aren't from Canada."},{"type":"fill","q":"___ she from Spain? Yes, she is.","a":"Is","ar":"اكتب: السؤال مع she","exp":"Is she from Spain?"},{"type":"fill","q":"Where ___ they from?","a":"are","ar":"اكتب: Where + be","exp":"Where are they from?"},{"type":"fill","q":"My friends are ___ vacation.","a":"on","ar":"اكتب: Preposition","exp":"on vacation"},{"type":"fill","q":"Is it hot? No, it ___ .","a":"isn't|is not","ar":"اكتب: Short Answer (-)","exp":"No, it isn't."},{"type":"fill","q":"He ___ from Vietnam.","a":"is","ar":"اكتب: He + be","exp":"He is from Vietnam."}]},{"id":"g2","name":"ثاني متوسط","title":"Is There Any Ice Cream?","sub":"Unit 5 - Grammar | ثاني متوسط","cards":["🔢 Count / Noncount\nCount: [a] burger • [two] burgers\nNoncount: [rice], [tea] (no a/an)","🥤 Some / Any\n+ [some] juice • − [any] juice\n? [any] fries? • offer: [some] pizza?","🙋 Would like + Partitives\nI'd [like] a steak sandwich.\na bottle [of] juice • a cup [of] coffee"],"students":["أنس ذو الفقار على محمد","ابراهيم فيصل علي خطيب","ابراهيم محمد علي محمد عالم حسين","احمد سعيد سلمان على","اسامه محمد بن عيد الشريف","براء أحمد محمد ناجي","جمال عبد الصمد غلام نبي محمد عمر","حسن عبدالمنان سونا عبدالسبحان","حسن علي احمد هزازي","حسین سعود محمد المولد","خالد حسن بن علي عسيري","خالد سالم بن صالح ابولحوح","خالد شوعي حسن شبيلي","خليل ابراهيم علي حسين","رمضان أحمد علي محزري","ريان فيصل علي خطيب","سالم حسن ثياموه الصلاة","سامي مسفر بن علي الزهراني","سامي مسفر بن يحي المحمودي","سلطان محمد بن هلال العتيبي","صالح علي سليم الزهراني","عبد الرحمن ابراهيم علي جبران","عبد الرحمن رحمة الله اجيمو اجيمو","عبد العزيز سالم عبدالله عمر","عبد العزيز محمد شداد الحربي","عبد الله بكر ايوب ميقا","عبدالله عدنان بن محمود شابكني","عثمان ابو الكلام","عطا الله بیر بخش رمضان","علي عبد الودود قادري دقوين","عيد محمد عيد الشريف","فواز عويضه غيثان القرني","محمد أحمد أحمد الطحان","محمد سعيد محمد الزبيدي","محمد مختار احمد علی احمد امیر","محمود حسين عثمان الحربي","مروان محمد ابراهيم سعود اكبر","مشاري ثياب بن عجلان الحربي","معاذ شوعي حسن شبيلي","هاني زياد محمد سليمان","هتان محمد عبد الرحيم عايش","وجدي عبد المنعم محمد حسن"],"questions":[{"type":"mc","q":"Count (C) or Noncount (N)?  →  ice cream","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"ice cream = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  potatoes","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"potatoes = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  eggs","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"eggs = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  cheese","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"cheese = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  chocolate","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"chocolate = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  vegetables","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"vegetables = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  sandwiches","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"sandwiches = count noun (C)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  juice","a":"N","opts":["C","N"],"ar":"A - Count / Noncount","exp":"juice = noncount noun (N)"},{"type":"mc","q":"Count (C) or Noncount (N)?  →  tomatoes","a":"C","opts":["C","N"],"ar":"A - Count / Noncount","exp":"tomatoes = count noun (C)"},{"type":"mc","q":"I'd like ___ cheese sandwich and ___ soft drink.","a":"a / a","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"I'd like a cheese sandwich and a soft drink."},{"type":"mc","q":"Would you like ___ French fries with your steak?","a":"some","opts":["a","some","an","any"],"ar":"B - a / some","exp":"Would you like some French fries with your steak?"},{"type":"mc","q":"I want ___ burger with ___ onions.","a":"a / some","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"I want a burger with some onions."},{"type":"mc","q":"Can I have ___ chicken and ___ green salad?","a":"some / a","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"Can I have some chicken and a green salad?"},{"type":"mc","q":"I'd like ___ piece of cheesecake for dessert.","a":"a","opts":["a","some","an","any"],"ar":"B - a / some","exp":"I'd like a piece of cheesecake for dessert."},{"type":"mc","q":"I'd like ___ eggs and ___ cup of coffee.","a":"some / a","opts":["a / a","some / a","a / some","some / some"],"ar":"B - a / some","exp":"I'd like some eggs and a cup of coffee."},{"type":"mc","q":"How about ___ turkey sandwiches for lunch?","a":"some","opts":["a","some","an","any"],"ar":"B - a / some","exp":"How about some turkey sandwiches for lunch?"},{"type":"mc","q":"I'm thirsty. May I have ___ glass of water?","a":"a","opts":["a","some","an","any"],"ar":"B - a / some","exp":"May I have a glass of water?"},{"type":"mc","q":"There is ___ juice.","a":"some","opts":["some","any","a","an"],"ar":"Some/Any - affirmative","exp":"Use some in affirmative statements."},{"type":"mc","q":"There isn't ___ juice.","a":"any","opts":["some","any","a","an"],"ar":"Some/Any - negative","exp":"Use any in negative statements."},{"type":"mc","q":"Is there ___ juice?","a":"any","opts":["some","any","a","an"],"ar":"Some/Any - questions","exp":"Use any in questions."},{"type":"mc","q":"Do you want ___ pizza? (offer)","a":"some","opts":["some","any","a","an"],"ar":"Some in offers","exp":"Sometimes some is used in questions for offers."},{"type":"mc","q":"Would you ___ some mustard on it?","a":"like","opts":["like","likes","want","liked"],"ar":"Would like","exp":"Would you like...? is used for preferences."},{"type":"mc","q":"What ___ you like?","a":"would","opts":["would","do","are","will"],"ar":"Would like - question","exp":"Q: What would you like?"},{"type":"mc","q":"We say: a glass ___ water.","a":"of","opts":["of","from","in","on"],"ar":"Partitives","exp":"a glass of water, a cup of coffee, a bottle of juice."},{"type":"tf","q":"There isn't some juice.","a":"False","ar":"صح أم خطأ: some / any","exp":"There isn't any juice."},{"type":"tf","q":"I'd like a cup of coffee.","a":"True","ar":"صح أم خطأ: Partitives","exp":"a cup of coffee"},{"type":"tf","q":"rice = count noun (C)","a":"False","ar":"صح أم خطأ: Count / Noncount","exp":"rice = noncount noun (N)"},{"type":"tf","q":"Would you like some cake?","a":"True","ar":"صح أم خطأ: offers","exp":"some is used in offers."},{"type":"fill","q":"Is there ___ milk in the fridge?","a":"any","ar":"اكتب: some / any","exp":"Use any in questions."},{"type":"fill","q":"I'd like a bottle ___ water.","a":"of","ar":"اكتب: Partitives","exp":"a bottle of water"},{"type":"fill","q":"There are ___ eggs in the basket.","a":"some","ar":"اكتب: some / any","exp":"Use some in affirmative statements."},{"type":"fill","q":"We don't have ___ bread.","a":"any","ar":"اكتب: some / any","exp":"Use any in negative statements."}]},{"id":"g3","name":"ثالث متوسط ليلي","title":"What Do I Need to Buy?","sub":"Unit 4 - Lesson 3 Grammar | ثالث متوسط ليلي","cards":["📊 A Few, A Little, Much, Many, Enough\nCount: [a few] carrots • [many] vegetables • [How many]?\nNoncount: [a little] seafood • [much] bread • [How much]?\n[a lot of] / [enough] → count + noncount","🍱 Something, Anything, Nothing\nI have [something] for lunch.\nI don't have [anything]. = I have [nothing].","🥣 Sequence Words\n[First], mix the flour and the eggs. [Then], add butter.\n[After that], add baking powder. [Finally], let it rise."],"students":["إبراهيم علي جبريل هوساوي","احمد عبد الغفور جميل منوخان","تركي عبد الله بن قبلان العتيبي","جوهر ابراهيم جوهر المولد","حاتم منور بن سحمان المقاطي","حسن سيهير بركي الفهمي","خالد سامى سالم العمري","رائد محمود عبد المؤمن الهوساوى","رضوان محمود عبد المؤمن الهوساوي","رعد غازي امبارك المولد","زامل جميل محمد بوقري","سالم مسلی بن عويض الجحدلي","طه بن حنش بن محمد عداوي","عابد بن عبدالله بن علي الهلالي","عبد الرحمن فيصل بن حميد اللحياني","عبد الرحيم صوى جابر سفياني","عبدالله حسن محمد السيد","عبدالله محمد ضيف الله حنتول","عبد الله محه بن شري شراحيلي","عبدربه ناحي بن ناحل الهريشي","عبيد سعود بن نصار الحرازي","على عبدالله بن حسين ابوشاهين","فيصل بن حميد بن حمدي المحمدي اللحياني","ماجد عمر بن اديب الحبشي","ماجد محمد علي بكري","ماجد منور بن سحمان المقاطى","مجاهد علي محمد علي","محمد بن ابراهيم بن جابر خبراني","محمد بن عبد الله بن معتوق لياتي","محمد سعود بن نصار الحرازي","محمد سلمان مبارك السبيعي","محمد عبدالله علي الشهرى","مشاري جبران حسن مسودي","مفرح بن يحي بن عبدالله آل سرور","نايف محمد عويض المعبدي","هاشم احمد بن مهدي الشنقيطي","يزيد عبد العالي مخضور المولد"],"questions":[{"type":"mc","q":"I eat a ___ carrots.","a":"few","opts":["few","little","much","any"],"ar":"🟢 سهل • Quantity","exp":"carrots = count → a few carrots"},{"type":"mc","q":"I eat a ___ seafood.","a":"little","opts":["little","few","many","lot"],"ar":"🟢 سهل • Quantity","exp":"seafood = noncount → a little seafood"},{"type":"mc","q":"How ___ bananas do you eat?","a":"many","opts":["many","much","little","few"],"ar":"🟢 سهل • Quantity","exp":"bananas = count → How many"},{"type":"mc","q":"How ___ milk do you drink?","a":"much","opts":["much","many","few","lot"],"ar":"🟢 سهل • Quantity","exp":"milk = noncount → How much"},{"type":"mc","q":"I have ___ for lunch: a chicken sandwich.","a":"something","opts":["something","anything","nothing","many"],"ar":"🟢 سهل • Something / Anything / Nothing","exp":"Positive sentence → something"},{"type":"mc","q":"(Step 1) ___, you mix the flour and the eggs.","a":"First","opts":["First","Finally","After that","Enough"],"ar":"🟢 سهل • Sequence Words","exp":"The first step → First"},{"type":"mc","q":"I don't eat ___ bread.","a":"much","opts":["much","many","a few","nothing"],"ar":"🟢 سهل • Quantity","exp":"bread = noncount → much"},{"type":"mc","q":"I eat ___ vegetables.","a":"many","opts":["many","much","a little","anything"],"ar":"🟢 سهل • Quantity","exp":"vegetables = count → many"},{"type":"mc","q":"We need ___ potatoes for the soup — just three.","a":"a few","opts":["a few","a little","much","anything"],"ar":"🟢 سهل • Quantity","exp":"potatoes = count, small number → a few"},{"type":"mc","q":"My lunch box is empty. I have ___ for lunch.","a":"nothing","opts":["nothing","something","anything","many"],"ar":"🟢 سهل • Something / Anything / Nothing","exp":"empty → I have nothing."},{"type":"mc","q":"How ___ eggs are there?","a":"many","opts":["many","much","little","lot"],"ar":"🟢 سهل • Quantity","exp":"eggs = count → How many"},{"type":"mc","q":"How many onions are there? There are a ___ .","a":"few","opts":["few","little","much","lot"],"ar":"🟢 سهل • Quantity","exp":"There are a few. (onions = count)"},{"type":"mc","q":"How much cheese is there? There is a ___ .","a":"little","opts":["little","few","many","lot"],"ar":"🟢 سهل • Quantity","exp":"There is a little. (cheese = noncount)"},{"type":"mc","q":"(Last step) ___, you let it rise.","a":"Finally","opts":["Finally","First","Much","Something"],"ar":"🟢 سهل • Sequence Words","exp":"The last step → Finally"},{"type":"mc","q":"I eat a ___ of eggs every week.","a":"lot","opts":["lot","little","few","much"],"ar":"🟢 سهل • Quantity","exp":"a lot of eggs"},{"type":"mc","q":"I don't have ___ for lunch.","a":"anything","opts":["anything","something","nothing","much"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Negative (don't) → anything"},{"type":"mc","q":"The refrigerator is empty. There is ___ to eat in here.","a":"nothing","opts":["nothing","anything","something","a few"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Positive verb + empty meaning → nothing"},{"type":"mc","q":"You're a good cook. You always have ___ delicious for dinner.","a":"something","opts":["something","anything","nothing","many"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Positive sentence → something"},{"type":"mc","q":"There's ___ better than a nice cup of coffee after a meal.","a":"nothing","opts":["nothing","anything","something","enough"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Nothing is better than... (it is the best)"},{"type":"mc","q":"I don't eat ___ fruit. I need to eat more.","a":"enough","opts":["enough","many","a few","nothing"],"ar":"🟡 متوسط • Quantity","exp":"I don't eat enough fruit. (fruit = noncount)"},{"type":"mc","q":"How ___ apples do you want?","a":"many","opts":["many","much","little","enough"],"ar":"🟡 متوسط • Quantity","exp":"apples = count → How many"},{"type":"mc","q":"We have ___ rice, but we don't have many eggs.","a":"a lot of","opts":["a lot of","many","a few","anything"],"ar":"🟡 متوسط • Quantity","exp":"a lot of → count + noncount (rice = noncount)"},{"type":"mc","q":"How ___ water do you drink every day?","a":"much","opts":["much","many","few","lot"],"ar":"🟡 متوسط • Quantity","exp":"water = noncount → How much"},{"type":"mc","q":"Can I have a ___ sugar in my tea, please?","a":"little","opts":["little","few","many","lot"],"ar":"🟡 متوسط • Quantity","exp":"sugar = noncount → a little sugar"},{"type":"mc","q":"There aren't ___ tomatoes in the fridge. We need to buy some.","a":"many","opts":["many","much","a little","nothing"],"ar":"🟡 متوسط • Quantity","exp":"tomatoes = count → many"},{"type":"mc","q":"First, cut the onions. ___, fry them in olive oil.","a":"Then","opts":["Then","First","Something","Much"],"ar":"🟡 متوسط • Sequence Words","exp":"The next step → Then"},{"type":"mc","q":"There is ___ salt in the soup.","a":"a little","opts":["a little","a few","many","anything"],"ar":"🟡 متوسط • Quantity","exp":"salt = noncount → a little"},{"type":"mc","q":"I didn't buy ___ at the store. I forgot my wallet.","a":"anything","opts":["anything","something","nothing","many"],"ar":"🟡 متوسط • Something / Anything / Nothing","exp":"Negative (didn't) → anything"},{"type":"mc","q":"We don't have ___ time. Let's hurry!","a":"much","opts":["much","many","a few","something"],"ar":"🟡 متوسط • Quantity","exp":"time = noncount → much"},{"type":"mc","q":"Which one can we use with BOTH count and noncount nouns?","a":"a lot of","opts":["a lot of","many","much","a few"],"ar":"🟡 متوسط • Quantity","exp":"a lot of / enough → count + noncount"},{"type":"mc","q":"Aren't you having ___ for breakfast? You should eat ___ in the morning.","a":"anything / something","opts":["anything / something","something / anything","nothing / anything","anything / nothing"],"ar":"🟠 صعب • Something / Anything / Nothing","exp":"Question (negative) → anything • positive advice → something"},{"type":"mc","q":"I haven't made ___ special for supper. Make yourself a sandwich.","a":"anything","opts":["anything","something","nothing","many"],"ar":"🟠 صعب • Something / Anything / Nothing","exp":"Negative (haven't) → anything"},{"type":"mc","q":"There are only ___ strawberries left, so please share them.","a":"a few","opts":["a few","a little","much","nothing"],"ar":"🟠 صعب • Quantity","exp":"strawberries = count, small number → a few"},{"type":"mc","q":"We have ___ flour to make one cake, but not two.","a":"enough","opts":["enough","many","a few","something"],"ar":"🟠 صعب • Quantity","exp":"enough = the amount we need"},{"type":"mc","q":"Choose the correct sentence.","a":"I don't have anything for lunch.","opts":["I don't have anything for lunch.","I don't have nothing for lunch.","I don't have something for lunch.","I have anything for lunch."],"ar":"🟠 صعب • Something / Anything / Nothing","exp":"Negative → anything (or: I have nothing for lunch.)"},{"type":"mc","q":"How ___ money do you have?","a":"much","opts":["much","many","few","a few"],"ar":"🟠 صعب • Quantity","exp":"money = noncount → How much"},{"type":"mc","q":"How ___ mushrooms do we need for the pizza?","a":"many","opts":["many","much","little","lot"],"ar":"🟠 صعب • Quantity","exp":"mushrooms = count → How many"},{"type":"mc","q":"She bought ___ at the bakery: a fresh loaf of bread.","a":"something","opts":["something","anything","nothing","much"],"ar":"🟠 صعب • Something / Anything / Nothing","exp":"Positive sentence → something"},{"type":"mc","q":"First, boil the water. Then, add the vegetables. After that, add a little salt. ___, serve the soup.","a":"Finally","opts":["Finally","First","Something","Much"],"ar":"🟠 صعب • Sequence Words","exp":"The last step → Finally"},{"type":"mc","q":"There isn't ___ milk for everyone. Let's buy another bottle.","a":"enough","opts":["enough","many","a few","nothing"],"ar":"🟠 صعب • Quantity","exp":"not enough = less than we need"},{"type":"mc","q":"I eat a lot of eggs, but I don't eat ___ fruit. I need more.","a":"enough","opts":["enough","many","a few","something"],"ar":"🟠 صعب • Quantity","exp":"not enough = less than I need"},{"type":"mc","q":"We have a ___ avocados, but not many.","a":"few","opts":["few","little","lot","much"],"ar":"🟠 صعب • Quantity","exp":"avocados = count → a few"},{"type":"mc","q":"How much ___ is there?","a":"cheese","opts":["cheese","onions","eggs","carrots"],"ar":"🟠 صعب • Quantity","exp":"How much + noncount noun → cheese"},{"type":"mc","q":"How many ___ are there?","a":"strawberries","opts":["strawberries","salt","olive oil","bread"],"ar":"🟠 صعب • Quantity","exp":"How many + count noun → strawberries"},{"type":"mc","q":"There's ___ in the box. It's empty.","a":"nothing","opts":["nothing","anything","something","enough"],"ar":"🟠 صعب • Something / Anything / Nothing","exp":"empty → nothing"},{"type":"mc","q":"Choose the correct sentence.","a":"I don't eat much bread.","opts":["I don't eat much bread.","I don't eat many bread.","I eat a few bread.","How many bread do you eat?"],"ar":"🔴 صعب جداً • Quantity","exp":"bread = noncount → much"},{"type":"mc","q":"Choose the correct sentence.","a":"There is a little olive oil.","opts":["There is a little olive oil.","There are a little olive oil.","There is a few olive oil.","There are many olive oil."],"ar":"🔴 صعب جداً • Quantity","exp":"olive oil = noncount → There is a little"},{"type":"mc","q":"Is there ___ in the fridge? — No, there's ___ .","a":"anything / nothing","opts":["anything / nothing","nothing / anything","something / anything","anything / anything"],"ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"Question → anything • empty answer → nothing"},{"type":"mc","q":"There aren't ___ chairs for everyone. Three students are standing.","a":"enough","opts":["enough","much","a little","nothing"],"ar":"🔴 صعب جداً • Quantity","exp":"not enough chairs = fewer than we need"},{"type":"mc","q":"Find the mistake: 'I have something for lunch, but I don't have nothing to drink.'","a":"nothing → anything","opts":["nothing → anything","something → anything","have → has","for → to"],"ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"...but I don't have anything to drink."},{"type":"mc","q":"The soup needs a ___ more salt; it isn't salty enough.","a":"little","opts":["little","few","many","lot"],"ar":"🔴 صعب جداً • Quantity","exp":"salt = noncount → a little"},{"type":"mc","q":"We don't have ___ eggs for the cake. We need six, but we have only two.","a":"enough","opts":["enough","much","a little","nothing"],"ar":"🔴 صعب جداً • Quantity","exp":"not enough = less than we need"},{"type":"mc","q":"Find the mistake: 'How much carrots do we need for the salad?'","a":"much → many","opts":["much → many","carrots → carrot","need → needs","salad → salads"],"ar":"🔴 صعب جداً • Quantity","exp":"carrots = count → How many"},{"type":"mc","q":"Find the mistake: 'I eat a little apples every day.'","a":"a little → a few","opts":["a little → a few","eat → eats","apples → apple","every → any"],"ar":"🔴 صعب جداً • Quantity","exp":"apples = count → a few"},{"type":"mc","q":"Put in order: (1) Finally, eat it. (2) First, wash the lettuce. (3) Then, cut the tomatoes. (4) After that, add a little oil.","a":"2-3-4-1","opts":["2-3-4-1","1-2-3-4","2-4-3-1","3-2-4-1"],"ar":"🔴 صعب جداً • Sequence Words","exp":"First → Then → After that → Finally"},{"type":"mc","q":"She was so tired that she ate ___ and went to bed hungry.","a":"nothing","opts":["nothing","anything","something","enough"],"ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"went to bed hungry → ate nothing"},{"type":"mc","q":"There's almost no coffee left — only ___ .","a":"a little","opts":["a little","a few","many","enough"],"ar":"🔴 صعب جداً • Quantity","exp":"coffee = noncount, small amount → a little"},{"type":"mc","q":"Find the mistake: 'There aren't many people here, but there are a lot of food.'","a":"are → is (a lot of food)","opts":["are → is (a lot of food)","aren't → isn't","many → much","people → peoples"],"ar":"🔴 صعب جداً • Quantity","exp":"food = noncount → there is a lot of food"},{"type":"mc","q":"How ___ olive oil do we need? — Just a little.","a":"much","opts":["much","many","few","enough"],"ar":"🔴 صعب جداً • Quantity","exp":"olive oil = noncount → How much"},{"type":"mc","q":"A: Did you buy ___ for dinner? B: Yes, I bought ___ tasty: fresh seafood!","a":"anything / something","opts":["anything / something","nothing / something","something / nothing","anything / nothing"],"ar":"🔴 صعب جداً • Something / Anything / Nothing","exp":"Question → anything • positive answer → something"}],"qVersion":2}]};
 const STORE_KEY = 'class_wheel_data_v1';
 const clone = o => JSON.parse(JSON.stringify(o));
 
@@ -431,6 +498,11 @@ function loadData() {
       const seen = Array.isArray(d.seenDefaults) ? d.seenDefaults : ['g1', 'g2'];
       DEFAULT_DATA.classes.forEach(c => { if (!seen.includes(c.id) && !d.classes.some(x => x.id === c.id)) d.classes.push(clone(c)); });
       d.seenDefaults = DEFAULT_DATA.classes.map(c => c.id);
+      // نسخة أحدث من أسئلة صف افتراضي (qVersion) تحلّ محل القديمة، ما لم يعدّل المعلم أسئلة ذلك الصف.
+      DEFAULT_DATA.classes.forEach(c => {
+        const x = d.classes.find(y => y.id === c.id);
+        if (x && (x.qVersion || 1) < (c.qVersion || 1) && !x.qEdited) { x.questions = clone(c.questions); x.qVersion = c.qVersion; }
+      });
       return d;
     }
   } catch (_) {}
@@ -452,6 +524,13 @@ function shortName(n) {
 function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2200); }
 function md(s) { return esc(s).replace(/\[([^\]]+)\]/g, '<code>$1</code>'); }
 const TYPE_NAMES = { mc: 'اختيار من متعدد', tf: 'صح أو خطأ', fill: 'إكمال الفراغ' };
+function initials(n) { const f = firstName(n), w = String(n).trim().split(/\s+/); return (f.replace(/^عبد\s*/, 'ع')[0] || '') + (w.length > 1 ? w[w.length - 1][0] : ''); }
+// المستوى المكتوب في بداية الموضوع (🟢 سهل • ...) يُعرض شارة ملوّنة.
+const LEVELS = { '🟢': 'e', '🟡': 'm', '🟠': 'h', '🔴': 'x' };
+function splitTopic(ar) {
+  const s = String(ar || ''), m = s.match(/^(🟢|🟡|🟠|🔴)\s*([^•]+?)\s*(?:•\s*(.*))?$/u);
+  return m ? { lv: LEVELS[m[1]], level: m[1] + ' ' + m[2].trim(), topic: (m[3] || '').trim() } : { lv: '', level: '', topic: s };
+}
 
 /* ===================== الأصوات ===================== */
 let AC = null;
@@ -495,8 +574,10 @@ function renderHeader() {
   $('hTeacher').textContent = '👨‍🏫 ' + (DATA.settings.teacher || 'المعلم');
   $('hCount').textContent = '👥 ' + present().length + ' حاضر من ' + cls.students.length;
   $('hQs').textContent = '❓ ' + cls.questions.length + ' سؤال';
-  document.title = '🎡 ' + (cls.title || cls.name);
-  $('footer').textContent = (cls.title || '') + ' • عجلة الحظ الصفية' + (DATA.settings.teacher ? ' • ' + DATA.settings.teacher : '');
+  document.title = 'عجلة الاختيار • ' + (cls.title || cls.name);
+  $('footer').textContent = 'عجلة الاختيار' + (DATA.settings.teacher ? ' • ' + DATA.settings.teacher : '');
+  $('sideTeacher').textContent = '👨‍🏫 ' + (DATA.settings.teacher || 'المعلم');
+  $('sideClass').textContent = cls.name + ' • ' + cls.students.length + ' طالب';
   const sel = $('classSelect');
   sel.innerHTML = DATA.classes.map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
   sel.value = cls.id;
@@ -527,7 +608,8 @@ function togglePresent() {
 function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {}); else document.exitFullscreen?.(); }
 
 /* ===================== العجلة ===================== */
-const WCOLS = ['#0A4DFF', '#FFD400', '#061A4A', '#00B4D8', '#FF9F1C', '#22C55E', '#FF5D73', '#8B5CF6', '#F59E0B', '#0EA5E9'];
+const WCOLS = ['#3B5BFF', '#FFC83D', '#0B1B4D', '#22C3A6', '#FF7A59', '#8B5CF6', '#12B76A', '#F43F5E', '#0EA5E9', '#F59E0B'];
+function lightCol(h) { const n = parseInt(h.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; return (r * 299 + g * 587 + b * 114) / 1000 > 160; }
 let rot = 0, spinning = false, wheelPool = [];
 function poolNow() {
   const s = S(), pr = present();
@@ -547,11 +629,13 @@ function drawWheel() {
   c.style.width = size + 'px'; c.style.height = size + 'px';
   c.width = Math.round(size * dpr); c.height = Math.round(size * dpr);
   const x = c.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const cx = size / 2, cy = size / 2, R = size / 2 - 6, inner = Math.max(30, size * .1), n = wheelPool.length;
+  const rim = Math.max(10, size * .035), cx = size / 2, cy = size / 2, R = size / 2 - rim - 2, inner = Math.max(30, size * .1), n = wheelPool.length;
   x.clearRect(0, 0, size, size);
-  // إطار خارجي
-  x.beginPath(); x.arc(cx, cy, R + 4, 0, Math.PI * 2); x.fillStyle = '#061A4A'; x.fill();
-  if (!n) { x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.fillStyle = '#EAF0FF'; x.fill(); x.fillStyle = '#5B6787'; x.font = '800 16px Cairo'; x.textAlign = 'center'; x.fillText('لا يوجد طلاب حاضرون', cx, cy); return; }
+  // إطار خارجي كحلي بمصابيح صغيرة
+  x.beginPath(); x.arc(cx, cy, R + rim, 0, Math.PI * 2); x.fillStyle = '#0B1B4D'; x.fill();
+  const bulbs = Math.max(16, Math.round(size / 26));
+  for (let b = 0; b < bulbs; b++) { const a = b / bulbs * Math.PI * 2 + rot * .25; x.beginPath(); x.arc(cx + Math.cos(a) * (R + rim / 2), cy + Math.sin(a) * (R + rim / 2), Math.max(2.2, rim * .22), 0, Math.PI * 2); x.fillStyle = b % 2 ? '#FFC83D' : '#ffffff'; x.fill(); }
+  if (!n) { x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.fillStyle = '#EEF1FF'; x.fill(); x.fillStyle = '#64708F'; x.font = '800 16px Cairo'; x.textAlign = 'center'; x.fillText('لا يوجد طلاب حاضرون', cx, cy); return; }
   const seg = Math.PI * 2 / n;
   const arcAt = R * .68 * seg; // طول القوس عند موضع النص
   let fs = Math.max(10, Math.min(arcAt * .62, R * .085, 24));
@@ -560,12 +644,12 @@ function drawWheel() {
   for (let i = 0; i < n; i++) {
     const a0 = i * seg + rot, a1 = a0 + seg, col = WCOLS[i % WCOLS.length];
     x.beginPath(); x.moveTo(cx, cy); x.arc(cx, cy, R, a0, a1); x.closePath();
-    x.fillStyle = col; x.fill(); x.strokeStyle = 'rgba(255,255,255,.9)'; x.lineWidth = n > 30 ? 1 : 2; x.stroke();
+    x.fillStyle = col; x.fill(); x.strokeStyle = 'rgba(255,255,255,.85)'; x.lineWidth = n > 30 ? 1 : 1.5; x.stroke();
     if (S().winner === wheelPool[i].idx && !spinning) { x.save(); x.beginPath(); x.moveTo(cx, cy); x.arc(cx, cy, R, a0, a1); x.closePath(); x.fillStyle = 'rgba(255,255,255,.35)'; x.fill(); x.lineWidth = 5; x.strokeStyle = '#fff'; x.stroke(); x.restore(); }
     // النص في النصف الأيسر يُقلب 180° ليبقى مقروءاً وغير مقلوب.
     const mid = a0 + seg / 2, flip = Math.cos(mid) < 0;
     x.save(); x.translate(cx, cy); x.rotate(flip ? mid + Math.PI : mid); x.direction = 'rtl';
-    x.fillStyle = (col === '#FFD400' || col === '#F59E0B' || col === '#FF9F1C') ? '#061A4A' : '#fff';
+    x.fillStyle = lightCol(col) ? '#0B1B4D' : '#fff';
     let label = n > 14 ? shortName(wheelPool[i].name) : wheelPool[i].name, f = fs;
     x.font = `800 ${f}px Cairo`;
     // يصغر الخط حتى يتسع الاسم طولياً، وحتى لا يتداخل مع جاره عند طرفه الداخلي حيث تضيق الشريحة.
@@ -577,8 +661,11 @@ function drawWheel() {
     x.restore();
   }
   // الوسط
-  x.beginPath(); x.arc(cx, cy, inner, 0, Math.PI * 2); x.fillStyle = '#fff'; x.fill(); x.lineWidth = 5; x.strokeStyle = '#061A4A'; x.stroke();
-  x.fillStyle = '#061A4A'; x.font = `900 ${Math.max(13, inner * .42)}px Cairo`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('دوّر', cx, cy);
+  x.beginPath(); x.arc(cx, cy, inner + 6, 0, Math.PI * 2); x.fillStyle = 'rgba(11,27,77,.18)'; x.fill();
+  const hub = x.createRadialGradient(cx - inner * .3, cy - inner * .3, 2, cx, cy, inner);
+  hub.addColorStop(0, '#ffffff'); hub.addColorStop(1, '#E8ECFA');
+  x.beginPath(); x.arc(cx, cy, inner, 0, Math.PI * 2); x.fillStyle = hub; x.fill(); x.lineWidth = 4; x.strokeStyle = '#FFC83D'; x.stroke();
+  x.fillStyle = '#0B1B4D'; x.font = `900 ${Math.max(13, inner * .4)}px Cairo`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('دوّر', cx, cy);
 }
 function spin() {
   if (spinning) return;
@@ -605,7 +692,7 @@ function spin() {
     const segIdx = Math.floor((((Math.PI * 1.5 - rot) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2) / seg);
     if (segIdx !== lastSeg) { if (lastSeg !== -1) SND.tick(); lastSeg = segIdx; }
     if (p < 1) return requestAnimationFrame(anim);
-    spinning = false; $('spinBtn').disabled = false; $('spinBtn').textContent = '🎡 دوّر العجلة واعرض السؤال';
+    spinning = false; $('spinBtn').disabled = false; $('spinBtn').textContent = '🎯 دوّر العجلة واعرض السؤال';
     s.winner = target.idx; drawWheel(); SND.win(); choose(target);
   })(performance.now());
 }
@@ -620,7 +707,7 @@ function quickPick() {
 function choose(t) {
   const s = S(); s.current = t; s.qLeft = DATA.settings.qsPerStudent || 1;
   if (DATA.settings.exclude) s.used.add(t.idx);
-  $('curName').textContent = '🏆 ' + t.name;
+  $('curName').textContent = t.name; $('curAv').textContent = initials(t.name);
   $('curSub').textContent = 'يلا يا ' + firstName(t.name) + '، هذا سؤالك 👇' + s.note; s.note = '';
   pickQuestion(); renderQuestion(); renderHeaderCounts();
 }
@@ -639,18 +726,22 @@ function renderQuestion() {
   let body = '';
   if (t === 'mc') {
     const opts = shuffle(q.opts && q.opts.length ? q.opts : [q.a]);
-    body = `<div class="opts">${opts.map((o, i) => `<button class="opt" data-ok="${o === q.a ? 1 : 0}" onclick="answerOpt(this)"><span class="k">${'ABCDEF'[i]}</span>${esc(o)}</button>`).join('')}</div>`;
+    body = `<div class="opts">${opts.map((o, i) => `<button class="opt" data-ok="${o === q.a ? 1 : 0}" onclick="answerOpt(this)"><span class="k">${'ABCDEF'[i]}</span><span class="t">${esc(o)}</span></button>`).join('')}</div>`;
   } else if (t === 'tf') {
-    body = `<div class="opts">${['True', 'False'].map(o => `<button class="opt" data-ok="${o === q.a ? 1 : 0}" onclick="answerOpt(this)">${o === 'True' ? '✔️ True' : '✖️ False'}</button>`).join('')}</div>`;
+    body = `<div class="opts">${['True', 'False'].map((o, i) => `<button class="opt" data-ok="${o === q.a ? 1 : 0}" onclick="answerOpt(this)"><span class="k">${o === 'True' ? '✓' : '✗'}</span><span class="t">${o}</span></button>`).join('')}</div>`;
   } else {
-    body = `<div class="fill"><input type="text" id="fillIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type your answer" onkeydown="if(event.key==='Enter')answerFill()"><button class="btn btn-blue" onclick="answerFill()">تحقق ✓</button></div>`;
+    body = `<div class="fill"><input type="text" id="fillIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type your answer" onkeydown="if(event.key==='Enter')answerFill()"><button class="btn btn-primary" onclick="answerFill()">تحقق ✓</button></div>`;
   }
   const lead = t === 'tf' ? 'هل الجملة صحيحة؟' : t === 'fill' ? 'اكتب الكلمة الناقصة:' : 'اختر الإجابة الصحيحة:';
   const sec = DATA.settings.timer || 0;
-  $('qArea').innerHTML = `<div class="qwrap">
-    <div class="qhead"><div class="row" style="gap:6px"><span class="qtag">سؤال ${s.usedQ.size} من ${cls.questions.length}${q.ar ? ' • ' + esc(q.ar) : ''}</span><span class="qtype">${TYPE_NAMES[t]}</span></div>${sec ? `<div class="timer" id="timer"><svg width="62" height="62" viewBox="0 0 62 62"><circle cx="31" cy="31" r="27" fill="none" stroke="#E3E8F5" stroke-width="6"/><circle id="timerArc" cx="31" cy="31" r="27" fill="none" stroke="#0A4DFF" stroke-width="6" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="0"/></svg><b id="timerNum">${sec}</b></div>` : ''}</div>
-    <div class="qbox"><div class="who">يا ${esc(who)}، ${lead}</div><div class="en">${esc(q.q)}</div></div>
+  const tp = splitTopic(q.ar), per = DATA.settings.qsPerStudent || 1;
+  $('curDots').innerHTML = per > 1 ? Array.from({ length: per }, (_, i) => `<i class="${i < per - s.qLeft ? 'on' : ''}"></i>`).join('') : '';
+  $('qArea').innerHTML = `<div class="qwrap" style="display:flex;flex-direction:column;gap:12px">
+    <div class="qmeta">${tp.level ? `<span class="tag lv lv-${tp.lv}">${esc(tp.level)}</span>` : ''}${tp.topic ? `<span class="tag">${esc(tp.topic)}</span>` : ''}<span class="tag">سؤال ${s.usedQ.size} من ${cls.questions.length}</span></div>
+    <div class="qtext"><div class="lead">يا ${esc(who)}، ${lead}</div><div class="en">${esc(q.q)}</div></div>
     ${body}<div id="fb"></div></div>`;
+  $('timer').classList.toggle('hidden', !sec);
+  if (sec) { $('timerNum').textContent = sec; $('timerArc').setAttribute('stroke-dashoffset', '0'); $('timerArc').setAttribute('stroke', '#FFC83D'); $('timer').classList.remove('warn'); }
   if (t === 'fill') setTimeout(() => $('fillIn') && $('fillIn').focus(), 50);
   updateStats();
   if (sec) startTimer(sec);
@@ -663,7 +754,7 @@ function startTimer(sec) {
     const left = Math.max(0, (end - Date.now()) / 1000), n = Math.ceil(left);
     const num = $('timerNum'), arc = $('timerArc'), box = $('timer'); if (!num) return stopTimer();
     num.textContent = n; arc.setAttribute('stroke-dashoffset', String(169.6 * (1 - left / sec)));
-    const warn = left <= 5; box.classList.toggle('warn', warn); arc.setAttribute('stroke', warn ? '#DC2626' : '#0A4DFF');
+    const warn = left <= 5; box.classList.toggle('warn', warn); arc.setAttribute('stroke', warn ? '#F04438' : '#FFC83D');
     if (warn && n !== lastBeep && n > 0) { SND.beep(); lastBeep = n; }
     if (left <= 0) { stopTimer(); finish(false, true); }
   }, 100);
@@ -691,11 +782,12 @@ function finish(ok, timeout) {
   s.history.push({ name: s.current.name, ok });
   let gNote = '';
   if (ok && DATA.settings.autoPoints) { const gi = s.groups.findIndex(g => g.includes(s.current.name)); if (gi > -1) { s.points[gi] = (s.points[gi] || 0) + 1; gNote = ' • +1 نقطة لـ' + (s.prefix || 'مجموعة') + ' ' + (gi + 1); } }
+  const expl = q.exp ? `<br><span class="ltr">${esc(q.exp)}</span>` : '';
   $('fb').innerHTML = ok
-    ? `<div class="feedback ok">✅ ممتاز يا ${esc(who)}! <span class="ltr">${esc(ans)}</span>${q.exp ? ' — <span class="ltr">' + esc(q.exp) + '</span>' : ''}${esc(gNote)}</div>`
-    : `<div class="feedback bad">${timeout ? '⏰ انتهى الوقت' : '❌ قريب يا ' + esc(who)} — الإجابة الصحيحة: <span class="ltr">${esc(ans)}</span>${q.exp ? ' — <span class="ltr">' + esc(q.exp) + '</span>' : ''}</div>`;
+    ? `<div class="feedback ok"><span class="fic">✓</span><div><b>ممتاز يا ${esc(who)}!</b> الإجابة: <span class="ltr">${esc(ans)}</span>${esc(gNote)}${expl}</div></div>`
+    : `<div class="feedback bad"><span class="fic">${timeout ? '⏰' : '✗'}</span><div><b>${timeout ? 'انتهى الوقت' : 'قريب يا ' + esc(who)}</b> — الإجابة الصحيحة: <span class="ltr">${esc(ans)}</span>${expl}</div></div>`;
   if (ok) { SND.ok(); confetti(); } else SND.bad();
-  $('nextBtn').textContent = s.qLeft > 0 ? '➡️ السؤال التالي لـ' + who : '🎡 الطالب التالي';
+  $('nextBtn').textContent = s.qLeft > 0 ? '➡️ السؤال التالي لـ' + who : '🎯 الطالب التالي';
   $('nextBtn').classList.remove('hidden');
   renderHistory(); updateStats(); if (gNote) renderBoard();
 }
@@ -703,8 +795,8 @@ function nextStep() {
   const s = S();
   if (s.qLeft > 0) { pickQuestion(); renderQuestion(); return; }
   $('nextBtn').classList.add('hidden');
-  $('qArea').innerHTML = '<div class="empty"><div class="big">🎡</div>العجلة تدور للطالب التالي...</div>';
-  $('curName').textContent = '— الطالب التالي —'; $('curSub').textContent = '';
+  $('qArea').innerHTML = '<div class="empty"><div class="big">🎯</div>العجلة تدور للطالب التالي...</div>';
+  $('curName').textContent = '— الطالب التالي —'; $('curSub').textContent = ''; $('curAv').textContent = '؟'; $('curDots').innerHTML = ''; $('timer').classList.add('hidden');
   spin();
 }
 function updateStats() {
@@ -726,7 +818,8 @@ function resetSession() {
 function resetPlayUI() {
   stopTimer();
   $('curName').textContent = '— دوّر العجلة أولاً —'; $('curSub').textContent = 'اضغط «دوّر العجلة» ويظهر اسم الطالب وسؤاله هنا';
-  $('qArea').innerHTML = '<div class="empty"><div class="big">🌍</div>دوّر العجلة ويظهر سؤال من الدرس<br>موجّه للطالب باسمه</div>';
+  $('curAv').textContent = '؟'; $('curDots').innerHTML = ''; $('timer').classList.add('hidden');
+  $('qArea').innerHTML = '<div class="empty"><div class="big">🎯</div>دوّر العجلة ويظهر سؤال من الدرس<br>موجّه للطالب باسمه</div>';
   $('nextBtn').classList.add('hidden');
 }
 
@@ -734,7 +827,7 @@ function resetPlayUI() {
 function renderHeaderCounts() { $('hCount').textContent = '👥 ' + present().length + ' حاضر من ' + cls.students.length; $('stuCount').textContent = cls.students.length + ' طالب • ' + present().length + ' حاضر'; }
 function renderStudents() {
   const s = S();
-  $('stuList').innerHTML = cls.students.map((n, i) => `<div class="stu${s.absent.has(n) ? ' absent' : ''}${s.used.has(i) ? ' used' : ''}${s.current && s.current.idx === i ? ' current' : ''}"><input type="checkbox" title="حاضر" ${s.absent.has(n) ? '' : 'checked'} onchange="setPresent(${i},this.checked)"><span class="n">${i + 1}</span><input type="text" value="${esc(n)}" onchange="renameStudent(${i},this.value)"><button class="x" title="حذف" onclick="removeStudent(${i})">×</button></div>`).join('') || '<p class="hint">لا يوجد طلاب بعد. أضف الأسماء من المربع أعلاه.</p>';
+  $('stuList').innerHTML = cls.students.map((n, i) => `<div class="stu${s.absent.has(n) ? ' absent' : ''}${s.used.has(i) ? ' used' : ''}${s.current && s.current.idx === i ? ' current' : ''}"><input type="checkbox" title="حاضر" ${s.absent.has(n) ? '' : 'checked'} onchange="setPresent(${i},this.checked)"><span class="av" title="${i + 1}">${esc(initials(n))}</span><input type="text" value="${esc(n)}" onchange="renameStudent(${i},this.value)"><button class="x" title="حذف" onclick="removeStudent(${i})">×</button></div>`).join('') || '<p class="hint">لا يوجد طلاب بعد. أضف الأسماء من المربع أعلاه.</p>';
   renderHeaderCounts(); drawWheel();
 }
 function setPresent(i, on) { const n = cls.students[i]; if (on) S().absent.delete(n); else S().absent.add(n); renderStudents(); }
@@ -757,7 +850,7 @@ function makeGroups() {
 function renderGroups() {
   const s = S(), max = Math.max(0, ...s.points);
   $('gInfo').textContent = s.groups.length ? s.groups.length + ' مجموعات • ' + s.groups.reduce((a, g) => a + g.length, 0) + ' طالب' : present().length + ' طالب حاضر';
-  $('groupsPrint').innerHTML = s.groups.length ? s.groups.map((g, i) => `<div class="group${max > 0 && s.points[i] === max ? ' lead' : ''}"><h4>${esc(s.prefix || 'مجموعة')} ${i + 1}<span class="pts"><button class="minus" onclick="addPts(${i},-1)">−</button><b>${s.points[i] || 0}</b><button class="plus" onclick="addPts(${i},1)">+</button></span></h4><ol>${g.map((n, j) => `<li><i>${j + 1}</i>${esc(n)}</li>`).join('')}</ol></div>`).join('') : '<p class="hint" style="grid-column:1/-1;text-align:center;padding:20px">اضغط «قسّم الآن» لتوزيع الطلاب الحاضرين عشوائياً.</p>';
+  $('groupsPrint').innerHTML = s.groups.length ? s.groups.map((g, i) => `<div class="group${max > 0 && s.points[i] === max ? ' lead' : ''}" style="--gc:${WCOLS[i % WCOLS.length]}"><h4>${esc(s.prefix || 'مجموعة')} ${i + 1}<span class="pts"><button class="minus" onclick="addPts(${i},-1)">−</button><b>${s.points[i] || 0}</b><button class="plus" onclick="addPts(${i},1)">+</button></span></h4><ol>${g.map((n, j) => `<li><i>${j + 1}</i>${esc(n)}</li>`).join('')}</ol></div>`).join('') : '<p class="hint" style="grid-column:1/-1;text-align:center;padding:20px">اضغط «قسّم الآن» لتوزيع الطلاب الحاضرين عشوائياً.</p>';
   renderBoard();
 }
 function addPts(i, d) { const s = S(); s.points[i] = Math.max(0, (s.points[i] || 0) + d); if (d > 0) SND.beep(); renderGroups(); }
@@ -781,30 +874,33 @@ function renderQuestions() {
   }).join('') || '<p class="hint">لا توجد أسئلة من هذا النوع.</p>';
 }
 function updForm() { const t = $('fType').value; $('fOptsBox').classList.toggle('hidden', t !== 'mc'); $('fTfBox').classList.toggle('hidden', t !== 'tf'); $('fFillBox').classList.toggle('hidden', t !== 'fill'); }
-function resetForm() { editIdx = -1; ['fTopic', 'fQ', 'fOpts', 'fFill', 'fExp'].forEach(id => $(id).value = ''); $('fType').value = 'mc'; updForm(); $('fSave').textContent = '➕ إضافة السؤال'; $('fCancel').classList.add('hidden'); }
+function resetForm() { editIdx = -1; ['fTopic', 'fQ', 'fOpts', 'fFill', 'fExp', 'fLevel'].forEach(id => $(id).value = ''); $('fType').value = 'mc'; updForm(); $('fSave').textContent = '➕ إضافة السؤال'; $('fCancel').classList.add('hidden'); }
 function saveQuestion() {
   const t = $('fType').value, q = $('fQ').value.trim(); if (!q) return toast('اكتب نص السؤال');
-  const item = { type: t, q, ar: $('fTopic').value.trim(), exp: $('fExp').value.trim() };
+  const lvl = $('fLevel').value, topic = $('fTopic').value.trim();
+  const item = { type: t, q, ar: lvl ? lvl + (topic ? ' • ' + topic : '') : topic, exp: $('fExp').value.trim() };
   if (t === 'mc') { const o = $('fOpts').value.split('\n').map(x => x.trim()).filter(Boolean); if (o.length < 2) return toast('اكتب خيارين على الأقل، والأول هو الصحيح'); item.opts = o; item.a = o[0]; }
   else if (t === 'tf') item.a = $('fTf').value;
   else { const a = $('fFill').value.split('|').map(x => x.trim()).filter(Boolean); if (!a.length) return toast('اكتب الإجابة الصحيحة'); item.a = a.join('|'); }
   if (editIdx > -1) cls.questions[editIdx] = item; else cls.questions.push(item);
+  cls.qEdited = true;
   toast(editIdx > -1 ? 'عُدّل السؤال ✅' : 'أُضيف السؤال ✅'); save(); resetForm(); renderQuestions(); renderHeader(); updateStats();
 }
 function editQuestion(i) {
   const q = cls.questions[i], t = q.type || 'mc'; editIdx = i;
-  $('fType').value = t; updForm(); $('fQ').value = q.q; $('fTopic').value = q.ar || ''; $('fExp').value = q.exp || '';
+  const tp = splitTopic(q.ar);
+  $('fType').value = t; updForm(); $('fQ').value = q.q; $('fLevel').value = tp.level; $('fTopic').value = tp.topic; $('fExp').value = q.exp || '';
   if (t === 'mc') $('fOpts').value = [q.a, ...(q.opts || []).filter(o => o !== q.a)].join('\n');
   if (t === 'tf') $('fTf').value = q.a;
   if (t === 'fill') $('fFill').value = String(q.a).split('|').join(' | ');
   $('fSave').textContent = '💾 حفظ التعديل'; $('fCancel').classList.remove('hidden'); $('qForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-function deleteQuestion(i) { if (!confirm('حذف هذا السؤال؟')) return; cls.questions.splice(i, 1); S().usedQ.clear(); save(); renderQuestions(); renderHeader(); updateStats(); }
+function deleteQuestion(i) { if (!confirm('حذف هذا السؤال؟')) return; cls.questions.splice(i, 1); cls.qEdited = true; S().usedQ.clear(); save(); renderQuestions(); renderHeader(); updateStats(); }
 function download(name, obj) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
 function readJson(input, cb) { const f = input.files && input.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { try { cb(JSON.parse(r.result)); } catch (_) { toast('الملف غير صالح'); } input.value = ''; }; r.readAsText(f); }
 function validQ(q) { return q && typeof q.q === 'string' && q.a != null && ['mc', 'tf', 'fill', undefined].includes(q.type); }
 function exportQuestions() { download('questions-' + cls.id + '.json', cls.questions); }
-function importQuestions(inp) { readJson(inp, d => { const arr = (Array.isArray(d) ? d : d.questions || []).filter(validQ); if (!arr.length) return toast('لا توجد أسئلة صالحة في الملف'); const rep = confirm('استبدال أسئلة هذا الصف بأسئلة الملف؟\n(إلغاء = إضافتها إلى الأسئلة الحالية)'); cls.questions = rep ? arr : cls.questions.concat(arr); S().usedQ.clear(); save(); renderQuestions(); renderHeader(); updateStats(); toast('استُورد ' + arr.length + ' سؤال ✅'); }); }
+function importQuestions(inp) { readJson(inp, d => { const arr = (Array.isArray(d) ? d : d.questions || []).filter(validQ); if (!arr.length) return toast('لا توجد أسئلة صالحة في الملف'); const rep = confirm('استبدال أسئلة هذا الصف بأسئلة الملف؟\n(إلغاء = إضافتها إلى الأسئلة الحالية)'); cls.questions = rep ? arr : cls.questions.concat(arr); cls.qEdited = true; S().usedQ.clear(); save(); renderQuestions(); renderHeader(); updateStats(); toast('استُورد ' + arr.length + ' سؤال ✅'); }); }
 
 /* ===================== الصفوف والإعدادات ===================== */
 function renderSettings() {
@@ -827,12 +923,14 @@ function resetAll() { if (!confirm('استعادة البيانات الأصلي
 function renderAll() {
   renderHeader(); renderCards(); renderSoundBtn();
   $('excludeChk').checked = DATA.settings.exclude; $('autoPts').checked = DATA.settings.autoPoints;
-  resetPlayUI(); const s = S(); if (s.current && s.q) { $('curName').textContent = '🏆 ' + s.current.name; }
+  resetPlayUI(); const s = S(); if (s.current && s.q) { $('curName').textContent = s.current.name; $('curAv').textContent = initials(s.current.name); }
   renderHistory(); updateStats(); renderStudents(); renderGroups(); renderQuestions(); renderSettings(); drawWheel();
 }
 let rT = null; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(drawWheel, 120); });
 document.fonts && document.fonts.ready.then(drawWheel);
+if (innerWidth < 640) $('rules').open = false; // على الجوال تُطوى القواعد لتظهر العجلة مباشرة
 setGMode('per'); updForm(); renderAll();
+
 </script>
 </body>
 </html>
